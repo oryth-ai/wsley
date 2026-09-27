@@ -13,12 +13,15 @@ usage() {
 Wsley - Ubuntu environment management
 
 Usage:
-  wsley list [module|group]
-  wsley install <module|group> [--yes]
-  wsley upgrade <module|group> [--yes]
-  wsley status <module|group>
+  wsley list [target ...]
+  wsley install <target>... [--yes]
+  wsley upgrade <target>... [--yes]
+  wsley status <target>...
   wsley update [--yes]
+  wsley completion <bash|zsh>
 
+A target is a module or group. Targets can be mixed.
+Install, upgrade and status expand targets in request order and run each module once.
 Names are case-sensitive. Run wsley list to see available targets.
 --yes (or -y) skips action confirmation, not APT or proxy questions.
 HELP
@@ -35,6 +38,24 @@ case "$action" in
         source "$root/lib/update.sh"
         update_wsley "$(dirname -- "$root")" "${@:2}"
         ;;
+    completion)
+        if [[ $# != 2 || ("$2" != bash && "$2" != zsh) ]]; then
+            printf 'Usage: wsley completion <bash|zsh>\n' >&2
+            exit 2
+        fi
+        if [[ "$2" == bash ]]; then
+            cat "$root/assets/completions/bash.sh"
+        else
+            cat "$root/assets/completions/zsh.zsh"
+        fi
+        exit 0
+        ;;
+    __complete)
+        # shellcheck source=wsley/lib/completion.sh
+        source "$root/lib/completion.sh"
+        complete_wsley "$root/modules" "${@:2}"
+        exit 0
+        ;;
     list | install | upgrade | status) ;;
     *)
         usage >&2
@@ -42,45 +63,62 @@ case "$action" in
         ;;
 esac
 
+shift
+targets=()
+options=()
+for argument in "$@"; do
+    case "$argument" in
+        --yes | -y)
+            if [[ "$action" != install && "$action" != upgrade ]]; then
+                printf '%s does not accept %s.\n' "$action" "$argument" >&2
+                exit 2
+            fi
+            options=(--yes)
+            ;;
+        -*)
+            printf 'Unknown option: %s\n' "$argument" >&2
+            exit 2
+            ;;
+        *) targets+=("$argument") ;;
+    esac
+done
+
 load_modules "$root/modules"
-if [[ "$action" == list && $# == 1 ]]; then
+if [[ "$action" == list && ${#targets[@]} == 0 ]]; then
     list_modules
     exit 0
 fi
-
-[[ $# -ge 2 ]] || {
+((${#targets[@]})) || {
     usage >&2
     exit 2
 }
-select_target "$2"
-shift 2
+select_targets "${targets[@]}"
 
 if [[ "$action" == list ]]; then
-    [[ $# == 0 ]] || {
-        usage >&2
-        exit 2
-    }
-    if [[ "$target_kind" == module ]]; then
-        show_module "${selected_ids[0]}"
-    else
-        list_modules "$selected_group"
+    if ((${#selected_groups[@]})); then
+        list_modules "${selected_groups[@]}"
     fi
+    for index in "${!selected_details[@]}"; do
+        if ((index > 0 || ${#selected_groups[@]} > 0)); then
+            printf '\n'
+        fi
+        show_module "${selected_details[$index]}"
+    done
     exit 0
 fi
 
 # shellcheck source=wsley/lib/common.sh
 source "$root/lib/common.sh"
 if [[ "$action" == status ]]; then
-    status_options "$@"
     if ((${#selected_paths[@]} == 0)); then
-        printf '%s: no modules.\n' "$selected_group"
+        printf 'No modules selected.\n'
         exit 0
     fi
     action_options=()
 else
-    parse_options "$@"
+    parse_options "${options[@]}"
     if ((${#selected_paths[@]} == 0)); then
-        printf 'No modules to %s in group: %s\n' "$action" "$selected_group" >&2
+        printf 'No modules to %s.\n' "$action" >&2
         exit 1
     fi
     for index in "${!selected_paths[@]}"; do

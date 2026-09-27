@@ -96,7 +96,12 @@ load_modules() {
 }
 
 list_modules() {
-    local filter="${1:-}" index group branch printed=false count
+    local index group branch printed=false count name
+    local -A filters=()
+
+    for name in "$@"; do
+        filters[$name]=1
+    done
 
     if ((${#group_ids[@]} == 0)); then
         printf 'No groups available.\n'
@@ -104,7 +109,7 @@ list_modules() {
     fi
 
     for group in "${group_ids[@]}"; do
-        [[ -z "$filter" || "${group#*-}" == "$filter" ]] || continue
+        [[ $# == 0 || -n "${filters[${group#*-}]:-}" ]] || continue
         [[ "$printed" == false ]] || printf '\n'
         printed=true
         printf '%s (group)\n' "${group#*-}"
@@ -125,7 +130,7 @@ list_modules() {
         fi
     done
 
-    printf '\n%s\n%s\n' 'Install: wsley install <group|module>' 'Details: wsley list <group|module>'
+    printf '\n%s\n%s\n' 'Install: wsley install <target>...' 'Details: wsley list <target>...'
 }
 
 module_path() {
@@ -152,46 +157,61 @@ show_module() {
     tail -n +2 "$directory/module.info"
 }
 
-# Selection results are consumed by main.sh.
+# Selection results are consumed by main.sh in request order.
 # shellcheck disable=SC2034
-select_target() {
-    local name="$1" index group module_index='' group_exists=false
+select_targets() {
+    local name index group module_index group_exists
+    local -A seen_modules=() seen_targets=()
 
     selected_paths=()
     selected_ids=()
-    selected_group="$name"
-    target_kind=group
+    selected_groups=()
+    selected_details=()
 
-    for group in "${group_ids[@]}"; do
-        if [[ "${group#*-}" == "$name" ]]; then
-            group_exists=true
-            break
+    for name in "$@"; do
+        if [[ ! "$name" =~ ^[a-z][a-z0-9-]*$ ]]; then
+            printf 'Invalid module or group name: %s\n' "$name" >&2
+            return 2
         fi
-    done
+        [[ -z "${seen_targets[$name]:-}" ]] || continue
+        module_index=''
+        group_exists=false
 
-    for index in "${!module_ids[@]}"; do
-        if [[ "${module_ids[$index]}" == "$name" ]]; then
-            module_index="$index"
-        fi
+        for group in "${group_ids[@]}"; do
+            if [[ "${group#*-}" == "$name" ]]; then
+                group_exists=true
+                break
+            fi
+        done
+        for index in "${!module_ids[@]}"; do
+            if [[ "${module_ids[$index]}" == "$name" ]]; then
+                module_index="$index"
+                break
+            fi
+        done
 
-        group="${module_groups[$index]#*-}"
-        if [[ "$group" == "$name" ]]; then
-            selected_paths+=("${module_paths[$index]}")
-            selected_ids+=("${module_ids[$index]}")
-        fi
-    done
-
-    if [[ -n "$module_index" ]]; then
-        if [[ "$group_exists" == true ]]; then
+        if [[ -n "$module_index" && "$group_exists" == true ]]; then
             printf 'Ambiguous module and group name: %s\n' "$name" >&2
+            return 2
+        elif [[ -z "$module_index" && "$group_exists" == false ]]; then
+            printf 'Unknown module or group: %s. Run wsley list.\n' "$name" >&2
             return 2
         fi
 
-        target_kind=module
-        selected_paths=("${module_paths[$module_index]}")
-        selected_ids=("${module_ids[$module_index]}")
-    elif [[ "$group_exists" == false ]]; then
-        printf 'Unknown module or group: %s. Run wsley list.\n' "$name" >&2
-        return 2
-    fi
+        seen_targets[$name]=1
+        if [[ -n "$module_index" ]]; then
+            selected_details+=("$name")
+        else
+            selected_groups+=("$name")
+        fi
+        for index in "${!module_ids[@]}"; do
+            if [[ "$index" != "$module_index" && "${module_groups[$index]#*-}" != "$name" ]]; then
+                continue
+            fi
+            [[ -z "${seen_modules[${module_ids[$index]}]:-}" ]] || continue
+            seen_modules[${module_ids[$index]}]=1
+            selected_ids+=("${module_ids[$index]}")
+            selected_paths+=("${module_paths[$index]}")
+        done
+    done
 }
