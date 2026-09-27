@@ -33,7 +33,7 @@ ENV
     # shellcheck disable=SC2016
     line='[ ! -r "$HOME/.config/wsley/environment/init.sh" ] || . "$HOME/.config/wsley/environment/init.sh"'
     for file in "$(bash_login_file)" "$HOME/.bashrc" "$zsh_directory/.zshenv"; do
-        append_configuration_line "$file" "$line"
+        register_shell_configuration "$file" "Wsley environment" "$line"
     done
     register_shell_integration
 )
@@ -61,12 +61,54 @@ register_shell_integration() {
         # shellcheck disable=SC2016
         line='[ ! -r "$HOME/.config/wsley/shell/bash.sh" ] || . "$HOME/.config/wsley/shell/bash.sh"'
         for file in "$(bash_login_file)" "$HOME/.bashrc"; do
-            append_configuration_line "$file" "$line"
+            register_shell_configuration "$file" "Wsley Bash integration" "$line"
         done
     fi
     if [[ -r "$HOME/.config/wsley/shell/zsh.zsh" ]]; then
         # shellcheck disable=SC2016
         line='[ ! -r "$HOME/.config/wsley/shell/zsh.zsh" ] || . "$HOME/.config/wsley/shell/zsh.zsh"'
-        append_configuration_line "${ZDOTDIR:-$HOME}/.zshrc" "$line"
+        register_shell_configuration "${ZDOTDIR:-$HOME}/.zshrc" "Wsley Zsh integration" "$line"
     fi
 }
+
+register_shell_configuration() (
+    local file="$1" description="$2" line="$3" stage input=/dev/null
+
+    stage="$(mktemp)"
+    trap 'rm -f -- "$stage"' EXIT
+
+    [[ ! -f "$file" ]] || input="$file"
+
+    # Annotate existing entries in place and separate them from other settings.
+    awk -v entry="$line" -v heading="# $description" '
+        function write_entry() {
+            if (previous != heading) {
+                if (previous != "") print ""
+                print heading
+            }
+            print entry
+            separator = 1
+            found = 1
+        }
+        $0 == entry {
+            if (!found) write_entry()
+            next
+        }
+        {
+            if (separator && $0 != "") print ""
+            separator = 0
+            print
+            previous = $0
+        }
+        END {
+            if (!found) write_entry()
+        }
+    ' "$input" > "$stage"
+
+    if cmp -s -- "$stage" "$file"; then
+        return
+    fi
+
+    backup_file "$file"
+    cat -- "$stage" > "$file"
+)
