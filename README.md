@@ -7,10 +7,7 @@ Wsley 是面向 Ubuntu 的开发环境管理器，覆盖系统工具、终端配
 ## 快速开始
 
 ```bash
-git clone https://github.com/oryth-ai/wsley.git ~/.local/share/wsley
-mkdir -p ~/.local/bin
-ln -s ~/.local/share/wsley/wsley/main.sh ~/.local/bin/wsley
-export PATH="$HOME/.local/bin:$PATH"
+curl -fsSL https://raw.githubusercontent.com/oryth-ai/wsley/main/wsley/install.sh | bash
 ```
 
 ## 命令说明
@@ -23,7 +20,6 @@ export PATH="$HOME/.local/bin:$PATH"
 | `wsley upgrade <目标>...`  | 升级所选模块或分组                       |
 | `wsley status <目标>...`   | 查询所选模块或分组的本地状态             |
 | `wsley update`             | 更新 Wsley 自身                          |
-| `wsley completion <shell>` | 生成 Bash 或 Zsh 补全脚本                |
 | `wsley help`               | 查看命令帮助                             |
 
 目标支持模块名或分组名，可混合传入；安装、升级和状态查询按参数顺序展开，每个模块只执行一次。

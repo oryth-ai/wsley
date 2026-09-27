@@ -60,6 +60,7 @@ install_zsh() {
         printf 'export ZSH_CUSTOM=%q\n\n' "$custom"
         cat "$assets/.zshrc"
     } > "${ZDOTDIR:-$HOME}/.zshrc"
+    register_shell_integration
 
     backup_file "$zsh_settings"
     {

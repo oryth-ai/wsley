@@ -11,7 +11,7 @@ complete_wsley() {
 
     (($# == 0)) || prefix="${!#}"
     if (($# <= 1)); then
-        candidates=(list install upgrade status update completion help)
+        candidates=(list install upgrade status update help)
     else
         action="$1"
         shift
@@ -41,11 +41,6 @@ complete_wsley() {
                 ;;
             update)
                 [[ "$has_yes" == true ]] || candidates=(--yes -y)
-                ;;
-            completion)
-                if (($# == 1)); then
-                    candidates=(bash zsh)
-                fi
                 ;;
         esac
     fi

@@ -157,7 +157,7 @@ show_module() {
     tail -n +2 "$directory/module.info"
 }
 
-# Selection results are consumed by main.sh in request order.
+# Selection results are consumed by cli.sh in request order.
 # shellcheck disable=SC2034
 select_targets() {
     local name index group module_index group_exists

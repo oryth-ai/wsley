@@ -11,7 +11,7 @@ update_wsley() {
     require_command git
 
     top="$(git -C "$repository" rev-parse --show-toplevel 2> /dev/null)" ||
-        fail 'Self-update requires a Git checkout. Install Wsley with git clone.'
+        fail 'Self-update requires a Git checkout. Run the Wsley installer.'
     [[ "$(readlink -f -- "$top")" == "$repository" ]] ||
         fail 'The Wsley directory must be the Git repository root.'
     branch="$(git -C "$repository" symbolic-ref --quiet --short HEAD)" ||

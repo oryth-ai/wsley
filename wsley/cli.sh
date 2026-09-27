@@ -18,7 +18,6 @@ Usage:
   wsley upgrade <target>... [--yes]
   wsley status <target>...
   wsley update [--yes]
-  wsley completion <bash|zsh>
 
 A target is a module or group. Targets can be mixed.
 Install, upgrade and status expand targets in request order and run each module once.
@@ -37,18 +36,6 @@ case "$action" in
         # shellcheck source=wsley/lib/update.sh
         source "$root/lib/update.sh"
         update_wsley "$(dirname -- "$root")" "${@:2}"
-        ;;
-    completion)
-        if [[ $# != 2 || ("$2" != bash && "$2" != zsh) ]]; then
-            printf 'Usage: wsley completion <bash|zsh>\n' >&2
-            exit 2
-        fi
-        if [[ "$2" == bash ]]; then
-            cat "$root/assets/completions/bash.sh"
-        else
-            cat "$root/assets/completions/zsh.zsh"
-        fi
-        exit 0
         ;;
     __complete)
         # shellcheck source=wsley/lib/completion.sh

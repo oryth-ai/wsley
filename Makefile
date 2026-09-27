@@ -1,6 +1,6 @@
 # Execution tools
 SHELL := /bin/bash
-WSLEY := bash wsley/main.sh
+WSLEY := bash wsley/cli.sh
 SHELL_FILES := $(shell find wsley -type f -name '*.sh' | sort)
 ZSH_FILES := $(shell find wsley -type f \( -name '.zshrc' -o -name '*.zsh' -o -name '*.zsh-theme' \) | sort)
 AWK_FILES := $(shell find wsley -type f -name '*.awk' | sort)
