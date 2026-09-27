@@ -130,7 +130,7 @@ list_modules() {
         fi
     done
 
-    printf '\n%s\n%s\n' 'Install: wsley install <target>...' 'Details: wsley list <target>...'
+    printf '\n%s\n%s\n' 'Install: wsley install <module|group>...' 'List: wsley list [module|group]...'
 }
 
 module_path() {

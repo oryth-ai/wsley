@@ -10,19 +10,20 @@ source "$root/lib/modules.sh"
 
 usage() {
     cat << 'HELP'
-Wsley - Ubuntu environment management
+Wsley - Ubuntu Development Environment Manager
 
 Usage:
-  wsley list [target ...]
-  wsley install <target>... [--yes]
-  wsley upgrade <target>... [--yes]
-  wsley status <target>...
+  wsley list [module|group]...
+  wsley install <module|group>... [--yes]
+  wsley upgrade <module|group>... [--yes]
+  wsley status <module|group>...
   wsley update [--yes]
+  wsley help
 
-A target is a module or group. Targets can be mixed.
-Install, upgrade and status expand targets in request order and run each module once.
-Names are case-sensitive. Run wsley list to see available targets.
---yes (or -y) skips action confirmation, not APT or proxy questions.
+Module and group names can be mixed and are case-sensitive.
+Install, upgrade and status process each module once, in argument order.
+Run wsley list to see available modules and groups.
+--yes (or -y) skips action confirmation, not APT mirror or Docker proxy questions.
 HELP
 }
 
@@ -117,7 +118,7 @@ else
         ' bash "${selected_paths[$index]}" "$root"
     done
 
-    printf '%s targets:\n' "${action^}"
+    printf '%s modules:\n' "${action^}"
     for index in "${!selected_paths[@]}"; do
         printf '  %s: ' "${selected_ids[$index]}"
         bash -ec '
