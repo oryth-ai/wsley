@@ -15,18 +15,6 @@ skill_repository=hugohe3/ppt-master
 
 preflight_module() {
     preflight_remote_skills
-    validate_python_environment
-}
-
-validate_python_environment() {
-    local environment="$HOME/.local/share/wsley/ppt-master/.venv" expected actual
-
-    [[ -e "$environment" || -L "$environment" ]] || return 0
-    [[ -x "$environment/bin/python" ]] || fail "PPT Master Python environment is incomplete: $environment"
-    expected="$(component_ids "$module_components" python-runtime)"
-    actual="$("$environment/bin/python" -c 'import sys; print("%s.%s" % sys.version_info[:2])')"
-    [[ "$actual" == "$expected" ]] ||
-        fail "PPT Master requires Python $expected; existing environment uses $actual: $environment. Move it aside before installing."
 }
 
 configure_skill_runtime() (
@@ -47,32 +35,28 @@ configure_skill_runtime() (
 )
 
 install_skill() {
-    local requirements environment="$HOME/.local/share/wsley/ppt-master/.venv"
+    local requirements environment
 
-    validate_python_environment
     install_remote_skills "$skill_repository" "${skill_names[@]}"
+    environment="$installed_skill_directory/.venv"
     requirements="$installed_skill_directory/$(component_ids "$module_components" requirements)"
     [[ -f "$requirements" ]] || fail 'PPT Master requirements.txt is missing.'
 
     apt_install "${module_packages[@]}"
     prepare_uv
 
-    if [[ ! -x "$environment/bin/python" ]]; then
-        uv venv --python "$(component_ids "$module_components" python-runtime)" "$environment"
-    fi
+    uv venv --python "$(component_ids "$module_components" python-runtime)" "$environment"
     uv pip install --python "$environment/bin/python" --upgrade -r "$requirements"
     uv pip check --python "$environment/bin/python"
-
-    mkdir -p "$HOME/.local/bin"
-    backup_file "$HOME/.local/bin/ppt-master-python"
-    printf '#!/usr/bin/env bash\nexec %q "$@"\n' "$environment/bin/python" > "$HOME/.local/bin/ppt-master-python"
-    chmod +x "$HOME/.local/bin/ppt-master-python"
 
     configure_skill_runtime "$installed_skill_directory"
 }
 
 show_skill_status() {
-    local environment="$HOME/.local/share/wsley/ppt-master/.venv"
+    local directory environment
+
+    directory="$(skill_path "${skill_names[0]}")" || directory="$skill_directory/${skill_names[0]}"
+    environment="$directory/.venv"
 
     skill_status "${skill_names[@]}"
     package_status "${module_packages[@]}"
@@ -81,5 +65,4 @@ show_skill_status() {
     else
         printf '%s\n' 'PPT Master Python: not-installed'
     fi
-    configuration_status "$HOME/.local/bin/ppt-master-python"
 }

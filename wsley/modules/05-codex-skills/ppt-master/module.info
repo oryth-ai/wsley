@@ -1,13 +1,13 @@
 PPT Master skill
 
 Install:
-  Prepare Node/pnpm and Git when missing; copy the named skill using skills CLI. Install system tools and an isolated Python environment from the installed skill requirements; configure its Python entry point.
+  Prepare Node/pnpm and Git when missing; copy the named skill using skills CLI. Install system tools and an isolated Python environment from the installed skill requirements.
 
 Upgrade:
-  Refresh only this skill and run the same runtime preparation steps.
+  Replace this skill and rebuild its .venv from the new requirements.
 
 Status:
-  Report local skill files, document/media/font package versions, core Python imports and entry-point presence.
+  Report local skill files, document/media/font package versions, core Python imports.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
@@ -17,9 +17,8 @@ Configuration:
   Destination: ~/.agents/skills/ppt-master
   An existing Codex copy at $CODEX_HOME/skills/ppt-master becomes a link to this directory.
   CODEX_HOME defaults to ~/.codex.
-  Python 3.12 environment: ~/.local/share/wsley/ppt-master/.venv
-  An existing environment must use Python 3.12; incompatible or incomplete environments are preserved and reported.
-  Python entry point: ~/.local/bin/ppt-master-python (specified in the installed SKILL.md).
+  Python 3.12 environment: ~/.agents/skills/ppt-master/.venv
+  Run .venv/bin/python from the skill directory; the installed SKILL.md documents its use.
   LibreOffice uses the same APT package as the libreoffice application module.
   External image-generation services require user-provided credentials.
   First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.
