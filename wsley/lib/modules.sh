@@ -112,7 +112,7 @@ list_modules() {
         [[ $# == 0 || -n "${filters[${group#*-}]:-}" ]] || continue
         [[ "$printed" == false ]] || printf '\n'
         printed=true
-        print_message heading '%s (group)\n' "${group#*-}"
+        print_message heading '%s\n' "${group#*-}"
         count=0
 
         for index in "${!module_ids[@]}"; do
