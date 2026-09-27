@@ -1,0 +1,17 @@
+Command-line tools
+
+Install:
+  Install or update catalog packages and install missing isolated uv tools; prepare uv when missing. Use the official GitHub CLI repository.
+
+Upgrade:
+  Update catalog packages, uv and isolated uv tools; install missing components. Use the official GitHub CLI repository.
+
+Status:
+  Group installed versions by purpose; APT candidates use the local index.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Prepare uv when missing; uv selects or downloads Python for each tool.
+  The Python module is not required.

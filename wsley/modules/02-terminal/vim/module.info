@@ -1,0 +1,16 @@
+vim and configuration
+
+Install:
+  Install Vim; back up configuration and enable line numbers.
+
+Upgrade:
+  Update or install Vim; preserve configuration.
+
+Status:
+  Report the installed package version and configuration presence.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Configuration: ~/.vimrc

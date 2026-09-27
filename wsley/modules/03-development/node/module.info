@@ -1,0 +1,18 @@
+Node.js LTS and pnpm
+
+Install:
+  Install or self-update pnpm; install Node.js LTS and register the shell environment and npm/npx links.
+
+Upgrade:
+  Run the same pnpm and Node.js LTS update flow, including environment registration.
+
+Status:
+  Report command locations and local Node.js/pnpm versions.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  PNPM_HOME: ~/.local/share/pnpm by default; a custom absolute path is persisted.
+  Shell configuration adds PNPM_HOME/bin, PNPM_HOME, and ~/.local/bin to PATH.
+  Open a new terminal after installation to load the environment.

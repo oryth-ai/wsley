@@ -1,0 +1,16 @@
+OpenSSH server and service
+
+Install:
+  Install OpenSSH server; enable and start SSH.
+
+Upgrade:
+  Update or install OpenSSH server; enable and start SSH.
+
+Status:
+  Report the installed package, service activity, and startup state.
+
+Requirements:
+  Ubuntu, APT and a running systemd instance; root or sudo.
+
+Configuration:
+  SSH authentication and server settings remain administrator-managed.

@@ -1,0 +1,16 @@
+Python and uv
+
+Install:
+  Install or self-update uv, install the default Python and upgrade uv-managed Python versions.
+
+Upgrade:
+  Run the same uv and managed Python update flow; preserve uv default directories.
+
+Status:
+  Report uv, Python, and locally installed managed Python versions.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  CLI tools such as ruff and pre-commit belong to tools.

@@ -1,0 +1,19 @@
+Evidence-based technical research
+
+Install:
+  Back up and copy the bundled skill files.
+
+Upgrade:
+  Replace only this bundled skill using the same installation steps.
+
+Status:
+  Status checks local SKILL.md files without a network request.
+
+Requirements:
+  A regular user and standard file utilities; no separate runtime is needed to copy the skill.
+
+Configuration:
+  Destination: ~/.agents/skills/research
+  An existing Codex copy at $CODEX_HOME/skills/research becomes a link to this directory.
+  CODEX_HOME defaults to ~/.codex.
+  First skill backup: ~/.local/state/wsley/skills-backups/.

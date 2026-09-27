@@ -1,0 +1,18 @@
+Codex CLI
+
+Install:
+  Prepare Node/pnpm when missing; install the global Codex package and register its PATH.
+
+Upgrade:
+  Install the latest Codex package using the same flow; missing runtime components are prepared.
+
+Status:
+  Read the locally available Codex CLI version.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  PNPM_HOME: reuse the persisted Node environment; default ~/.local/share/pnpm
+  Open a new terminal after installation to load PATH changes.
+  Run codex to sign in; authentication is managed by Codex.

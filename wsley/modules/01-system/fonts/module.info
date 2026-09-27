@@ -1,0 +1,17 @@
+Fontconfig and Windows fonts
+
+Install:
+  Install fontconfig, copy available Windows fonts and refresh the cache; skip copying if the source is absent.
+
+Upgrade:
+  Update fontconfig and copy available Windows fonts; skip copying if the source is absent.
+
+Status:
+  Report fontconfig and the number of copied font files.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Source: /mnt/c/Windows/Fonts
+  Destination: ~/.local/share/fonts/windows

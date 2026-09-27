@@ -1,0 +1,16 @@
+Google Chrome
+
+Install:
+  Download the official stable amd64 DEB and install it through APT.
+
+Upgrade:
+  Install the current official stable DEB through APT.
+
+Status:
+  Read the installed package version.
+
+Requirements:
+  Ubuntu amd64 and APT; root or sudo.
+
+Configuration:
+  Browser user profiles are not modified by the module scripts.

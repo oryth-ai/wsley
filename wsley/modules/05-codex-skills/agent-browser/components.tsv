@@ -1,0 +1,6 @@
+group	manager	id	description
+Skill	skill	agent-browser	agent-browser
+Installer runtime	runtime	node	Node and pnpm (prepared when missing)
+Installer runtime	apt-missing	git	Git (prepared when missing)
+Browser automation	pnpm	agent-browser@latest	agent-browser@latest
+Browser automation	runtime	chromium	Chromium and Linux dependencies via agent-browser install

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clean Cutover"
+  short_description: "Replace old project behavior with one clean authoritative path"
+  default_prompt: "Use $clean-cutover to replace the old project behavior with a clean cutover and verify that no compatibility residue remains."

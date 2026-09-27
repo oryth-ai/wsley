@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# shellcheck source=wsley/lib/common.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/../../../lib/common.sh"
+
+load_module_context "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+status_options "$@"
+show_skill_status

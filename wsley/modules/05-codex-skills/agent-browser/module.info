@@ -1,0 +1,21 @@
+Agent Browser skill
+
+Install:
+  Prepare Node/pnpm and Git when missing; copy the named skill using skills CLI. Install the CLI, Chromium and Linux browser dependencies.
+
+Upgrade:
+  Refresh only this skill and run the same runtime preparation steps.
+
+Status:
+  Report local skill files and CLI version; Chromium readiness is not verified.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Source: https://github.com/vercel-labs/agent-browser
+  Destination: ~/.agents/skills/agent-browser
+  An existing Codex copy at $CODEX_HOME/skills/agent-browser becomes a link to this directory.
+  CODEX_HOME defaults to ~/.codex.
+  First skill backup: ~/.local/state/wsley/skills-backups/.
+  Codex authentication is configured separately.

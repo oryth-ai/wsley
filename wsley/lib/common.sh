@@ -1,0 +1,215 @@
+#!/usr/bin/env bash
+
+if [[ "${WSLEY_COMMON_LOADED:-}" == true ]]; then
+    return 0
+fi
+WSLEY_COMMON_LOADED=true
+
+set -Eeuo pipefail
+
+# shellcheck disable=SC2154
+trap 'result=$?; printf "Failed at %s:%s (exit %s).\n" "${BASH_SOURCE[0]:-$0}" "$LINENO" "$result" >&2; exit "$result"' ERR
+
+export LC_ALL=C
+# shellcheck source=wsley/assets/environment/path.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/../assets/environment/path.sh"
+
+apt_options=()
+assume_yes=false
+
+fail() {
+    printf '%s\n' "$*" >&2
+    exit 1
+}
+
+parse_options() {
+    if (($# == 0)); then
+        return
+    fi
+
+    if (($# == 1)) && [[ "$1" == --yes || "$1" == -y ]]; then
+        assume_yes=true
+        apt_options=(-y)
+    else
+        printf 'Only --yes (or -y) is supported.\n' >&2
+        exit 2
+    fi
+}
+
+status_options() {
+    if (($#)); then
+        printf 'Status does not accept options.\n' >&2
+        exit 2
+    fi
+}
+
+confirm() {
+    local answer
+
+    printf '%s\n' "$1"
+    if [[ "$assume_yes" == true ]]; then
+        return
+    fi
+
+    read -r -p 'Continue? [y/N] ' answer || exit 1
+    [[ "$answer" == y || "$answer" == Y ]] || exit 1
+}
+
+as_root() {
+    if ((EUID == 0)); then
+        "$@"
+    else
+        sudo -- "$@"
+    fi
+}
+
+require_command() {
+    local name
+
+    for name in "$@"; do
+        command -v "$name" > /dev/null || fail "Missing command: $name"
+    done
+}
+
+require_user() {
+    ((EUID != 0)) || fail 'Run this user-level module without sudo.'
+}
+
+require_ubuntu() {
+    # shellcheck source=/etc/os-release
+    source /etc/os-release
+    [[ "$ID" == ubuntu ]] || fail 'This module requires Ubuntu.'
+}
+
+# shellcheck source=wsley/lib/apt-mirror.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/apt-mirror.sh"
+
+apt_install() {
+    configure_apt_mirror
+    as_root apt update -o APT::Update::Error-Mode=any
+    as_root apt install --no-remove "${apt_options[@]}" "$@"
+}
+
+installed_package_version() {
+    local result state version
+
+    result="$(dpkg-query -W -f='${db:Status-Status}\t${Version}' "$1" 2> /dev/null)" || return 1
+    IFS=$'\t' read -r state version <<< "$result"
+    [[ "$state" == installed ]] || return 1
+    printf '%s\n' "$version"
+}
+
+package_status() {
+    local package version
+
+    for package in "$@"; do
+        if version="$(installed_package_version "$package")"; then
+            printf '%-28s installed %s\n' "$package" "$version"
+        else
+            printf '%-28s not-installed\n' "$package"
+        fi
+    done
+}
+
+download() {
+    curl --fail --show-error --location --retry 3 "$1" --output "$2"
+}
+
+make_workdir() {
+    work="$(mktemp -d)"
+    trap 'rm -rf -- "$work"' EXIT
+}
+
+# Preserve original contents and, separately, the original symbolic link.
+backup_file() {
+    local target="$1"
+
+    if [[ ! -e "$target.wsley-backup" && ! -L "$target.wsley-backup" && ! -e "$target.wsley-created" ]]; then
+        if [[ -L "$target" && -e "$target" ]]; then
+            cp -aL -- "$target" "$target.wsley-backup"
+            cp -a -- "$target" "$target.wsley-link"
+        elif [[ -e "$target" || -L "$target" ]]; then
+            cp -a -- "$target" "$target.wsley-backup"
+        else
+            mkdir -p -- "$(dirname -- "$target")"
+            touch "$target.wsley-created"
+        fi
+    fi
+}
+
+system_backup() {
+    as_root bash -euc "$(declare -f backup_file); backup_file \"\$1\"" bash "$1"
+}
+
+# shellcheck source=wsley/lib/environment.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/environment.sh"
+
+preflight_module() {
+    require_ubuntu
+    require_command apt dpkg-query
+    require_user
+    require_command sudo
+}
+
+command_status() {
+    local name="$1" executable="$2"
+    shift 2
+
+    if [[ -x "$executable" ]]; then
+        printf '%s (managed): ' "$name"
+        (cd / && "$executable" "$@")
+    elif command -v "$name" > /dev/null; then
+        printf '%s (external): ' "$name"
+        (cd / && "$name" "$@")
+    else
+        printf '%s: not-installed\n' "$name"
+    fi
+}
+
+configuration_status() {
+    local file="$1" expected="${2:-}"
+
+    if [[ ! -f "$file" ]]; then
+        printf '%-28s %s\n' configuration "missing: $file"
+    elif [[ -n "$expected" ]] && ! grep -Fxq "$expected" "$file"; then
+        printf '%-28s %s\n' configuration "custom: $file"
+    else
+        printf '%-28s %s\n' configuration "present: $file"
+    fi
+}
+
+append_configuration_line() {
+    local file="$1" line="$2"
+
+    if grep -Fxq "$line" "$file" 2> /dev/null; then
+        return
+    fi
+
+    backup_file "$file"
+    if [[ -s "$file" && -n "$(tail -c 1 -- "$file")" ]]; then
+        printf '\n' >> "$file"
+    fi
+    printf '%s\n' "$line" >> "$file"
+}
+
+# shellcheck source=wsley/lib/components.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/components.sh"
+
+load_module_context() {
+    module_directory="$1"
+    module_components="$module_directory/components.tsv"
+    validate_components "$module_components"
+    validate_module_info "$module_directory/module.info"
+    # Component arrays are consumed by module action scripts.
+    # shellcheck disable=SC2034
+    mapfile -t module_packages < <(component_ids "$module_components" apt)
+
+    if [[ -r "$module_directory/lib/operations.sh" ]]; then
+        # shellcheck disable=SC1091
+        source "$module_directory/lib/operations.sh"
+    fi
+}
+
+describe_action() {
+    module_section "$module_directory/module.info" "${1^}"
+}

@@ -1,0 +1,21 @@
+Architecture diagram skill
+
+Install:
+  Prepare Node/pnpm and Git when missing; copy the named skill using skills CLI. Verify the Node-based skill CLI with doctor; no npm install inside the skill is needed.
+
+Upgrade:
+  Refresh only this skill and run the same runtime preparation steps.
+
+Status:
+  Report local skill files and Node version; run the installed CLI doctor offline.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Source: https://github.com/tt-a1i/archify
+  Destination: ~/.agents/skills/archify
+  An existing Codex copy at $CODEX_HOME/skills/archify becomes a link to this directory.
+  CODEX_HOME defaults to ~/.codex.
+  First skill backup: ~/.local/state/wsley/skills-backups/.
+  Codex authentication is configured separately.

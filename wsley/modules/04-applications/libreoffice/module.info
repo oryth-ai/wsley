@@ -1,0 +1,16 @@
+LibreOffice suite
+
+Install:
+  Install the complete LibreOffice suite through APT.
+
+Upgrade:
+  Update or install the complete suite through APT; share the installation used by PPT Master.
+
+Status:
+  Read the installed suite and component package versions.
+
+Requirements:
+  Ubuntu and APT; root or sudo.
+
+Configuration:
+  User profiles are not modified by the module scripts.

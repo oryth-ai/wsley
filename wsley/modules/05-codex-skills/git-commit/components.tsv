@@ -1,0 +1,3 @@
+group	manager	id	description
+Skill	bundled	git-commit	Bundled skill definition and supporting files
+Version control	apt-missing	git	Git (prepared when missing)

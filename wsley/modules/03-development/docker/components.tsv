@@ -1,0 +1,9 @@
+group	manager	id	description
+Container engine	apt	docker-ce	docker-ce
+Container engine	apt	docker-ce-cli	docker-ce-cli
+Container engine	apt	containerd.io	containerd.io
+Container engine	apt	docker-buildx-plugin	docker-buildx-plugin
+Container engine	apt	docker-compose-plugin	docker-compose-plugin
+GPU support	apt-nvidia	nvidia-container-toolkit	NVIDIA toolkit (only when an NVIDIA GPU is detected)
+Service	config	docker	Enable and restart Docker; configure user membership
+Service	config	proxy	Optional local HTTP proxy

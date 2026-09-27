@@ -1,0 +1,18 @@
+Go toolchain
+
+Install:
+  Install download and JSON tools, select the latest stable official archive, verify SHA256 and register go/gofmt and GOBIN; reuse complete versions.
+
+Upgrade:
+  Select and install the current stable version using the same verified archive flow.
+
+Status:
+  Report the locally available Go version.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access. Supported architectures: amd64 and arm64.
+
+Configuration:
+  Installation directory: ~/.local/share/go
+  Command links and GOBIN: ~/.local/bin
+  GOENV must allow persistent Go configuration.

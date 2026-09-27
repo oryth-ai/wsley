@@ -1,0 +1,19 @@
+Docker Engine and container tools
+
+Install:
+  Configure official repositories, install Docker and applicable GPU support; enable and restart the service and configure user membership.
+
+Upgrade:
+  Run the same installation and service configuration steps with current packages.
+
+Status:
+  Read installed package versions, service activity, and proxy file presence.
+
+Requirements:
+  Ubuntu, APT and a running systemd instance; root or sudo.
+
+Configuration:
+  Proxy: prompt for a local HTTP proxy port at 127.0.0.1.
+  Leave empty to keep proxy configuration unchanged; --yes does not answer this prompt.
+  NO_PROXY defaults include localhost, Docker host, and private networks.
+  Docker group membership grants root-equivalent access; log in again to apply it.
