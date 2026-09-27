@@ -54,9 +54,9 @@ confirm() {
         return
     fi
 
-    print_message warning 'Continue? [y/N] ' >&2
+    print_message warning 'Continue? [Y/n] ' >&2
     read -r answer || exit 1
-    [[ "$answer" == y || "$answer" == Y ]] || exit 1
+    [[ -z "$answer" || "$answer" == y || "$answer" == Y ]] || exit 1
 }
 
 as_root() {
