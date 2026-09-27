@@ -13,7 +13,7 @@ require_apt() {
 
     for command in apt apt-cache dpkg-query dpkg; do
         command -v "$command" > /dev/null || {
-            printf 'Missing command: %s. The tools module requires APT.\n' "$command" >&2
+            print_message error 'Missing command: %s. The tools module requires APT.\n' "$command" >&2
             exit 1
         }
     done

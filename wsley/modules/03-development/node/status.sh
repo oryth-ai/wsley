@@ -9,9 +9,9 @@ status_options "$@"
 
 for name in node pnpm pnpx npm npx; do
     if command -v "$name" > /dev/null; then
-        printf '%-10s %s\n' "$name" "$(command -v "$name")"
+        print_message success '%-10s %s\n' "$name" "$(command -v "$name")"
     else
-        printf '%-10s not-installed\n' "$name"
+        print_message warning '%-10s not-installed\n' "$name"
     fi
 done
 

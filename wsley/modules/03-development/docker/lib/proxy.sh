@@ -4,15 +4,16 @@ read_docker_proxy() {
     local port
     docker_proxy_url=''
 
-    printf 'Configure an HTTP proxy for the Docker service at 127.0.0.1.\n'
+    print_message info 'Configure an HTTP proxy for the Docker service at 127.0.0.1.\n'
     while true; do
-        read -r -p 'Proxy port (leave empty to keep proxy configuration unchanged): ' port || port=''
+        print_message warning 'Proxy port (leave empty to keep proxy configuration unchanged): ' >&2
+        read -r port || port=''
         [[ -n "$port" ]] || return 0
 
         if [[ "$port" =~ ^[0-9]{1,5}$ ]] && ((10#$port >= 1 && 10#$port <= 65535)); then
             break
         fi
-        printf 'Enter a port between 1 and 65535, or leave empty to skip.\n' >&2
+        print_message warning 'Enter a port between 1 and 65535, or leave empty to skip.\n' >&2
     done
 
     docker_proxy_url="http://127.0.0.1:$((10#$port))"

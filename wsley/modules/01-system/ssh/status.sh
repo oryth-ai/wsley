@@ -11,7 +11,8 @@ package_status "${module_packages[@]}"
 if command -v systemctl > /dev/null && [[ -d /run/systemd/system ]]; then
     active="$(systemctl is-active ssh 2> /dev/null)" || true
     enabled="$(systemctl is-enabled ssh 2> /dev/null)" || true
-    printf '%-28s %s\n' 'SSH service' "${active:-unknown}" 'SSH startup' "${enabled:-unknown}"
+    print_status "${active:-unknown}" '%-28s %s\n' 'SSH service' "${active:-unknown}"
+    print_status "${enabled:-unknown}" '%-28s %s\n' 'SSH startup' "${enabled:-unknown}"
 else
-    printf '%-28s %s\n' 'SSH service' 'systemd-unavailable'
+    print_message warning '%-28s %s\n' 'SSH service' 'systemd-unavailable'
 fi

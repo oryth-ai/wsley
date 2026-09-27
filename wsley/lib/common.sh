@@ -5,10 +5,13 @@ if [[ "${WSLEY_COMMON_LOADED:-}" == true ]]; then
 fi
 WSLEY_COMMON_LOADED=true
 
+# shellcheck source=wsley/lib/output.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/output.sh"
+
 set -Eeuo pipefail
 
 # shellcheck disable=SC2154
-trap 'result=$?; printf "Failed at %s:%s (exit %s).\n" "${BASH_SOURCE[0]:-$0}" "$LINENO" "$result" >&2; exit "$result"' ERR
+trap 'result=$?; print_message error "Failed at %s:%s (exit %s).\n" "${BASH_SOURCE[0]:-$0}" "$LINENO" "$result" >&2; exit "$result"' ERR
 
 export LC_ALL=C
 # shellcheck source=wsley/assets/environment/path.sh
@@ -18,7 +21,7 @@ apt_options=()
 assume_yes=false
 
 fail() {
-    printf '%s\n' "$*" >&2
+    print_message error '%s\n' "$*" >&2
     exit 1
 }
 
@@ -31,14 +34,14 @@ parse_options() {
         assume_yes=true
         apt_options=(-y)
     else
-        printf 'Only --yes (or -y) is supported.\n' >&2
+        print_message error 'Only --yes (or -y) is supported.\n' >&2
         exit 2
     fi
 }
 
 status_options() {
     if (($#)); then
-        printf 'Status does not accept options.\n' >&2
+        print_message error 'Status does not accept options.\n' >&2
         exit 2
     fi
 }
@@ -46,12 +49,13 @@ status_options() {
 confirm() {
     local answer
 
-    printf '%s\n' "$1"
+    print_message heading '%s\n' "$1"
     if [[ "$assume_yes" == true ]]; then
         return
     fi
 
-    read -r -p 'Continue? [y/N] ' answer || exit 1
+    print_message warning 'Continue? [y/N] ' >&2
+    read -r answer || exit 1
     [[ "$answer" == y || "$answer" == Y ]] || exit 1
 }
 
@@ -104,9 +108,9 @@ package_status() {
 
     for package in "$@"; do
         if version="$(installed_package_version "$package")"; then
-            printf '%-28s installed %s\n' "$package" "$version"
+            print_message success '%-28s installed %s\n' "$package" "$version"
         else
-            printf '%-28s not-installed\n' "$package"
+            print_message warning '%-28s not-installed\n' "$package"
         fi
     done
 }
@@ -176,13 +180,13 @@ command_status() {
     shift 2
 
     if [[ -x "$executable" ]]; then
-        printf '%s (managed): ' "$name"
+        print_message info '%s (managed): ' "$name"
         (cd / && "$executable" "$@")
     elif command -v "$name" > /dev/null; then
-        printf '%s (external): ' "$name"
+        print_message info '%s (external): ' "$name"
         (cd / && "$name" "$@")
     else
-        printf '%s: not-installed\n' "$name"
+        print_message warning '%s: not-installed\n' "$name"
     fi
 }
 
@@ -190,11 +194,11 @@ configuration_status() {
     local file="$1" expected="${2:-}"
 
     if [[ ! -f "$file" ]]; then
-        printf '%-28s %s\n' configuration "missing: $file"
+        print_message warning '%-28s %s\n' configuration "missing: $file"
     elif [[ -n "$expected" ]] && ! grep -Fxq "$expected" "$file"; then
-        printf '%-28s %s\n' configuration "custom: $file"
+        print_message warning '%-28s %s\n' configuration "custom: $file"
     else
-        printf '%-28s %s\n' configuration "present: $file"
+        print_message success '%-28s %s\n' configuration "present: $file"
     fi
 }
 

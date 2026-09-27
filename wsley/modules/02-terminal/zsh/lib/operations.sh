@@ -38,7 +38,7 @@ install_zsh() {
     done < <(component_ids "$module_components" git Plugins)
 
     if [[ "$mode" == upgrade ]]; then
-        printf 'Zsh and plugins updated. User configuration and login shell preserved.\n'
+        print_message success 'Zsh and plugins updated. User configuration and login shell preserved.\n'
         return
     fi
 
@@ -69,7 +69,7 @@ install_zsh() {
     } > "$zsh_settings"
 
     as_root usermod -s /bin/zsh "$(id -un)"
-    printf 'Zsh configuration installed. Open a new Zsh session.\n'
+    print_message success 'Zsh configuration installed. Open a new Zsh session.\n'
 }
 
 show_zsh_status() {
@@ -85,9 +85,9 @@ show_zsh_status() {
 
     for directory in "${directories[@]}"; do
         if [[ -d "$directory/.git" ]]; then
-            printf '%-28s %s\n' "${directory##*/}" "$(git -C "$directory" rev-parse --short HEAD)"
+            print_message success '%-28s %s\n' "${directory##*/}" "$(git -C "$directory" rev-parse --short HEAD)"
         else
-            printf '%-28s not-installed\n' "${directory##*/}"
+            print_message warning '%-28s not-installed\n' "${directory##*/}"
         fi
     done
 

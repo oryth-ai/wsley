@@ -7,12 +7,12 @@ font_root="$HOME/.local/share/fonts/windows"
 
 sync_windows_fonts() {
     if [[ ! -d /mnt/c/Windows/Fonts ]]; then
-        printf 'Windows fonts directory not found: /mnt/c/Windows/Fonts\n'
+        print_message warning 'Windows fonts directory not found: /mnt/c/Windows/Fonts\n'
         return
     fi
 
     if ! command -v fc-cache > /dev/null; then
-        printf 'Fontconfig is not installed. Run wsley install fonts.\n'
+        print_message warning 'Fontconfig is not installed. Run wsley install fonts.\n'
         return
     fi
 
@@ -31,5 +31,5 @@ print_windows_fonts_status() {
         state=not-available
     fi
 
-    printf '%-16s %-32s %-32s %s\n' windows-fonts "$count" '-' "$state"
+    print_status "$state" '%-16s %-32s %-32s %s\n' windows-fonts "$count" '-' "$state"
 }

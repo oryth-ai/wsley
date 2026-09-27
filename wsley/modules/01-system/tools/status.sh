@@ -6,7 +6,7 @@ source "$(dirname -- "${BASH_SOURCE[0]}")/../../../lib/common.sh"
 load_module_context "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 if (($#)); then
-    printf '%s\n' 'Usage: wsley status tools' >&2
+    print_message error '%s\n' 'Usage: wsley status tools' >&2
     exit 2
 fi
 
@@ -16,7 +16,7 @@ print_group() {
     local group="$1" package installed policy candidate state
     shift
 
-    printf '\n[%s]\n' "$group"
+    print_message heading '\n[%s]\n' "$group"
 
     for package in "$@"; do
         installed="$(installed_package_version "$package")" || installed='-'
@@ -36,7 +36,7 @@ print_group() {
             state='installed'
         fi
 
-        printf '%-16s %-32s %-32s %s\n' "$package" "$installed" "$candidate" "$state"
+        print_status "$state" '%-16s %-32s %-32s %s\n' "$package" "$installed" "$candidate" "$state"
     done
 }
 
@@ -50,13 +50,13 @@ print_uv_tools() {
             version='-'
             state=not-installed
         fi
-        printf '%-16s %-32s %-32s %s\n' "$tool" "$version" '-' "$state"
+        print_status "$state" '%-16s %-32s %-32s %s\n' "$tool" "$version" '-' "$state"
     done
 }
 
 load_uv_tools
 
-printf '%-16s %-32s %-32s %s\n' PACKAGE INSTALLED CANDIDATE STATUS
+print_message heading '%-16s %-32s %-32s %s\n' PACKAGE INSTALLED CANDIDATE STATUS
 while IFS= read -r group; do
     mapfile -t group_packages < <(component_ids "$module_components" apt "$group")
     mapfile -t group_tools < <(component_ids "$module_components" uv-tool "$group")
@@ -64,4 +64,4 @@ while IFS= read -r group; do
     print_uv_tools "${group_tools[@]}"
 done < <(component_groups "$module_components")
 
-printf '\n%s\n' 'APT candidates come from the local index. uv tools show installed versions only.'
+print_message muted '\n%s\n' 'APT candidates come from the local index. uv tools show installed versions only.'

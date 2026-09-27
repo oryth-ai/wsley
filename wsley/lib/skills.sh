@@ -16,14 +16,14 @@ skill_status() {
             if [[ -f "$directory/$name/SKILL.md" ]]; then
                 resolved="$(readlink -f -- "$directory/$name")"
                 [[ "$resolved" != "$previous" ]] || continue
-                printf '%-30s installed  %s\n' "$name" "$directory/$name"
+                print_message success '%-30s installed  %s\n' "$name" "$directory/$name"
                 found=true
                 previous="$resolved"
             fi
             [[ "$skill_directory" != "$codex_skill_directory" ]] || break
         done
         if [[ "$found" == false ]]; then
-            printf '%-30s not-installed\n' "$name"
+            print_message warning '%-30s not-installed\n' "$name"
         fi
     done
 }
@@ -53,12 +53,12 @@ replace_skill() (
                         continue
                     fi
                     if ! rm -rf -- "${targets[$directory]}"; then
-                        printf 'Recovery files retained: %s\n' "$stage" >&2
+                        print_message error 'Recovery files retained: %s\n' "$stage" >&2
                         exit 1
                     fi
                     if [[ -e "$stage/previous-$directory" || -L "$stage/previous-$directory" ]]; then
                         if ! mv -- "$stage/previous-$directory" "${targets[$directory]}"; then
-                            printf 'Recovery files retained: %s\n' "$stage" >&2
+                            print_message error 'Recovery files retained: %s\n' "$stage" >&2
                             exit 1
                         fi
                     fi
@@ -111,7 +111,7 @@ replace_skill() (
         ln -s -- "${targets[0]}" "${targets[1]}"
     fi
     completed=true
-    printf 'Installed: %s\n' "$name"
+    print_message success 'Installed: %s\n' "$name"
 )
 
 copy_bundled_skill() {

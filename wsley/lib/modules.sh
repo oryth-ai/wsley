@@ -10,14 +10,14 @@ find_module_directory() {
     for directory in "$root"/*/"$name"; do
         [[ -d "$directory" ]] || continue
         if [[ -n "$found" ]]; then
-            printf 'Duplicate module name: %s\n' "$name" >&2
+            print_message error 'Duplicate module name: %s\n' "$name" >&2
             return 1
         fi
         found="$directory"
     done
 
     if [[ -z "$found" ]]; then
-        printf 'Missing module: %s\n' "$name" >&2
+        print_message error 'Missing module: %s\n' "$name" >&2
         return 1
     fi
     printf '%s\n' "$found"
@@ -39,11 +39,11 @@ load_modules() {
         group="${directory##*/}"
         group_id="${group#*-}"
         if [[ ! "$group" =~ ^[0-9]{2}-[a-z][a-z0-9-]*$ ]]; then
-            printf 'Invalid group directory: %s\n' "$directory" >&2
+            print_message error 'Invalid group directory: %s\n' "$directory" >&2
             return 1
         fi
         if [[ -n "${seen_groups[$group_id]:-}" ]]; then
-            printf 'Duplicate group name: %s\n' "$group_id" >&2
+            print_message error 'Duplicate group name: %s\n' "$group_id" >&2
             return 1
         fi
         seen_groups[$group_id]=1
@@ -57,29 +57,29 @@ load_modules() {
         group="${group##*/}"
 
         if [[ ! "$group" =~ ^[0-9]{2}-[a-z][a-z0-9-]*$ || ! "$id" =~ ^[a-z][a-z0-9-]*$ ]]; then
-            printf 'Invalid module directory: %s\n' "$directory" >&2
+            print_message error 'Invalid module directory: %s\n' "$directory" >&2
             return 1
         fi
 
         if [[ -n "${seen[$id]:-}" ]]; then
-            printf 'Duplicate module name: %s\n' "$id" >&2
+            print_message error 'Duplicate module name: %s\n' "$id" >&2
             return 1
         fi
 
         if [[ ! -r "$directory/module.info" ]]; then
-            printf 'Missing module.info: %s\n' "$directory" >&2
+            print_message error 'Missing module.info: %s\n' "$directory" >&2
             return 1
         fi
         description=''
         IFS= read -r description < "$directory/module.info" || true
         if [[ ! "$description" =~ [^[:space:]] || "$description" == *$'\r'* || "$description" == *$'\t'* ]]; then
-            printf 'module.info must start with a nonempty single-line summary: %s\n' "$directory" >&2
+            print_message error 'module.info must start with a nonempty single-line summary: %s\n' "$directory" >&2
             return 1
         fi
 
         for action in install upgrade status; do
             if [[ ! -f "$directory/$action.sh" || ! -r "$directory/$action.sh" ]]; then
-                printf 'Missing module script: %s/%s.sh\n' "$directory" "$action" >&2
+                print_message error 'Missing module script: %s/%s.sh\n' "$directory" "$action" >&2
                 return 1
             fi
         done
@@ -104,7 +104,7 @@ list_modules() {
     done
 
     if ((${#group_ids[@]} == 0)); then
-        printf 'No groups available.\n'
+        print_message warning 'No groups available.\n'
         return
     fi
 
@@ -112,7 +112,7 @@ list_modules() {
         [[ $# == 0 || -n "${filters[${group#*-}]:-}" ]] || continue
         [[ "$printed" == false ]] || printf '\n'
         printed=true
-        printf '%s (group)\n' "${group#*-}"
+        print_message heading '%s (group)\n' "${group#*-}"
         count=0
 
         for index in "${!module_ids[@]}"; do
@@ -130,7 +130,7 @@ list_modules() {
         fi
     done
 
-    printf '\n%s\n%s\n' 'Install: wsley install <module|group>...' 'List: wsley list [module|group]...'
+    print_message muted '\n%s\n%s\n' 'Install: wsley install <module|group>...' 'List: wsley list [module|group]...'
 }
 
 module_path() {
@@ -143,7 +143,7 @@ module_path() {
         fi
     done
 
-    printf 'Unknown module: %s. Run wsley list.\n' "$name" >&2
+    print_message error 'Unknown module: %s. Run wsley list.\n' "$name" >&2
     return 2
 }
 
@@ -151,7 +151,7 @@ show_module() {
     local name="$1" directory
 
     directory="$(module_path "$name")" || return "$?"
-    printf '%s - ' "$name"
+    print_message heading '%s - ' "$name"
     head -n 1 "$directory/module.info"
     show_components "$directory/components.tsv"
     tail -n +2 "$directory/module.info"
@@ -170,7 +170,7 @@ select_targets() {
 
     for name in "$@"; do
         if [[ ! "$name" =~ ^[a-z][a-z0-9-]*$ ]]; then
-            printf 'Invalid module or group name: %s\n' "$name" >&2
+            print_message error 'Invalid module or group name: %s\n' "$name" >&2
             return 2
         fi
         [[ -z "${seen_targets[$name]:-}" ]] || continue
@@ -191,10 +191,10 @@ select_targets() {
         done
 
         if [[ -n "$module_index" && "$group_exists" == true ]]; then
-            printf 'Ambiguous module and group name: %s\n' "$name" >&2
+            print_message error 'Ambiguous module and group name: %s\n' "$name" >&2
             return 2
         elif [[ -z "$module_index" && "$group_exists" == false ]]; then
-            printf 'Unknown module or group: %s. Run wsley list.\n' "$name" >&2
+            print_message error 'Unknown module or group: %s. Run wsley list.\n' "$name" >&2
             return 2
         fi
 

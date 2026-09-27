@@ -9,8 +9,8 @@ root="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 source "$root/lib/modules.sh"
 
 usage() {
+    print_message heading '%s\n' 'Wsley - Ubuntu Development Environment Manager'
     cat << 'HELP'
-Wsley - Ubuntu Development Environment Manager
 
 Usage:
   wsley list [module|group]...
@@ -58,13 +58,13 @@ for argument in "$@"; do
     case "$argument" in
         --yes | -y)
             if [[ "$action" != install && "$action" != upgrade ]]; then
-                printf '%s does not accept %s.\n' "$action" "$argument" >&2
+                print_message error '%s does not accept %s.\n' "$action" "$argument" >&2
                 exit 2
             fi
             options=(--yes)
             ;;
         -*)
-            printf 'Unknown option: %s\n' "$argument" >&2
+            print_message error 'Unknown option: %s\n' "$argument" >&2
             exit 2
             ;;
         *) targets+=("$argument") ;;
@@ -99,18 +99,18 @@ fi
 source "$root/lib/common.sh"
 if [[ "$action" == status ]]; then
     if ((${#selected_paths[@]} == 0)); then
-        printf 'No modules selected.\n'
+        print_message warning 'No modules selected.\n'
         exit 0
     fi
     action_options=()
 else
     parse_options "${options[@]}"
     if ((${#selected_paths[@]} == 0)); then
-        printf 'No modules to %s.\n' "$action" >&2
+        print_message error 'No modules to %s.\n' "$action" >&2
         exit 1
     fi
     for index in "${!selected_paths[@]}"; do
-        printf 'Checking %s...\n' "${selected_ids[$index]}"
+        print_message info 'Checking %s...\n' "${selected_ids[$index]}"
         bash -ec '
             source "$2/lib/common.sh"
             load_module_context "$1"
@@ -118,7 +118,7 @@ else
         ' bash "${selected_paths[$index]}" "$root"
     done
 
-    printf '%s modules:\n' "${action^}"
+    print_message heading '%s modules:\n' "${action^}"
     for index in "${!selected_paths[@]}"; do
         printf '  %s: ' "${selected_ids[$index]}"
         bash -ec '
@@ -137,16 +137,16 @@ fi
 
 failed=0
 for index in "${!selected_paths[@]}"; do
-    printf '\n[%s]\n' "${selected_ids[$index]}"
+    print_message heading '\n[%s]\n' "${selected_ids[$index]}"
     if bash "${selected_paths[$index]}/$action.sh" "${action_options[@]}"; then
         if [[ "$action" != status ]]; then
-            printf 'Completed: %s\n' "${selected_ids[$index]}"
+            print_message success 'Completed: %s\n' "${selected_ids[$index]}"
         fi
     else
         result=$?
-        printf 'Failed: %s (%s, exit %s).\n' "${selected_ids[$index]}" "$action" "$result" >&2
+        print_message error 'Failed: %s (%s, exit %s).\n' "${selected_ids[$index]}" "$action" "$result" >&2
         if [[ "$action" != status ]]; then
-            printf 'Remaining modules were not run.\n' >&2
+            print_message warning 'Remaining modules were not run.\n' >&2
             exit "$result"
         fi
         failed=1

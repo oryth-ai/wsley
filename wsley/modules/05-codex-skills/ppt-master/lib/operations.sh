@@ -63,6 +63,6 @@ show_skill_status() {
     if [[ -x "$environment/bin/python" ]]; then
         "$environment/bin/python" -c 'import pptx, yaml, PIL, fitz, requests, flask, openpyxl; print("PPT Master Python core imports: available")'
     else
-        printf '%s\n' 'PPT Master Python: not-installed'
+        print_message warning '%s\n' 'PPT Master Python: not-installed'
     fi
 }

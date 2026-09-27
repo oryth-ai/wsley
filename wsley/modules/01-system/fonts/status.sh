@@ -7,5 +7,5 @@ load_module_context "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 status_options "$@"
 package_status "${module_packages[@]}"
-printf '\n%-16s %-32s %-32s %s\n' COMPONENT INSTALLED CANDIDATE STATUS
+print_message heading '\n%-16s %-32s %-32s %s\n' COMPONENT INSTALLED CANDIDATE STATUS
 print_windows_fonts_status

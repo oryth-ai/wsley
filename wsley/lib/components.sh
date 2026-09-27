@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+# shellcheck source=wsley/lib/output.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/output.sh"
+
 validate_components() {
     [[ -r "$1" ]] || {
-        printf 'Missing component catalog: %s\n' "$1" >&2
+        print_message error 'Missing component catalog: %s\n' "$1" >&2
         return 1
     }
     awk -F '\t' '
@@ -20,7 +23,7 @@ validate_components() {
         }
         END { if (NR < 2) exit 1 }
     ' "$1" || {
-        printf 'Invalid component catalog: %s\n' "$1" >&2
+        print_message error 'Invalid component catalog: %s\n' "$1" >&2
         return 1
     }
 }
@@ -41,14 +44,14 @@ show_components() {
     local -a groups=() rows=()
 
     mapfile -t groups < <(component_groups "$file")
-    printf '\nComponents:\n'
+    print_message heading '\nComponents:\n'
     for index in "${!groups[@]}"; do
         group="${groups[$index]}"
         branch='├──' prefix='│   '
         if ((index == ${#groups[@]} - 1)); then
             branch='└──' prefix='    '
         fi
-        printf '%s %s\n' "$branch" "$group"
+        print_message heading '%s %s\n' "$branch" "$group"
         mapfile -t rows < <(awk -F '\t' -v group="$group" 'NR > 1 && $1 == group' "$file")
         for item in "${!rows[@]}"; do
             # shellcheck disable=SC2034
@@ -71,7 +74,7 @@ module_section() {
 
 validate_module_info() {
     [[ -r "$1" ]] || {
-        printf 'Missing module description: %s\n' "$1" >&2
+        print_message error 'Missing module description: %s\n' "$1" >&2
         return 1
     }
     awk '
@@ -91,7 +94,7 @@ validate_module_info() {
         { exit 1 }
         END { if (section != 5 || !body) exit 1 }
     ' "$1" || {
-        printf 'Invalid module description: %s\n' "$1" >&2
+        print_message error 'Invalid module description: %s\n' "$1" >&2
         return 1
     }
 }

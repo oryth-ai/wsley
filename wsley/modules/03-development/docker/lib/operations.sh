@@ -60,7 +60,7 @@ EOF
     as_root systemctl daemon-reload
     as_root systemctl enable docker
     as_root systemctl restart docker
-    printf 'Docker is ready. Log in again if group membership changed.\n'
+    print_message success 'Docker is ready. Log in again if group membership changed.\n'
 }
 
 preflight_module() {
@@ -81,7 +81,7 @@ show_docker_status() {
     package_status "${docker_packages[@]}" "${gpu_packages[@]}"
     if [[ -d /run/systemd/system ]]; then
         active="$(systemctl is-active docker 2> /dev/null)" || true
-        printf '%-28s %s\n' service "${active:-unknown}"
+        print_status "${active:-unknown}" '%-28s %s\n' service "${active:-unknown}"
     fi
 
     configuration_status "$docker_proxy"

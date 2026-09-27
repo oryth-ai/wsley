@@ -29,5 +29,5 @@ show_skill_status() {
     skill_status "${skill_names[@]}"
     load_skill_runtime
     command_status agent-browser "$PNPM_HOME/bin/agent-browser" --version
-    printf '%s\n' 'Browser readiness requires a live browser session; version alone does not verify Chromium.'
+    print_message warning '%s\n' 'Browser readiness requires a live browser session; version alone does not verify Chromium.'
 }

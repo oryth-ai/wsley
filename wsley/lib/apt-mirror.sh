@@ -20,8 +20,9 @@ configure_apt_mirror() {
     done
 
     if ((${#source_files[@]})); then
-        printf 'Ubuntu official sources are configured.\n'
-        read -r -p 'Replace them with the Aliyun mirror? [y/N] ' answer || answer=''
+        print_message info 'Ubuntu official sources are configured.\n'
+        print_message warning 'Replace them with the Aliyun mirror? [y/N] ' >&2
+        read -r answer || answer=''
         if [[ "$answer" == y || "$answer" == Y ]]; then
             replace_apt_sources "${source_files[@]}"
         fi
