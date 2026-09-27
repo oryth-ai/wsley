@@ -7,12 +7,12 @@ print_message() {
 
     if [[ -t 1 && "${TERM:-dumb}" != dumb && -z "${NO_COLOR+x}" ]]; then
         case "$style" in
-            heading) color='1;36' ;;
+            heading) color='1;34' ;;
             info) color=36 ;;
             success) color=32 ;;
             warning) color=33 ;;
-            error) color=31 ;;
-            muted) color=90 ;;
+            error) color='1;31' ;;
+            muted) color=2 ;;
         esac
     fi
 
