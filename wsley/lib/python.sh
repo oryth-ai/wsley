@@ -15,13 +15,13 @@ prepare_uv() {
         if [[ "$mode" == install ]]; then
             return
         fi
-        if uv self update; then
-            return
-        fi
+        uv self update
+        return
     fi
 
     apt_install ca-certificates curl
-    curl --fail --show-error --location https://astral.sh/uv/install.sh | sh
+    curl --fail --show-error --location https://astral.sh/uv/install.sh |
+        env UV_INSTALL_DIR="$HOME/.local/bin" UV_NO_MODIFY_PATH=1 sh
     hash -r
     require_command uv
 }

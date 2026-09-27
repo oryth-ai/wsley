@@ -71,44 +71,19 @@ register_shell_integration() {
     fi
 }
 
-register_shell_configuration() (
-    local file="$1" description="$2" line="$3" stage input=/dev/null
+register_shell_configuration() {
+    local file="$1" description="$2" line="$3"
 
-    stage="$(mktemp)"
-    trap 'rm -f -- "$stage"' EXIT
-
-    [[ ! -f "$file" ]] || input="$file"
-
-    # Annotate existing entries in place and separate them from other settings.
-    awk -v entry="$line" -v heading="# $description" '
-        function write_entry() {
-            if (previous != heading) {
-                if (previous != "") print ""
-                print heading
-            }
-            print entry
-            separator = 1
-            found = 1
-        }
-        $0 == entry {
-            if (!found) write_entry()
-            next
-        }
-        {
-            if (separator && $0 != "") print ""
-            separator = 0
-            print
-            previous = $0
-        }
-        END {
-            if (!found) write_entry()
-        }
-    ' "$input" > "$stage"
-
-    if cmp -s -- "$stage" "$file"; then
+    if grep -Fxq "$line" "$file" 2> /dev/null; then
         return
     fi
 
     backup_file "$file"
-    cat -- "$stage" > "$file"
-)
+    if [[ -s "$file" ]]; then
+        if [[ -n "$(tail -c 1 -- "$file")" ]]; then
+            printf '\n' >> "$file"
+        fi
+        [[ -z "$(tail -n 1 -- "$file")" ]] || printf '\n' >> "$file"
+    fi
+    printf '# %s\n%s\n' "$description" "$line" >> "$file"
+}

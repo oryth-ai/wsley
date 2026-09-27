@@ -25,7 +25,7 @@ configure_node_environment() (
 )
 
 install_node() {
-    local node_catalog
+    local node_catalog temporary
 
     validate_node_environment
     require_user
@@ -34,7 +34,14 @@ install_node() {
     if [[ -x "$PNPM_HOME/bin/pnpm" ]]; then
         (cd / && "$PNPM_HOME/bin/pnpm" self-update)
     else
-        curl --fail --show-error --location https://get.pnpm.io/install.sh | sh -
+        (
+            temporary="$(mktemp)"
+            trap 'rm -f -- "$temporary"' EXIT
+            # Wsley publishes the shared environment for Bash and Zsh.
+            curl --fail --show-error --location https://get.pnpm.io/install.sh |
+                env -u BASH_VERSION -u ZSH_VERSION -u FISH_VERSION -u NU_VERSION \
+                    SHELL=/bin/sh ENV="$temporary" sh -
+        )
     fi
 
     ln -sfn pnpm "$PNPM_HOME/bin/npm"
