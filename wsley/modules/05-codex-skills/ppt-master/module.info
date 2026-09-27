@@ -22,5 +22,5 @@ Configuration:
   Python entry point: ~/.local/bin/ppt-master-python (specified in the installed SKILL.md).
   LibreOffice uses the same APT package as the libreoffice application module.
   External image-generation services require user-provided credentials.
-  First skill backup: ~/.local/state/wsley/skills-backups/.
+  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.
   Codex authentication is configured separately.

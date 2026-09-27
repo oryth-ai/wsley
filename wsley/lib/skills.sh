@@ -74,7 +74,7 @@ replace_skill() (
 
     # Snapshot linked copies before moving either of their targets.
     for directory in "${targets[@]}"; do
-        backup_skill_directory "$directory"
+        backup_file "$directory"
     done
     for directory in "${!targets[@]}"; do
         if [[ -e "${targets[$directory]}" || -L "${targets[$directory]}" ]]; then
@@ -163,28 +163,6 @@ install_remote_skills() {
     # The caller uses the copy published by this installation.
     # shellcheck disable=SC2034
     installed_skill_directory="$skill_directory/$name"
-}
-
-backup_skill_directory() {
-    local target="$1" scope=codex backup
-
-    [[ -e "$target" || -L "$target" ]] || return 0
-    if [[ "${target%/*}" == "$skill_directory" ]]; then
-        scope=shared
-    fi
-    backup="$HOME/.local/state/wsley/skills-backups/$scope/${target##*/}"
-    if [[ ! -e "$backup" && ! -L "$backup" ]]; then
-        mkdir -p "${backup%/*}"
-        if [[ -d "$target" ]]; then
-            mkdir -p "$backup"
-            cp -a -- "$target/." "$backup/"
-            if [[ -L "$target" ]]; then
-                readlink -- "$target" > "$backup.wsley-link"
-            fi
-        else
-            cp -a -- "$target" "$backup"
-        fi
-    fi
 }
 
 skill_path() {

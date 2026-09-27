@@ -120,22 +120,42 @@ make_workdir() {
     trap 'rm -rf -- "$work"' EXIT
 }
 
-# Preserve original contents and, separately, the original symbolic link.
-backup_file() {
-    local target="$1"
+# Keep the first snapshot outside directories consumed by other programs.
+backup_file() (
+    local target="$1" state="${XDG_STATE_HOME:-$HOME/.local/state}/wsley" key directory stage
 
-    if [[ ! -e "$target.wsley-backup" && ! -L "$target.wsley-backup" && ! -e "$target.wsley-created" ]]; then
-        if [[ -L "$target" && -e "$target" ]]; then
-            cp -aL -- "$target" "$target.wsley-backup"
-            cp -a -- "$target" "$target.wsley-link"
-        elif [[ -e "$target" || -L "$target" ]]; then
-            cp -a -- "$target" "$target.wsley-backup"
-        else
-            mkdir -p -- "$(dirname -- "$target")"
-            touch "$target.wsley-created"
-        fi
+    if ((EUID == 0)); then
+        state=/var/lib/wsley
     fi
-}
+    [[ "$state" == /* && "$target" == /* ]] || {
+        printf 'Backup paths must be absolute.\n' >&2
+        exit 1
+    }
+
+    target="$(realpath -ms -- "$target")"
+    key="$(printf '%s' "$target" | sha256sum)"
+    directory="$state/backups/${key%% *}"
+    [[ ! -d "$directory" ]] || return 0
+
+    mkdir -p -- "$(dirname -- "$target")"
+    umask 077
+    mkdir -p -- "$state/backups"
+    stage="$(mktemp -d "$state/backups/.stage.XXXXXX")"
+    trap 'rm -rf -- "$stage"' EXIT
+    printf '%s\n' "$target" > "$stage/path"
+
+    if [[ -L "$target" ]]; then
+        readlink -- "$target" > "$stage/link"
+        if [[ -e "$target" ]]; then
+            cp -aL -- "$target" "$stage/original"
+        fi
+    elif [[ -e "$target" ]]; then
+        cp -a -- "$target" "$stage/original"
+    else
+        touch "$stage/created"
+    fi
+    mv -T -- "$stage" "$directory"
+)
 
 system_backup() {
     as_root bash -euc "$(declare -f backup_file); backup_file \"\$1\"" bash "$1"

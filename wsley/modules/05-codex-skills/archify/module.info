@@ -17,5 +17,5 @@ Configuration:
   Destination: ~/.agents/skills/archify
   An existing Codex copy at $CODEX_HOME/skills/archify becomes a link to this directory.
   CODEX_HOME defaults to ~/.codex.
-  First skill backup: ~/.local/state/wsley/skills-backups/.
+  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.
   Codex authentication is configured separately.
