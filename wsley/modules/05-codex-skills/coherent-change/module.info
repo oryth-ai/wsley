@@ -1,4 +1,4 @@
-Clean implementation cutovers
+Coherent project changes
 
 Install:
   Back up and copy the bundled skill files.
@@ -13,7 +13,7 @@ Requirements:
   A regular user and standard file utilities; no separate runtime is needed to copy the skill.
 
 Configuration:
-  Destination: ~/.agents/skills/clean-cutover
-  An existing Codex copy at $CODEX_HOME/skills/clean-cutover becomes a link to this directory.
+  Destination: ~/.agents/skills/coherent-change
+  An existing Codex copy at $CODEX_HOME/skills/coherent-change becomes a link to this directory.
   CODEX_HOME defaults to ~/.codex.
   First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.

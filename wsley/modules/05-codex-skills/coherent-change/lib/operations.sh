@@ -12,7 +12,7 @@ skill_assets="$module_directory/assets/$skill_name"
 preflight_module() {
     require_user
     require_command cp mv mktemp
-    [[ -r "$skill_assets/SKILL.md" ]] || fail 'Missing bundled skill: clean-cutover'
+    [[ -r "$skill_assets/SKILL.md" ]] || fail 'Missing bundled skill: coherent-change'
 }
 
 install_skill() {
