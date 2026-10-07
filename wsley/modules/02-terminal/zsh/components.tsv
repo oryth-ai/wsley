@@ -5,7 +5,8 @@ Plugins	git	https://github.com/zsh-users/zsh-autosuggestions	zsh-autosuggestions
 Plugins	git	https://github.com/zsh-users/zsh-syntax-highlighting	zsh-syntax-highlighting
 Helper commands	apt	git	git
 Helper commands	apt	curl	curl
-Helper commands	apt	lsof	lsof
+Helper commands	apt	iproute2	ss
+Helper commands	apt	procps	ps
 Helper commands	apt	rsync	rsync
 Helper commands	apt	trash-cli	trash-cli
 Helper commands	apt	tree	tree
