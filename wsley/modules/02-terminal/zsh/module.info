@@ -5,7 +5,7 @@ Install:
   Set /bin/zsh as the login shell when the Zsh package is newly installed.
 
 Upgrade:
-  Update installed Zsh packages, Oh My Zsh and plugins; retain shell configuration and the login shell.
+  Update installed Zsh packages, Oh My Zsh and plugins; back up and replace bundled shell configuration, preserving the login shell.
 
 Status:
   Report package versions, plugin Git revisions, and configuration presence.
@@ -18,7 +18,7 @@ Configuration:
   A custom ZDOTDIR must also be configured in the shell startup environment.
   Oh My Zsh: ${ZSH:-$HOME/.oh-my-zsh}
   Custom configuration: ${ZSH_CUSTOM:-$ZSH/custom}/*.zsh (loaded by Oh My Zsh)
-  Installation persists selected paths in .zshrc and ~/.config/wsley/zsh.sh.
+  Installation and upgrade persist selected paths in .zshrc and ~/.config/wsley/zsh.sh.
   Open a new Zsh session after installation.
   The rm alias uses trash-cli; cleanup-dirs directly deletes matching caches.
   cleanup-dirs --include-generated also removes .venv, node_modules, and dist.

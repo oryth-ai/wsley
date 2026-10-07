@@ -24,7 +24,7 @@ ENV
 
     for file in "$stage"/*.sh; do
         template="${file##*/}"
-        if [[ ! -e "$directory/$template" && ! -L "$directory/$template" ]]; then
+        if ! cmp -s -- "$file" "$directory/$template"; then
             backup_file "$directory/$template"
             mv -- "$file" "$directory/$template"
         fi

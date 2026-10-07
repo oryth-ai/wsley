@@ -33,7 +33,7 @@ upgrade_zsh_repository() {
 }
 
 install_zsh() {
-    local config_file target zsh_state plugin repository
+    local zsh_state plugin repository
 
     [[ "$terminal_root" == /* && "$custom" == /* ]] || fail 'ZSH and ZSH_CUSTOM must be absolute paths.'
     require_user
@@ -48,6 +48,17 @@ install_zsh() {
         install_zsh_repository "$custom/plugins/$plugin" "$repository"
     done < <(component_ids "$module_components" git Plugins)
 
+    configure_zsh install
+
+    if [[ "$zsh_state" == missing ]]; then
+        as_root usermod -s /bin/zsh "$(id -un)"
+    fi
+    print_message success 'Zsh setup complete. Open a new Zsh session.\n'
+}
+
+configure_zsh() {
+    local action="$1" config_file target
+
     mkdir -p "$custom/plugins" "$custom/themes" "${ZDOTDIR:-$HOME}"
     for config_file in "$assets"/custom/*.zsh "$assets"/themes/*.zsh-theme; do
         if [[ "$config_file" == *.zsh-theme ]]; then
@@ -55,14 +66,14 @@ install_zsh() {
         else
             target="$custom/${config_file##*/}"
         fi
-        if [[ ! -e "$target" && ! -L "$target" ]]; then
+        if [[ "$action" == upgrade || (! -e "$target" && ! -L "$target") ]]; then
             backup_file "$target"
             cp -p "$config_file" "$target"
         fi
     done
 
     target="${ZDOTDIR:-$HOME}/.zshrc"
-    if [[ ! -e "$target" && ! -L "$target" ]]; then
+    if [[ "$action" == upgrade || (! -e "$target" && ! -L "$target") ]]; then
         backup_file "$target"
         {
             printf 'export ZSH=%q\n' "$terminal_root"
@@ -72,18 +83,13 @@ install_zsh() {
     fi
     register_shell_integration
 
-    if [[ ! -e "$zsh_settings" && ! -L "$zsh_settings" ]]; then
+    if [[ "$action" == upgrade || (! -e "$zsh_settings" && ! -L "$zsh_settings") ]]; then
         backup_file "$zsh_settings"
         {
             printf 'wsley_zsh_root=%q\n' "$terminal_root"
             printf 'wsley_zsh_custom=%q\n' "$custom"
         } > "$zsh_settings"
     fi
-
-    if [[ "$zsh_state" == missing ]]; then
-        as_root usermod -s /bin/zsh "$(id -un)"
-    fi
-    print_message success 'Zsh setup complete. Open a new Zsh session.\n'
 }
 
 upgrade_zsh() {
@@ -96,6 +102,12 @@ upgrade_zsh() {
     while IFS= read -r repository; do
         upgrade_zsh_repository "$custom/plugins/${repository##*/}"
     done < <(component_ids "$module_components" git Plugins)
+    if [[ -e "$terminal_root/.git" || -e "${ZDOTDIR:-$HOME}/.zshrc" || -L "${ZDOTDIR:-$HOME}/.zshrc" ]]; then
+        install_user_environment
+        configure_zsh upgrade
+    else
+        print_message info 'Skipped Zsh configuration: not installed.\n'
+    fi
 }
 
 show_zsh_status() {

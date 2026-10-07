@@ -66,12 +66,12 @@ install_go() {
     local go_environment bin_dir="$HOME/.local/bin"
 
     require_user
+    install_user_environment
     if [[ -x "$go_root/current/bin/go" ]]; then
         restore_go_commands
         print_message info 'Go toolchain ready.\n'
         return
     fi
-    install_user_environment
     apt_install "${module_packages[@]}"
     publish_go_release
     go_environment="$("$go_root/current/bin/go" env GOENV)"

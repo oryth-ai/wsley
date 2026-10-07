@@ -33,7 +33,9 @@ self_upgrade_wsley() {
 
     if git -C "$repository" merge-base --is-ancestor HEAD "$target"; then
         if [[ -z "$changes" ]]; then
-            exec git -C "$repository" -c merge.autoStash=false merge --ff-only --no-edit --no-overwrite-ignore "$target"
+            git -C "$repository" -c merge.autoStash=false merge --ff-only --no-edit --no-overwrite-ignore "$target"
+            install_user_environment
+            return
         fi
     else
         result=$?
@@ -59,5 +61,6 @@ self_upgrade_wsley() {
             ;;
     esac
 
-    exec git -C "$repository" reset --hard "$target"
+    git -C "$repository" reset --hard "$target"
+    install_user_environment
 }

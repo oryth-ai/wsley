@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 WSLEY := bash wsley/cli.sh
-SHELL_FILES := $(shell find wsley -type f -name '*.sh' | sort)
+SHELL_FILES := $(shell find wsley tests -type f -name '*.sh' | sort)
 ZSH_FILES := $(shell find wsley -type f \( -name '.zshrc' -o -name '*.zsh' -o -name '*.zsh-theme' \) | sort)
 AWK_FILES := $(shell find wsley -type f -name '*.awk' | sort)
 SHFMT_FLAGS := -i 4 -ci -sr
@@ -28,3 +28,4 @@ check: ## Run static checks without installing software
 	@for file in $(AWK_FILES); do awk -v mode=replace -f "$$file" /dev/null || exit; done
 
 	@$(WSLEY) list > /dev/null
+	@bash tests/configuration.sh

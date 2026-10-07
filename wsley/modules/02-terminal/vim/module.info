@@ -4,7 +4,7 @@ Install:
   Install Vim and create a configuration with line numbers if none exists.
 
 Upgrade:
-  Update the installed Vim package.
+  Update the installed Vim package; refresh the Wsley setting in existing configuration.
 
 Status:
   Report the installed package version and configuration presence.
