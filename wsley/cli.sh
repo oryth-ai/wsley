@@ -25,6 +25,7 @@ Install, upgrade and status process each module once, in argument order.
 Install adds missing components; upgrade updates installed components.
 Run wsley list to see modules and groups, or wsley list <module> for details.
 --yes (or -y) skips action confirmation, not APT mirror or Docker proxy questions.
+Self-upgrade refreshes the Wsley PATH environment after updating the checkout.
 Self-upgrade asks separately before overwriting local changes or diverged history.
 Force overwrite defaults to no and is never implied by --yes.
 HELP

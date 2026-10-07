@@ -11,3 +11,6 @@ preflight_module
 confirm "$(describe_action upgrade)"
 
 apt_upgrade "${module_packages[@]}"
+if [[ -e "$HOME/.vimrc" || -L "$HOME/.vimrc" ]]; then
+    append_configuration_line "$HOME/.vimrc" 'set number'
+fi

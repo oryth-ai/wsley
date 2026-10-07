@@ -4,7 +4,7 @@ Install:
   Install tmux and create a configuration with mouse support if none exists.
 
 Upgrade:
-  Update the installed tmux package.
+  Update the installed tmux package; refresh the Wsley setting in existing configuration.
 
 Status:
   Report the installed package version and configuration presence.

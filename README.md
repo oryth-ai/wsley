@@ -62,7 +62,7 @@ wsley status node           # 确认本地状态
 | `wsley install <模块或分组>...` | 补装缺失组件                   |
 | `wsley upgrade <模块或分组>...` | 更新已安装组件                 |
 | `wsley status <模块或分组>...`  | 查询本地状态                   |
-| `wsley self-upgrade`            | 更新 Wsley 自身的仓库代码      |
+| `wsley self-upgrade`            | 更新 Wsley 仓库代码与 PATH 环境      |
 | `wsley help`                    | 查看帮助                       |
 
 模块名和分组名区分大小写，可混合传入。安装、升级和状态查询按参数顺序展开，每个模块只执行一次：
@@ -72,6 +72,8 @@ wsley install terminal node python
 wsley status development codex
 wsley upgrade node python --yes
 ```
+
+升级 Zsh 会备份并覆盖 `.zshrc`、自带主题和自定义脚本；tmux / Vim 会补齐已有配置中的 Wsley 设置。Wsley 管理的环境脚本会在配置时同步更新，Node 的自定义 `PNPM_HOME` 会保留。首次备份位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`。
 
 `install`、`upgrade` 和 `self-upgrade` 支持 `--yes`（或 `-y`），用于跳过操作确认；APT 镜像和 Docker 代理问题仍需交互选择。
 
