@@ -1,0 +1,20 @@
+GitHub README design skill
+
+Install:
+  Install the Beautify GitHub README skill if needed.
+
+Upgrade:
+  Update the installed Beautify GitHub README skill.
+
+Status:
+  Report local skill files.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Source: https://github.com/oil-oil/beautify-github-readme
+  Destination: ~/.agents/skills/beautify-github-readme
+  On upgrade, an existing copy at $CODEX_HOME/skills/beautify-github-readme becomes a link to this directory.
+  CODEX_HOME defaults to ~/.codex.
+  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.

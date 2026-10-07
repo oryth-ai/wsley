@@ -1,0 +1,3 @@
+group	manager	id	description
+Application	apt	tmux	tmux
+Configuration	config	tmux	Mouse support

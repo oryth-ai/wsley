@@ -1,0 +1,3 @@
+group	manager	id	description
+Application	apt	vim	vim
+Configuration	config	vim	Line numbers

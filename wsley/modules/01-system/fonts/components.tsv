@@ -1,0 +1,3 @@
+group	manager	id	description
+Font support	apt	fontconfig	fontconfig
+Font support	asset	windows-fonts	Windows fonts (copied when available)

@@ -1,0 +1,4 @@
+group	manager	id	description
+Skill	skill	beautify-github-readme	beautify-github-readme
+Installer runtime	runtime	node	Node and pnpm (prepared when missing)
+Installer runtime	apt-missing	git	Git (prepared when missing)

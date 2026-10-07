@@ -1,0 +1,25 @@
+group	manager	id	description
+Build and lint	apt	build-essential	build-essential
+Build and lint	apt	shellcheck	shellcheck
+Build and lint	apt	shfmt	shfmt
+Build and lint	uv-tool	ruff	ruff
+Build and lint	uv-tool	pre-commit	pre-commit
+Build and lint	uv-tool	mbake	mbake
+Network and diagnostics	apt	ca-certificates	ca-certificates
+Network and diagnostics	apt	curl	curl
+Network and diagnostics	apt	htop	htop
+Network and diagnostics	apt	lsof	lsof
+Network and diagnostics	apt	net-tools	net-tools
+Network and diagnostics	uv-tool	nvitop	nvitop
+File management	apt	ripgrep	ripgrep
+File management	apt	rsync	rsync
+File management	apt	trash-cli	trash-cli
+File management	apt	tree	tree
+File management	apt	unzip	unzip
+File management	apt	zip	zip
+Data processing	apt	jq	jq
+Data processing	apt	libxml2-utils	libxml2-utils
+Data processing	apt	sqlite3	sqlite3
+Version control	apt	git	git
+Version control	apt	git-lfs	git-lfs
+Version control	apt	gh	gh

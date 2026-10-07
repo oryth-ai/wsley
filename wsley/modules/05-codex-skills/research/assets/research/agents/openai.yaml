@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research"
+  short_description: "Research primary sources and save cited Markdown findings"
+  default_prompt: "Use $research to investigate this question using primary sources and save a cited Markdown report under the project convention or /tmp/research/<research_id>-<research_name>.md by default."

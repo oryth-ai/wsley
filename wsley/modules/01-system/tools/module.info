@@ -1,0 +1,18 @@
+Command-line tools
+
+Install:
+  Install missing command-line packages and isolated uv tools; prepare uv as needed.
+
+Upgrade:
+  Update installed command-line packages, uv and isolated uv tools.
+
+Status:
+  Group installed versions by purpose; APT candidates use the local index.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  GitHub CLI uses the official APT repository; existing source files are retained.
+  uv selects or downloads Python for each tool.
+  The Python module is not required.

@@ -1,0 +1,19 @@
+Coherent project changes
+
+Install:
+  Install the bundled skill if needed.
+
+Upgrade:
+  Replace the installed skill with the version bundled with Wsley.
+
+Status:
+  Report whether the skill is installed and where its files are located.
+
+Requirements:
+  A regular user and standard file utilities.
+
+Configuration:
+  Destination: ~/.agents/skills/coherent-change
+  On upgrade, an existing copy at $CODEX_HOME/skills/coherent-change becomes a link to this directory.
+  CODEX_HOME defaults to ~/.codex.
+  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.

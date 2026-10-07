@@ -1,0 +1,3 @@
+group	manager	id	description
+Application	pnpm	@openai/codex@latest	@openai/codex@latest
+Runtime	runtime	node	Node and pnpm (prepared when missing)

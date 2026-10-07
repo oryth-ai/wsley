@@ -1,0 +1,16 @@
+tmux and configuration
+
+Install:
+  Install tmux and create a configuration with mouse support if none exists.
+
+Upgrade:
+  Update the installed tmux package.
+
+Status:
+  Report the installed package version and configuration presence.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Configuration: ~/.tmux.conf
