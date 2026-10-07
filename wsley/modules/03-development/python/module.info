@@ -1,0 +1,16 @@
+Python and uv
+
+Install:
+  Install missing uv and Python; create missing default command links for uv-managed Python.
+
+Upgrade:
+  Update installed uv and uv-managed Python versions.
+
+Status:
+  Report uv, Python, and locally detected Python installations.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  CLI tools such as ruff and pre-commit belong to tools.

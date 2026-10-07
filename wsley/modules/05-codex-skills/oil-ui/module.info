@@ -1,0 +1,20 @@
+Oil UI design skill
+
+Install:
+  Install the Oil UI skill if needed.
+
+Upgrade:
+  Update the installed Oil UI skill.
+
+Status:
+  Report local skill files.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Source: https://github.com/oil-oil/oil-ui
+  Destination: ~/.agents/skills/oil-ui
+  On upgrade, an existing copy at $CODEX_HOME/skills/oil-ui becomes a link to this directory.
+  CODEX_HOME defaults to ~/.codex.
+  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.

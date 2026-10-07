@@ -1,0 +1,24 @@
+PPT Master skill
+
+Install:
+  Install the missing PPT Master skill, system tools and Python environment; repair incomplete Python dependencies.
+
+Upgrade:
+  Update the installed PPT Master skill and system tools; rebuild its Python environment.
+
+Status:
+  Report local skill files, system package versions and core Python imports.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+
+Configuration:
+  Source: https://github.com/hugohe3/ppt-master
+  Destination: ~/.agents/skills/ppt-master
+  On upgrade, an existing copy at $CODEX_HOME/skills/ppt-master becomes a link to this directory.
+  CODEX_HOME defaults to ~/.codex.
+  Python 3.12 environment: .venv inside the installed skill directory.
+  Run .venv/bin/python from the skill directory; the installed SKILL.md documents its use.
+  LibreOffice uses the same APT package as the libreoffice application module.
+  External image-generation services require user-provided credentials.
+  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.

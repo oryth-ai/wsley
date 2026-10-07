@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codebase Design"
+  short_description: "Design deep modules with clear interfaces and testable seams"
+  default_prompt: "Use $codebase-design to inspect the relevant code and recommend deep module interfaces, dependency seams, and a behavior-focused testing strategy."

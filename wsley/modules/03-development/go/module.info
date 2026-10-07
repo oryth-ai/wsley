@@ -1,0 +1,19 @@
+Go toolchain
+
+Install:
+  Install the latest stable Go release if needed; verify the archive and create missing command links.
+
+Upgrade:
+  Update the Go toolchain in ~/.local/share/go to the latest stable release with checksum verification.
+
+Status:
+  Report the locally available Go version.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access. Supported architectures: amd64 and arm64.
+
+Configuration:
+  Installation directory: ~/.local/share/go
+  Missing command links are created in ~/.local/bin; existing user entry points are preserved.
+  GOBIN defaults to ~/.local/bin only when unset; existing values are preserved.
+  GOENV must allow persistent Go configuration.

@@ -1,0 +1,21 @@
+Docker Engine and container tools
+
+Install:
+  Install missing Docker packages and NVIDIA container support when an NVIDIA GPU is present.
+  On a new engine installation, enable and restart Docker and configure user access.
+
+Upgrade:
+  Update installed Docker and NVIDIA container packages, retaining service and proxy settings.
+
+Status:
+  Read installed package versions, service state and proxy configuration.
+
+Requirements:
+  Ubuntu, APT and a running systemd instance; root or sudo.
+
+Configuration:
+  Proxy: optional HTTP proxy at 127.0.0.1, configured during a new engine installation.
+  Existing proxy settings are retained. Leave the port empty to skip; --yes does not answer this prompt.
+  NO_PROXY defaults include localhost, Docker host, and private networks.
+  Existing daemon.json is retained. Apply new GPU runtime settings by restarting Docker.
+  Docker group membership grants root-equivalent access; log in again to apply it.

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# shellcheck source=wsley/lib/common.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/../../../../lib/common.sh"
+
+install_libreoffice() {
+    apt_install "${module_packages[@]}"
+    require_command libreoffice
+}
+
+upgrade_libreoffice() {
+    apt_upgrade "${module_packages[@]}"
+}
+
+preflight_module() {
+    require_ubuntu
+    require_command apt dpkg-query
+    if ((EUID != 0)); then
+        require_command sudo
+    fi
+}

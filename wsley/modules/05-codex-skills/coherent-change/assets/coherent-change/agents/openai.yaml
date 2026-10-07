@@ -1,0 +1,4 @@
+interface:
+  display_name: "Coherent Change"
+  short_description: "Align structure, behavior, and consumers in each change"
+  default_prompt: "Use $coherent-change to implement this change as a coherent final design, update affected consumers, and verify the complete result."
