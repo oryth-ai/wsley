@@ -25,6 +25,11 @@ repos:
 
   - repo: local
     hooks:
+      - id: no-test-scripts
+        name: Forbid test scripts
+        entry: Test scripts must not be committed to this repository.
+        language: fail
+        files: '(?i)(?:^|/)(?:tests?|__tests__)/|(?:^|/)(?:test(?:[-_][^/]+)?|[^/]+[-_.](?:test|spec))\.(?:sh|bash|zsh|py|[cm]?jsx?|tsx?)$'
       - id: shell-format
         name: Format Bash scripts
         entry: make format
