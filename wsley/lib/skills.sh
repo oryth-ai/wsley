@@ -29,8 +29,8 @@ skill_status() {
 }
 
 replace_skill() (
-    local name="$1" stage directory candidate='' completed=false codex_link=false result
-    shift
+    local name="$1" finalize="$2" stage directory candidate='' completed=false codex_link=false result
+    shift 2
     local -a targets=("$skill_directory/$name")
 
     [[ "$name" =~ ^[a-zA-Z0-9][a-zA-Z0-9_-]*$ ]] || fail "Invalid skill name: $name"
@@ -107,6 +107,9 @@ replace_skill() (
         mkdir -p "$codex_skill_directory"
         ln -s -- "${targets[0]}" "${targets[1]}"
     fi
+    if [[ -n "$finalize" ]]; then
+        "$finalize" "${targets[0]}"
+    fi
     completed=true
     print_message success 'Skill files installed: %s\n' "$name"
 )
@@ -145,7 +148,7 @@ replace_bundled_skill() {
 
     name="${source_directory##*/}"
     [[ -f "$source_directory/SKILL.md" ]] || fail "Missing skill definition: $source_directory"
-    replace_skill "$name" copy_bundled_skill "$source_directory" "$skill_directory/$name"
+    replace_skill "$name" '' copy_bundled_skill "$source_directory" "$skill_directory/$name"
 }
 
 load_skill_runtime() {
@@ -167,29 +170,29 @@ run_skill_installer() (
 )
 
 install_remote_skill() {
-    local repository="$1" name="$2"
+    local repository="$1" name="$2" finalize="${3:-}"
 
     skill_changed=false
     if installed_skill_directory="$(skill_path "$name")"; then
         print_message info 'Skipped Skill %s: already installed.\n' "$name"
         return 0
     fi
-    replace_remote_skill "$repository" "$name"
+    replace_remote_skill "$repository" "$name" "$finalize"
 }
 
 upgrade_remote_skill() {
-    local repository="$1" name="$2"
+    local repository="$1" name="$2" finalize="${3:-}"
 
     skill_changed=false
     if ! installed_skill_directory="$(skill_path "$name")"; then
         print_message info 'Skipped Skill %s: not installed; use wsley install.\n' "$name"
         return 0
     fi
-    replace_remote_skill "$repository" "$name"
+    replace_remote_skill "$repository" "$name" "$finalize"
 }
 
 replace_remote_skill() {
-    local repository="$1" name="$2"
+    local repository="$1" name="$2" finalize="$3"
 
     load_skill_runtime
     prepare_node
@@ -199,7 +202,7 @@ replace_remote_skill() {
         apt_install ca-certificates "${missing_packages[@]}"
     fi
 
-    replace_skill "$name" run_skill_installer "$repository" "$name"
+    replace_skill "$name" "$finalize" run_skill_installer "$repository" "$name"
     # shellcheck disable=SC2034
     installed_skill_directory="$skill_directory/$name"
     # shellcheck disable=SC2034

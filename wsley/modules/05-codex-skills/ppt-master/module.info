@@ -4,7 +4,7 @@ Install:
   Install the missing PPT Master skill, system tools and Python environment; repair incomplete Python dependencies.
 
 Upgrade:
-  Update the installed PPT Master skill and system tools; rebuild its Python environment.
+  Update the installed PPT Master skill and system tools; rebuild and validate its Python environment, restoring the previous skill files and environment if setup fails.
 
 Status:
   Report local skill files, system package versions and core Python imports.

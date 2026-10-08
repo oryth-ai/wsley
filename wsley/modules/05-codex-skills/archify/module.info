@@ -4,7 +4,7 @@ Install:
   Install and validate the Archify skill if needed.
 
 Upgrade:
-  Update the installed Archify skill and run its CLI doctor.
+  Update the installed Archify skill and run its CLI doctor; restore the previous skill files if validation fails.
 
 Status:
   Report local skill files and Node version; run the installed CLI doctor offline.
