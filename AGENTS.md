@@ -9,7 +9,8 @@
 | `make help`   | 查看可用开发命令。                                                                      |
 | `make setup`  | 安装开发工具和 Git hooks，需要 sudo、APT 和 uv。                                        |
 | `make format` | 使用 shfmt 格式化`wsley/` 下的 `.sh` 文件，并直接写回文件。                             |
-| `make check`  | 检查 Bash 格式、Bash / Zsh / AWK 语法和 ShellCheck 静态规则，并验证模块列表命令可运行。 |
+| `make check`  | 通过 Git 定位暂存区、工作区和未跟踪的改动文件，只检查对应格式、语法、静态规则和模块描述。 |
+| `make check-all` | 检查全仓脚本和模块描述，并验证模块列表命令可运行。 |
 
 修改 Bash 脚本后，先运行 `make format`，检查格式化差异，再运行 `make check`。格式检查只报告差异，格式修复由 `make format` 完成。
 
