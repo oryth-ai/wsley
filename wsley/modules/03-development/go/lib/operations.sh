@@ -62,24 +62,27 @@ publish_go_release() (
 
 )
 
-install_go() {
+configure_go_environment() {
     local go_environment bin_dir="$HOME/.local/bin"
 
-    require_user
-    install_user_environment
-    if [[ -x "$go_root/current/bin/go" ]]; then
-        restore_go_commands
-        print_message info 'Go toolchain ready.\n'
-        return
-    fi
-    apt_install "${module_packages[@]}"
-    publish_go_release
     go_environment="$("$go_root/current/bin/go" env GOENV)"
     [[ "$go_environment" != off ]] || fail 'GOENV=off prevents persistent Go configuration.'
     if [[ -z "$("$go_root/current/bin/go" env GOBIN)" ]]; then
         backup_file "$go_environment"
         "$go_root/current/bin/go" env -w GOBIN="$bin_dir"
     fi
+}
+
+install_go() {
+    require_user
+    install_user_environment
+    if [[ -x "$go_root/current/bin/go" ]]; then
+        restore_go_commands
+    else
+        apt_install "${module_packages[@]}"
+        publish_go_release
+    fi
+    configure_go_environment
     "$go_root/current/bin/go" version
 }
 
@@ -92,6 +95,7 @@ upgrade_go() {
     install_user_environment
     apt_install "${module_packages[@]}"
     publish_go_release
+    configure_go_environment
     "$go_root/current/bin/go" version
 }
 
