@@ -20,5 +20,6 @@ Configuration:
   Custom configuration: ${ZSH_CUSTOM:-$ZSH/custom}/*.zsh (loaded by Oh My Zsh)
   Installation and upgrade persist selected paths in .zshrc and ~/.config/wsley/zsh.sh.
   Open a new Zsh session after installation.
+  show-size displays disk usage as a tree and supports minimum-size filtering; see show-size --help.
   The rm alias uses trash-cli; cleanup-dirs directly deletes matching caches.
   cleanup-dirs --include-generated also removes .venv, node_modules, and dist.
