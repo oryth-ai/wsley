@@ -1,4 +1,4 @@
 group	manager	id	description
-Skill	skill	beautify-github-readme	beautify-github-readme
-Installer runtime	runtime	node	Node and pnpm (prepared when missing)
+Skill	skill	beautify-github-readme	Beautify GitHub README skill
+Installer runtime	runtime	node	Node.js and pnpm (prepared as needed)
 Installer runtime	apt-missing	git	Git (prepared when missing)

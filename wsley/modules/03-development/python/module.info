@@ -7,10 +7,13 @@ Upgrade:
   Update installed uv and uv-managed Python versions.
 
 Status:
-  Report uv, Python, and locally detected Python installations.
+  Report uv and Python command locations and versions, and locally detected Python installations.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
-  CLI tools such as ruff and pre-commit belong to tools.
+  Missing uv is installed in ~/.local/bin; Python versions and command links are managed by uv.
+  Existing python/python3 entries in the uv command directory are preserved; upgrade updates uv-managed Python versions.
+  CLI tools such as ruff and pre-commit belong to the tools module.
+  Open a new terminal after installation to load environment changes.

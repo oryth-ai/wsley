@@ -1,16 +1,17 @@
-vim and configuration
+Vim and configuration
 
 Install:
-  Install Vim and create a configuration with line numbers if none exists.
+  Install missing Vim and create ~/.vimrc with line numbers if absent; preserve existing configuration.
 
 Upgrade:
-  Update the installed Vim package; refresh the Wsley setting in existing configuration.
+  Update installed Vim; back up and append the line-number setting to existing configuration if the setting is absent.
 
 Status:
-  Report the installed package version and configuration presence.
+  Report the installed package version and whether ~/.vimrc contains the line-number setting.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
   Configuration: ~/.vimrc
+  Upgrade preserves existing lines and does not create an absent configuration file.

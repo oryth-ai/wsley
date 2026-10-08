@@ -1,3 +1,3 @@
 group	manager	id	description
 Server	apt	openssh-server	openssh-server
-Service	config	ssh	Enable and start the SSH service
+Service	config	ssh	SSH service startup and activity

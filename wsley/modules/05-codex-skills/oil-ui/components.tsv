@@ -1,4 +1,4 @@
 group	manager	id	description
-Skill	skill	oil-ui	oil-ui
-Installer runtime	runtime	node	Node and pnpm (prepared when missing)
+Skill	skill	oil-ui	Oil UI skill
+Installer runtime	runtime	node	Node.js and pnpm (prepared as needed)
 Installer runtime	apt-missing	git	Git (prepared when missing)

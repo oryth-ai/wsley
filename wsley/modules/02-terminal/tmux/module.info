@@ -1,16 +1,17 @@
 tmux and configuration
 
 Install:
-  Install tmux and create a configuration with mouse support if none exists.
+  Install missing tmux and create ~/.tmux.conf with mouse support if absent; preserve existing configuration.
 
 Upgrade:
-  Update the installed tmux package; refresh the Wsley setting in existing configuration.
+  Update installed tmux; back up and append the mouse-support setting to existing configuration if the setting is absent.
 
 Status:
-  Report the installed package version and configuration presence.
+  Report the installed package version and whether ~/.tmux.conf contains the mouse-support setting.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
   Configuration: ~/.tmux.conf
+  Upgrade preserves existing lines and does not create an absent configuration file.

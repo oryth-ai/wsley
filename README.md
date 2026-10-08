@@ -2,7 +2,7 @@
 
 **用一套命令，搭建与维护 Ubuntu 开发环境。**
 
-Wsley 将系统工具、终端配置、语言运行时、开发应用和 Codex skills 按模块组织。可以单独安装一个模块，也可以按分组批量管理；安装补齐缺失组件，升级更新已有组件，状态查询帮助你了解本机环境。
+Wsley 将系统工具、终端配置、语言运行时、开发应用和 Codex skills 按模块组织。可以单独安装一个模块，也可以按分组批量管理；安装补齐缺失组件，升级更新已有组件并刷新模块管理的配置，状态查询帮助了解本机环境。
 
 [快速开始](#快速开始) · [模块概览](#模块概览) · [命令参考](#命令参考) · [环境要求](#环境要求)
 
@@ -73,7 +73,11 @@ wsley status development codex
 wsley upgrade node python --yes
 ```
 
-配置文件的首次备份位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`；各模块的配置行为见 `wsley list <模块>`。
+各模块分别决定配置的创建、追加和替换规则，安装操作也可能替换已有配置。执行前可通过 `wsley list <模块>` 查看具体行为；安装或升级所需的运行时依赖会按需补齐。共享 PATH 配置保存在 `~/.config/wsley/environment/`，加载入口会注册到 Bash/Zsh 启动文件。
+
+用户文件的首次备份位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`，系统文件的首次备份位于 `/var/lib/wsley/backups/`。同一路径的后续修改保留首次备份。
+
+Skills 安装时保留已检测到的 skill，升级时整体替换 skill 目录，包括其中的本地修改。替换过程会备份已有副本，失败时恢复原目录；配套软件包的更新不随 skill 文件回退。安装目录为 `~/.agents/skills/<名称>`，已有的 `${CODEX_HOME:-$HOME/.codex}/skills/<名称>` 副本会在替换时整合为指向该目录的链接。
 
 `install`、`upgrade` 和 `self-upgrade` 支持 `--yes`（或 `-y`），用于跳过操作确认；APT 镜像和 Docker 代理问题仍需交互选择。
 
@@ -82,7 +86,7 @@ wsley upgrade node python --yes
 - **平台与权限**：面向 Ubuntu，多数模块需要 APT 和具有 `sudo` 权限的普通用户；具体要求可通过 `wsley list <模块>` 查看。
 - **服务管理**：`docker` 和 `ssh` 需要正在运行的 systemd。
 - **架构限制**：`chrome` 仅支持 amd64；`go` 支持 amd64 和 arm64。
-- **字体来源**：`fonts` 从 `/mnt/c/Windows/Fonts` 复制 Windows 字体，使用前需确保该路径可用。
+- **字体来源**：`fonts` 在 `/mnt/c/Windows/Fonts` 可用时复制 Windows 字体，路径缺失时跳过复制。
 - **环境生效**：涉及 PATH 或 Shell 配置的安装完成后，请打开新终端。
 
 ## 许可证

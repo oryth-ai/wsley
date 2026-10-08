@@ -7,12 +7,13 @@ Upgrade:
   Update installed command-line packages, uv and isolated uv tools.
 
 Status:
-  Group installed versions by purpose; APT candidates use the local index.
+  Report installed package and uv tool versions by purpose; show APT candidates from the local index.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
-  GitHub CLI uses the official APT repository; existing source files are retained.
+  GitHub CLI uses the official APT repository; existing repository and key files are retained.
+  uv is installed in ~/.local/bin when missing; Shell environment integration adds user commands to PATH.
   uv selects or downloads Python for each tool.
-  The Python module is not required.
+  The Python module is not required; open a new terminal after installation to load environment changes.

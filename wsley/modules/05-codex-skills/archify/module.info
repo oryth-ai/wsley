@@ -1,13 +1,13 @@
 Architecture diagram skill
 
 Install:
-  Install and validate the Archify skill if needed.
+  Install and validate the missing Archify skill; prepare Node.js/pnpm and Git as needed.
 
 Upgrade:
-  Update the installed Archify skill and run its CLI doctor; restore the previous skill files if validation fails.
+  Back up and replace the installed Archify skill and run its CLI doctor; restore previous skill files if validation fails.
 
 Status:
-  Report local skill files and Node version; run the installed CLI doctor offline.
+  Report skill locations based on SKILL.md presence, and the Node.js command location and version; run the installed CLI doctor with update checks disabled.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
@@ -15,6 +15,4 @@ Requirements:
 Configuration:
   Source: https://github.com/tt-a1i/archify
   Destination: ~/.agents/skills/archify
-  On upgrade, an existing copy at $CODEX_HOME/skills/archify becomes a link to this directory.
-  CODEX_HOME defaults to ~/.codex.
-  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.
+  Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/archify are consolidated into links to the destination when skill files are replaced.

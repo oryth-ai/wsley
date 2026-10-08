@@ -1,19 +1,21 @@
 Go toolchain
 
 Install:
-  Install the latest stable Go release if needed; verify the archive and repair missing command links and GOBIN configuration.
+  Install the latest stable Go release when the managed toolchain is absent; verify downloaded archives and repair missing command links and GOBIN configuration.
 
 Upgrade:
-  Update the Go toolchain in ~/.local/share/go to the latest stable release with checksum verification; repair missing GOBIN configuration.
+  Update the installed managed toolchain to the latest stable release; verify downloaded archives and repair missing command links and GOBIN configuration.
 
 Status:
-  Report the locally available Go version.
+  Report the managed Go command location and version, falling back to Go on PATH when the managed command is unavailable.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access. Supported architectures: amd64 and arm64.
 
 Configuration:
   Installation directory: ~/.local/share/go
+  The current symlink selects the managed release; previous release directories are retained.
   Missing command links are created in ~/.local/bin; existing user entry points are preserved.
   GOBIN defaults to ~/.local/bin only when unset; existing values are preserved.
   GOENV must allow persistent Go configuration.
+  Open a new terminal after installation to load environment changes.

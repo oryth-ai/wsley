@@ -1,13 +1,13 @@
 GitHub README design skill
 
 Install:
-  Install the Beautify GitHub README skill if needed.
+  Install the missing Beautify GitHub README skill; prepare Node.js/pnpm and Git as needed.
 
 Upgrade:
-  Update the installed Beautify GitHub README skill.
+  Back up and replace the installed Beautify GitHub README skill; restore previous copies if replacement fails.
 
 Status:
-  Report local skill files.
+  Report skill locations based on SKILL.md presence.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
@@ -15,6 +15,4 @@ Requirements:
 Configuration:
   Source: https://github.com/oil-oil/beautify-github-readme
   Destination: ~/.agents/skills/beautify-github-readme
-  On upgrade, an existing copy at $CODEX_HOME/skills/beautify-github-readme becomes a link to this directory.
-  CODEX_HOME defaults to ~/.codex.
-  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.
+  Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/beautify-github-readme are consolidated into links to the destination when skill files are replaced.

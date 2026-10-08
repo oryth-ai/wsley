@@ -1,19 +1,17 @@
 Atomic Git commits
 
 Install:
-  Install the bundled skill and Git if needed.
+  Install the missing bundled skill and Git; preserve detected installed skill copies.
 
 Upgrade:
-  Replace the installed skill with the version bundled with Wsley.
+  Back up and replace the installed skill with Wsley's bundled files; restore previous copies if replacement fails.
 
 Status:
-  Report local SKILL.md presence and the Git version.
+  Report skill locations based on SKILL.md presence, and the local Git version.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
   Destination: ~/.agents/skills/git-commit
-  On upgrade, an existing copy at $CODEX_HOME/skills/git-commit becomes a link to this directory.
-  CODEX_HOME defaults to ~/.codex.
-  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.
+  Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/git-commit are consolidated into links to the destination when skill files are replaced.

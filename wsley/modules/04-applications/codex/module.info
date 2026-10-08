@@ -1,13 +1,13 @@
 Codex CLI
 
 Install:
-  Install the global Codex CLI if needed; prepare Node/pnpm and configure PATH.
+  Install the global Codex CLI if missing; prepare Node.js/pnpm and configure PATH when installing the CLI.
 
 Upgrade:
-  Update the installed Codex CLI; prepare Node/pnpm as needed.
+  Update the installed Codex CLI through pnpm; prepare Node.js/pnpm as needed.
 
 Status:
-  Read the locally available Codex CLI version.
+  Report the locally available Codex CLI command location and version.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.

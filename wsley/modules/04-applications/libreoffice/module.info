@@ -7,7 +7,7 @@ Upgrade:
   Update installed LibreOffice packages through APT.
 
 Status:
-  Read the installed suite and component package versions.
+  Report the installed suite and component package versions.
 
 Requirements:
   Ubuntu and APT; root or sudo.
