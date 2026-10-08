@@ -3,4 +3,4 @@ Download support	apt	ca-certificates	ca-certificates
 Download support	apt	curl	curl
 Download support	apt	jq	jq
 Toolchain	runtime	go	Latest stable Go and gofmt
-Environment	config	GOBIN	~/.local/bin and current toolchain symlink
+Environment	config	GOBIN	GOBIN configuration and managed Go command links

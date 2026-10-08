@@ -1,22 +1,20 @@
 Agent Browser skill
 
 Install:
-  Install the missing Agent Browser skill and CLI; set up Chromium when installing the CLI.
+  Install the missing Agent Browser skill and CLI; prepare Node.js/pnpm and Git as needed, and set up Chromium with the CLI.
 
 Upgrade:
-  Update the installed skill and CLI; refresh Chromium with the CLI, restoring the previous skill files if browser setup fails.
+  Back up and replace the installed skill; update the installed CLI and refresh Chromium, restoring previous skill files if browser setup fails.
 
 Status:
-  Report local skill files and CLI version; Chromium readiness is not verified.
+  Report skill locations based on SKILL.md presence, and the CLI command location and version; Chromium readiness is not checked.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
-  Browser setup runs with CLI installation and upgrade.
-  To repair browser files for an existing CLI, run agent-browser install.
+  Browser files and Linux dependencies are set up when installing or upgrading the CLI; installation preserves an existing CLI and browser setup.
+  For browser maintenance commands, see agent-browser --help.
   Source: https://github.com/vercel-labs/agent-browser
   Destination: ~/.agents/skills/agent-browser
-  On upgrade, an existing copy at $CODEX_HOME/skills/agent-browser becomes a link to this directory.
-  CODEX_HOME defaults to ~/.codex.
-  First skill backup: ${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/.
+  Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/agent-browser are consolidated into links to the destination when skill files are replaced.

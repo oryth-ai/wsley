@@ -1,5 +1,5 @@
 group	manager	id	description
-Shell	apt	zsh	zsh
+Shell	apt	zsh	Zsh
 Shell	git	https://github.com/ohmyzsh/ohmyzsh.git	Oh My Zsh
 Plugins	git	https://github.com/zsh-users/zsh-autosuggestions	zsh-autosuggestions
 Plugins	git	https://github.com/zsh-users/zsh-syntax-highlighting	zsh-syntax-highlighting
@@ -10,6 +10,6 @@ Helper commands	apt	procps	ps
 Helper commands	apt	rsync	rsync
 Helper commands	apt	trash-cli	trash-cli
 Helper commands	apt	tree	tree
-Configuration	asset	custom	Aliases, file, process and Git helpers
-Configuration	asset	wsley-passion	Theme
-Configuration	asset	.zshrc	Shell configuration
+Configuration	asset	custom	Aliases and file, process and Git helpers
+Configuration	asset	wsley-passion	Wsley Passion theme
+Configuration	asset	.zshrc	Bundled Zsh startup configuration

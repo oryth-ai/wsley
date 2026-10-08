@@ -1,3 +1,3 @@
 group	manager	id	description
-Application	pnpm	@openai/codex@latest	@openai/codex@latest
-Runtime	runtime	node	Node and pnpm (prepared when missing)
+Application	pnpm	@openai/codex@latest	Codex CLI
+Runtime	runtime	node	Node.js and pnpm (prepared as needed)

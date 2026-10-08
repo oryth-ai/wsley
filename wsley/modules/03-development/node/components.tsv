@@ -1,5 +1,5 @@
 group	manager	id	description
 Package manager	runtime	pnpm	pnpm and pnpx
 Runtime	node-runtime	lts	Node.js LTS
-Environment	config	npm	npm and npx compatibility links when commands are unavailable
+Environment	config	npm	npm and npx compatibility links
 Environment	config	PNPM_HOME	Persistent Bash/Zsh PATH configuration

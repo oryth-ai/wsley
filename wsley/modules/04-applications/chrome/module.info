@@ -7,7 +7,7 @@ Upgrade:
   Update installed Chrome using the official stable DEB.
 
 Status:
-  Read the installed package version.
+  Report the installed package version.
 
 Requirements:
   Ubuntu amd64 and APT; root or sudo.
