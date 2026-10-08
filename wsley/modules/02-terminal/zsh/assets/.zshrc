@@ -15,3 +15,6 @@ DISABLE_AUTO_UPDATE="true"
 source "$ZSH/oh-my-zsh.sh"
 
 setopt no_nomatch
+
+# Wsley Zsh integration
+[ ! -r "$HOME/.config/wsley/shell/zsh.zsh" ] || . "$HOME/.config/wsley/shell/zsh.zsh"

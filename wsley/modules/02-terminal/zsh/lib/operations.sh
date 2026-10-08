@@ -73,23 +73,18 @@ configure_zsh() {
     done
 
     target="${ZDOTDIR:-$HOME}/.zshrc"
-    if [[ "$action" == upgrade || (! -e "$target" && ! -L "$target") ]]; then
-        backup_file "$target"
-        {
-            printf 'export ZSH=%q\n' "$terminal_root"
-            printf 'export ZSH_CUSTOM=%q\n\n' "$custom"
-            cat "$assets/.zshrc"
-        } > "$target"
-    fi
-    register_shell_integration
+    backup_file "$target"
+    {
+        printf 'export ZSH=%q\n' "$terminal_root"
+        printf 'export ZSH_CUSTOM=%q\n\n' "$custom"
+        cat "$assets/.zshrc"
+    } > "$target"
 
-    if [[ "$action" == upgrade || (! -e "$zsh_settings" && ! -L "$zsh_settings") ]]; then
-        backup_file "$zsh_settings"
-        {
-            printf 'wsley_zsh_root=%q\n' "$terminal_root"
-            printf 'wsley_zsh_custom=%q\n' "$custom"
-        } > "$zsh_settings"
-    fi
+    backup_file "$zsh_settings"
+    {
+        printf 'wsley_zsh_root=%q\n' "$terminal_root"
+        printf 'wsley_zsh_custom=%q\n' "$custom"
+    } > "$zsh_settings"
 }
 
 upgrade_zsh() {
