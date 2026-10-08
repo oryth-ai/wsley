@@ -1,15 +1,17 @@
 show-size() {
-    local -i tree_depth=0
-    local tree_mode=true depth="" ignore_pattern=""
+    local -i tree_depth=0 min_bytes=-1
+    local tree_mode=true depth="" ignore_pattern="" min_size="" parsed_size="" min_size_set=false
     local -a paths=()
 
     while (($# > 0)); do
         case "$1" in
             -h | --help)
-                print "Usage: show-size [-L depth] [-I pattern] [path ...]"
+                print "Usage: show-size [-L depth] [-I pattern] [-s size|--min-size size] [path ...]"
                 print "Description: Display path sizes as a tree; default to entries in the current directory."
                 print "Options: -L depth Expand the tree to this depth; default: 1."
                 print "     -I pattern Show matching directories without expanding them."
+                print "     -s, --min-size size Show only files and directories whose disk usage exceeds size."
+                print "        Use bytes or binary units K, M, G, T, P, E (optional B); e.g. 100M or 1.5G."
                 return 0
                 ;;
             -L)
@@ -38,6 +40,21 @@ show-size() {
                 ignore_pattern="${1#-I}"
                 shift
                 ;;
+            -s | --min-size)
+                if (($# < 2)); then
+                    print -u2 "show-size: $1 requires a size"
+                    return 1
+                fi
+                min_size="$2"
+                min_size_set=true
+                shift 2
+                ;;
+            -s* | --min-size=*)
+                min_size="${1#-s}"
+                [[ "$1" == --min-size=* ]] && min_size="${1#--min-size=}"
+                min_size_set=true
+                shift
+                ;;
             --)
                 shift
                 paths+=("$@")
@@ -53,6 +70,45 @@ show-size() {
                 ;;
         esac
     done
+
+    if [[ "$min_size_set" == true ]]; then
+        if [[ "$min_size" =~ '^[0-9]+([.][0-9]+)?([KMGTPE]B?|B)?$' ]]; then
+            parsed_size="${min_size%B}"
+            if [[ "$parsed_size" == <-> ]]; then
+                while [[ "$parsed_size" == 0?* ]]; do
+                    parsed_size="${parsed_size#0}"
+                done
+            else
+                parsed_size="$(awk -v size="$parsed_size" 'BEGIN {
+                    unit = index("KMGTPE", substr(size, length(size)))
+                    if (unit) size = substr(size, 1, length(size) - 1)
+                    point = index(size, ".")
+                    precision = point ? length(size) - point : 0
+                    sub(/\./, "", size)
+                    for (power = 0; power < unit; power++) {
+                        converted = ""
+                        carry = 0
+                        for (digit = length(size); digit > 0; digit--) {
+                            product = substr(size, digit, 1) * 1024 + carry
+                            converted = (product % 10) converted
+                            carry = int(product / 10)
+                        }
+                        size = (carry ? carry : "") converted
+                    }
+                    size = length(size) > precision ? substr(size, 1, length(size) - precision) : "0"
+                    sub(/^0+/, "", size)
+                    print length(size) ? size : "0"
+                }')" || parsed_size=""
+            fi
+        fi
+        if [[ "$parsed_size" != <-> ]] ||
+            ((${#parsed_size} > 19)) ||
+            [[ ${#parsed_size} == 19 && "$parsed_size" > 9223372036854775807 ]]; then
+            print -u2 "show-size: size must be non-negative bytes or a binary size such as 100M or 1.5G (maximum: 9223372036854775807 bytes)"
+            return 1
+        fi
+        min_bytes="$parsed_size"
+    fi
 
     if [[ "$tree_mode" == true && -n "$depth" ]]; then
         if [[ "$depth" != <-> ]] || (($depth < 1)); then
@@ -71,14 +127,19 @@ show-size() {
             result=1
             continue
         fi
-        _show_size_tree_node "$target" 0 "" true "$tree_depth" "$ignore_pattern"
+        if ((min_bytes >= 0)); then
+            _show_size_tree_exceeds_size "$target" "$min_bytes" || continue
+        fi
+        _show_size_tree_node "$target" 0 "" true "$tree_depth" "$ignore_pattern" "$min_bytes"
     done
     return "$result"
 }
 
 _show_size_tree_size() {
     local size
-    size="$(du -sh -- "$1" 2> /dev/null || :)"
+    local -a size_options=(-sh)
+    [[ "${2:-}" == bytes ]] && size_options=(-s -B1)
+    size="$(du "${size_options[@]}" -- "$1" 2> /dev/null || :)"
     if [[ "$size" == *$'\t'* ]]; then
         size="${size%%$'\t'*}"
     else
@@ -88,11 +149,17 @@ _show_size_tree_size() {
     print -r -- "$size"
 }
 
+_show_size_tree_exceeds_size() {
+    local bytes="$(_show_size_tree_size "$1" bytes)"
+    [[ "$bytes" == <-> ]] && ((bytes > $2))
+}
+
 _show_size_tree_node() {
     local node_path="$1"
     local -i level="$2" max_depth="$5"
     local prefix="$3" is_last="$4"
     local ignore_pattern="${6:-}"
+    local -i min_bytes="${7:--1}"
     local size="$(_show_size_tree_size "$node_path")"
     local name="${node_path:t}"
     local child_prefix="$prefix"
@@ -112,13 +179,21 @@ _show_size_tree_node() {
 
     local -a children=("$node_path"/*(N) "$node_path"/.[^.]*(N) "$node_path"/..?*(N))
     children=("${(@o)children}")
+    if ((min_bytes >= 0)); then
+        local -a matching_children=()
+        local candidate
+        for candidate in "${children[@]}"; do
+            _show_size_tree_exceeds_size "$candidate" "$min_bytes" && matching_children+=("$candidate")
+        done
+        children=("${matching_children[@]}")
+    fi
     local -i index=1 total="${#children[@]}"
     local child child_is_last
     for child in "${children[@]}"; do
         child_is_last=false
         ((index == total)) && child_is_last=true
         _show_size_tree_node "$child" "$((level + 1))" "$child_prefix" \
-            "$child_is_last" "$max_depth" "$ignore_pattern"
+            "$child_is_last" "$max_depth" "$ignore_pattern" "$min_bytes"
         ((index++))
     done
 }
