@@ -44,6 +44,54 @@ set_node_runtime() {
     hash -r
 }
 
+node_command_outside_bin() (
+    local name="$1" directory remaining="$PATH:"
+    local -a directories=()
+
+    while [[ -n "$remaining" ]]; do
+        directory="${remaining%%:*}"
+        remaining="${remaining#*:}"
+        [[ "$directory" == "$PNPM_HOME/bin" ]] || directories+=("$directory")
+    done
+    local IFS=:
+    PATH="${directories[*]}"
+    command -v "$name"
+)
+
+configure_node_commands() {
+    local name target executable
+
+    require_command pnpm
+    mkdir -p "$PNPM_HOME/bin"
+    if ! command -v pnpx > /dev/null; then
+        target="$PNPM_HOME/bin/pnpx"
+        [[ ! -e "$target" && ! -L "$target" ]] || fail "Cannot create pnpx: $target already exists but is not executable."
+        backup_file "$target"
+        # shellcheck disable=SC2016
+        printf '#!/bin/sh\nexec pnpm dlx "$@"\n' > "$target"
+        chmod 0755 "$target"
+        hash -r
+    fi
+    require_command pnpx
+
+    for name in npm npx; do
+        target="$PNPM_HOME/bin/$name"
+        executable="$(command -v pnpm)"
+        [[ "$name" != npx ]] || executable="$(command -v pnpx)"
+        if [[ -L "$target" && "$(readlink -f -- "$target")" == "$(readlink -f -- "$executable")" ]] &&
+            node_command_outside_bin "$name" > /dev/null; then
+            backup_file "$target"
+            rm -- "$target"
+            hash -r
+        fi
+        if ! command -v "$name" > /dev/null && [[ ! -e "$target" && ! -L "$target" ]]; then
+            backup_file "$target"
+            ln -s -- "$executable" "$target"
+            hash -r
+        fi
+    done
+}
+
 install_node() {
     local pnpm_command temporary
 
@@ -65,15 +113,8 @@ install_node() {
     if ! command -v node > /dev/null; then
         set_node_runtime "$pnpm_command"
     fi
+    configure_node_commands
     require_command node pnpm pnpx
-
-    mkdir -p "$PNPM_HOME/bin"
-    if [[ ! -e "$PNPM_HOME/bin/npm" && ! -L "$PNPM_HOME/bin/npm" ]]; then
-        ln -s "$(command -v pnpm)" "$PNPM_HOME/bin/npm"
-    fi
-    if [[ ! -e "$PNPM_HOME/bin/npx" && ! -L "$PNPM_HOME/bin/npx" ]]; then
-        ln -s "$(command -v pnpx)" "$PNPM_HOME/bin/npx"
-    fi
     configure_node_environment
 }
 
@@ -101,6 +142,7 @@ upgrade_node() {
     else
         print_message info 'Skipped Node.js: not installed under PNPM_HOME.\n'
     fi
+    configure_node_commands
     configure_node_environment
 }
 
@@ -114,6 +156,7 @@ prepare_node() {
     if ! command -v node > /dev/null || ! command -v pnpm > /dev/null || ! command -v pnpx > /dev/null; then
         install_node
     else
+        configure_node_commands
         configure_node_environment
     fi
     require_command node pnpm pnpx

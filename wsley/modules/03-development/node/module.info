@@ -1,10 +1,10 @@
 Node.js LTS and pnpm
 
 Install:
-  Install missing pnpm and Node.js LTS; configure PATH and create missing npm/npx links.
+  Install missing pnpm, pnpx and Node.js LTS; configure PATH and create npm/npx compatibility links only when those commands are unavailable.
 
 Upgrade:
-  Update pnpm and Node.js LTS installed under PNPM_HOME.
+  Update pnpm and Node.js LTS installed under PNPM_HOME; repair pnpx and command links.
 
 Status:
   Report command locations and local Node.js/pnpm versions.
@@ -15,4 +15,5 @@ Requirements:
 Configuration:
   PNPM_HOME: ~/.local/share/pnpm by default; a custom absolute path is persisted.
   Shell configuration adds PNPM_HOME/bin, PNPM_HOME, and ~/.local/bin to PATH.
+  Existing npm/npx commands are preserved; Wsley compatibility links yield to commands available elsewhere on PATH.
   Open a new terminal after installation to load the environment.
