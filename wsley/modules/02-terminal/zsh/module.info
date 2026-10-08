@@ -1,7 +1,7 @@
 Zsh, Oh My Zsh, and configuration
 
 Install:
-  Install missing Zsh packages, Oh My Zsh and plugins; create missing shell configuration.
+  Install missing Zsh packages, Oh My Zsh and plugins; back up and replace .zshrc with the bundled configuration including Wsley completions.
   Set /bin/zsh as the login shell when the Zsh package is newly installed.
 
 Upgrade:
