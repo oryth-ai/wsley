@@ -45,6 +45,7 @@ case "$action" in
         # shellcheck source=wsley/lib/self-upgrade.sh
         source "$root/lib/self-upgrade.sh"
         self_upgrade_wsley "$(dirname -- "$root")" "${@:2}"
+        exit 0
         ;;
     __complete)
         # shellcheck source=wsley/lib/completion.sh
