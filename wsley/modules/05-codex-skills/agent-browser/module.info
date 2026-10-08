@@ -4,7 +4,7 @@ Install:
   Install the missing Agent Browser skill and CLI; set up Chromium when installing the CLI.
 
 Upgrade:
-  Update the installed skill and CLI; refresh Chromium with the CLI.
+  Update the installed skill and CLI; refresh Chromium with the CLI, restoring the previous skill files if browser setup fails.
 
 Status:
   Report local skill files and CLI version; Chromium readiness is not verified.

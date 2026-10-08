@@ -15,17 +15,15 @@ preflight_module() {
 }
 
 install_skill() {
-    install_remote_skill "$skill_repository" "${skill_names[@]}"
-    if [[ "$skill_changed" == true ]]; then
-        node "$installed_skill_directory/bin/archify.mjs" doctor
-    fi
+    install_remote_skill "$skill_repository" "${skill_names[0]}" validate_archify
 }
 
 upgrade_skill() {
-    upgrade_remote_skill "$skill_repository" "${skill_names[@]}"
-    if [[ "$skill_changed" == true ]]; then
-        node "$installed_skill_directory/bin/archify.mjs" doctor
-    fi
+    upgrade_remote_skill "$skill_repository" "${skill_names[0]}" validate_archify
+}
+
+validate_archify() {
+    node "$1/bin/archify.mjs" doctor
 }
 
 show_skill_status() {

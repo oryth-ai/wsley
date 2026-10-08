@@ -15,13 +15,17 @@ preflight_module() {
 }
 
 install_skill() {
-    install_remote_skill "$skill_repository" "${skill_names[@]}"
-    install_browser_cli
+    install_remote_skill "$skill_repository" "${skill_names[0]}" install_browser_cli
+    if [[ "$skill_changed" == false ]]; then
+        install_browser_cli
+    fi
 }
 
 upgrade_skill() {
-    upgrade_remote_skill "$skill_repository" "${skill_names[@]}"
-    upgrade_browser_cli
+    upgrade_remote_skill "$skill_repository" "${skill_names[0]}" upgrade_browser_cli
+    if [[ "$skill_changed" == false ]]; then
+        upgrade_browser_cli
+    fi
 }
 
 install_browser_cli() {

@@ -36,7 +36,9 @@ configure_skill_runtime() (
 install_skill() {
     local environment
 
-    install_remote_skill "$skill_repository" "${skill_names[@]}"
+    install_remote_skill "$skill_repository" "${skill_names[0]}" prepare_skill_installation
+    [[ "$skill_changed" == false ]] || return 0
+
     apt_install "${module_packages[@]}"
     install_uv
     environment="$installed_skill_directory/.venv"
@@ -44,6 +46,7 @@ install_skill() {
     if [[ -x "$environment/bin/python" ]] &&
         "$environment/bin/python" -B -c 'import pptx, yaml, PIL, fitz, requests, flask, openpyxl' > /dev/null 2>&1 &&
         uv pip check --python "$environment/bin/python"; then
+        configure_skill_runtime "$installed_skill_directory"
         print_message info 'PPT Master Python environment ready.\n'
         return 0
     fi
@@ -51,12 +54,19 @@ install_skill() {
 }
 
 upgrade_skill() {
-    upgrade_remote_skill "$skill_repository" "${skill_names[@]}"
-    [[ "$skill_changed" == true ]] || return 0
+    upgrade_remote_skill "$skill_repository" "${skill_names[0]}" prepare_skill_upgrade
+}
 
+prepare_skill_installation() {
+    apt_install "${module_packages[@]}"
+    install_uv
+    provision_skill_environment "$1"
+}
+
+prepare_skill_upgrade() {
     apt_upgrade "${module_packages[@]}"
     install_uv
-    provision_skill_environment "$installed_skill_directory"
+    provision_skill_environment "$1"
 }
 
 provision_skill_environment() {
@@ -70,10 +80,8 @@ provision_skill_environment() {
     fi
     uv pip install --python "$environment/bin/python" -r "$requirements"
     uv pip check --python "$environment/bin/python"
-
-    if [[ "$skill_changed" == true ]]; then
-        configure_skill_runtime "$directory"
-    fi
+    "$environment/bin/python" -B -c 'import pptx, yaml, PIL, fitz, requests, flask, openpyxl'
+    configure_skill_runtime "$directory"
 }
 
 show_skill_status() {
