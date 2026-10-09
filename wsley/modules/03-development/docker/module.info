@@ -2,7 +2,8 @@ Docker Engine and container tools
 
 Install:
   Install missing Docker packages and NVIDIA container support when an NVIDIA GPU is present.
-  On a new engine installation, enable and restart Docker and configure user access.
+  On each installation, add the invoking non-root user to the Docker group; sudo uses the original user, and direct root installations skip user access.
+  On a new engine installation, enable and restart Docker.
 
 Upgrade:
   Update installed Docker and NVIDIA container packages, retaining service and proxy settings.
@@ -19,4 +20,4 @@ Configuration:
   NO_PROXY defaults include localhost, Docker host, and private networks.
   Runtime configuration: /etc/docker/daemon.json; existing files are retained. Missing files are created when NVIDIA container support is newly installed.
   Apply new GPU runtime settings by restarting Docker when the engine was already installed.
-  Docker group membership grants root-equivalent access; log in again to apply it.
+  Docker group membership grants root-equivalent access. Log out and back in after membership changes.

@@ -14,7 +14,7 @@ nvidia_key=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 docker_proxy=/etc/systemd/system/docker.service.d/wsley-proxy.conf
 
 install_docker() {
-    local membership_changed=false engine_state package state
+    local engine_state package state docker_user user_groups
     local missing_engine_package=false gpu_state=missing
     local -a gpu_packages=()
 
@@ -77,6 +77,18 @@ EOF
         fi
     fi
 
+    docker_user="$(id -un)"
+    if ((EUID == 0)); then
+        docker_user="${SUDO_USER:-root}"
+    fi
+    if [[ "$docker_user" != root ]]; then
+        user_groups="$(id -nG -- "$docker_user")"
+        if [[ " $user_groups " != *" docker "* ]]; then
+            as_root usermod -aG docker "$docker_user"
+            print_message info 'Docker group membership updated for %s. Log out and back in to use it in your shell.\n' "$docker_user"
+        fi
+    fi
+
     if [[ "$engine_state" == installed ]]; then
         print_message info 'Docker service settings preserved.\n'
         return
@@ -85,18 +97,10 @@ EOF
         read_docker_proxy
         configure_docker_proxy "$work" "$docker_proxy"
     fi
-    if ((EUID != 0)) && ! id -nG | tr ' ' '\n' | grep -qx docker; then
-        as_root usermod -aG docker "$(id -un)"
-        membership_changed=true
-    fi
-
     as_root systemctl daemon-reload
     as_root systemctl enable docker
     as_root systemctl restart docker
     print_message success 'Docker service enabled and restarted.\n'
-    if [[ "$membership_changed" == true ]]; then
-        print_message info 'Docker group membership updated. Log out and back in to use it in your shell.\n'
-    fi
 }
 
 upgrade_docker() {
