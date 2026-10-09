@@ -5,5 +5,6 @@ Container engine	apt	containerd.io	containerd.io
 Container engine	apt	docker-buildx-plugin	docker-buildx-plugin
 Container engine	apt	docker-compose-plugin	docker-compose-plugin
 GPU support	apt-nvidia	nvidia-container-toolkit	NVIDIA Container Toolkit
-Service	config	docker	Docker service and user membership
+User access	config	docker-group	Docker group membership
+Service	config	docker	Docker service
 Service	config	proxy	Optional local HTTP proxy
