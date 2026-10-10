@@ -10,7 +10,7 @@ help: ## Show development commands
 
 setup: ## Install development tools and Git hooks
 	sudo apt update && sudo apt install shfmt shellcheck zsh
-	uv tool install --upgrade 'pre-commit>=4.6.2'
+	uv tool install --upgrade pre-commit
 	"$$(uv tool dir --bin)/pre-commit" install
 
 format: ## Format Bash scripts
