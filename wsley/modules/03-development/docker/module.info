@@ -16,7 +16,7 @@ Requirements:
 
 Configuration:
   Proxy file: /etc/systemd/system/docker.service.d/wsley-proxy.conf; optional HTTP proxy at 127.0.0.1, configured during a new engine installation.
-  Existing Wsley proxy files are retained. Leave the port empty to skip; --yes does not answer this prompt.
+  Existing Wsley proxy files are retained. Leave the port empty to use 7897, enter 0 to skip, or enter a port between 1 and 65535; --yes does not answer this prompt.
   NO_PROXY defaults include localhost, Docker host, and private networks.
   Runtime configuration: /etc/docker/daemon.json; existing files are retained. Missing files are created when NVIDIA container support is newly installed.
   Apply new GPU runtime settings by restarting Docker when the engine was already installed.

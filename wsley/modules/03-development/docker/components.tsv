@@ -7,4 +7,4 @@ Container engine	apt	docker-compose-plugin	docker-compose-plugin
 GPU support	apt-nvidia	nvidia-container-toolkit	NVIDIA Container Toolkit
 User access	config	docker-group	Docker group membership
 Service	config	docker	Docker service
-Service	config	proxy	Optional local HTTP proxy
+Service	config	proxy	Optional local HTTP proxy (default port 7897; 0 to skip)

@@ -6,14 +6,15 @@ read_docker_proxy() {
 
     print_message info 'Optional Docker service proxy at 127.0.0.1.\n'
     while true; do
-        print_message warning 'Proxy port (leave empty to keep proxy configuration unchanged): ' >&2
-        read -r port || port=''
-        [[ -n "$port" ]] || return 0
+        print_message warning 'Proxy port (default: 7897; enter 0 to skip): ' >&2
+        read -r port || return 1
+        port="${port:-7897}"
+        [[ "$port" != 0 ]] || return 0
 
         if [[ "$port" =~ ^[0-9]{1,5}$ ]] && ((10#$port >= 1 && 10#$port <= 65535)); then
             break
         fi
-        print_message warning 'Enter a port between 1 and 65535, or leave empty to skip.\n' >&2
+        print_message warning 'Enter a port between 1 and 65535, 0 to skip, or leave empty for 7897.\n' >&2
     done
 
     docker_proxy_url="http://127.0.0.1:$((10#$port))"
