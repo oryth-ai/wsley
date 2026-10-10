@@ -11,7 +11,7 @@ function process_uri(line) {
     if (line ~ official) {
         found = 1
         if (mode == "replace") {
-            gsub(host, "https://mirrors.aliyun.com/", line)
+            gsub(host, "https://mirrors.tuna.tsinghua.edu.cn/", line)
         }
     }
     return line

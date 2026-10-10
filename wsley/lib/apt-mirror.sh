@@ -21,7 +21,7 @@ configure_apt_mirror() {
 
     if ((${#source_files[@]})); then
         print_message info 'Ubuntu official sources are configured.\n'
-        print_message warning 'Replace them with the Aliyun mirror? [Y/n] ' >&2
+        print_message warning 'Replace them with the Tsinghua (TUNA) mirror? [Y/n] ' >&2
         read -r answer || return 1
         if [[ -z "$answer" || "$answer" == y || "$answer" == Y ]]; then
             replace_apt_sources "${source_files[@]}"
