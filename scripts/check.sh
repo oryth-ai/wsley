@@ -11,7 +11,7 @@ case "$*" in
     '') ;;
     --all) all=true ;;
     *)
-        printf 'Usage: bash wsley/check.sh [--all]\n' >&2
+        printf 'Usage: bash scripts/check.sh [--all]\n' >&2
         exit 2
         ;;
 esac
@@ -19,11 +19,11 @@ esac
 changes="$(mktemp)"
 trap 'rm -f -- "$changes"' EXIT
 if [[ "$all" == true ]]; then
-    git ls-files -z --cached --others --exclude-standard -- wsley > "$changes"
+    git ls-files -z --cached --others --exclude-standard -- wsley scripts > "$changes"
 else
-    git diff --name-only --no-renames --diff-filter=ACMR -z -- wsley > "$changes"
-    git diff --cached --name-only --no-renames --diff-filter=ACMR -z -- wsley >> "$changes"
-    git ls-files -z --others --exclude-standard -- wsley >> "$changes"
+    git diff --name-only --no-renames --diff-filter=ACMR -z -- wsley scripts > "$changes"
+    git diff --cached --name-only --no-renames --diff-filter=ACMR -z -- wsley scripts >> "$changes"
+    git ls-files -z --others --exclude-standard -- wsley scripts >> "$changes"
 fi
 
 sort -zu -o "$changes" "$changes"
@@ -38,7 +38,7 @@ while IFS= read -r -d '' file; do
     [[ -f "$file" ]] || continue
     [[ "$file" != wsley/cli.sh ]] || check_cli=true
     case "$file" in
-        wsley/*.sh)
+        wsley/*.sh | scripts/*.sh)
             bash -n "$file"
             bash_files+=("$file")
             continue

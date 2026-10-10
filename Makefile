@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-SHELL_FILES := $(shell find wsley -type f -name '*.sh' | sort)
+SHELL_FILES := $(shell find wsley scripts -type f -name '*.sh' | sort)
 SHFMT_FLAGS := -i 4 -ci -sr
 
 .DEFAULT_GOAL := help
@@ -17,7 +17,7 @@ format: ## Format Bash scripts
 	@shfmt -w $(SHFMT_FLAGS) $(SHELL_FILES)
 
 check: ## Check files changed in Git's index and worktree, including untracked files
-	@bash wsley/check.sh
+	@bash scripts/check.sh
 
 check-all: ## Check all project sources and validate the module list
-	@bash wsley/check.sh --all
+	@bash scripts/check.sh --all
