@@ -23,7 +23,7 @@ wsley install node          # 安装第一个模块
 wsley status node           # 确认本地状态
 ```
 
-默认仓库位置为 `~/.local/share/wsley`（遵循 `XDG_DATA_HOME`），命令入口为 `~/.local/bin/wsley`。
+默认仓库位置为 `~/.local/share/wsley`，命令入口为 `~/.local/bin/wsley`。
 
 ## 模块概览
 
