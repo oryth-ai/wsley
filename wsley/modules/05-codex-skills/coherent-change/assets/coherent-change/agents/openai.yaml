@@ -1,4 +1,4 @@
 interface:
   display_name: "Coherent Change"
-  short_description: "Align structure, behavior, and consumers in each change"
-  default_prompt: "Use $coherent-change to implement this change as a coherent final design, update affected consumers, and verify the complete result."
+  short_description: "Align design, consumers, validation, and delivery"
+  default_prompt: "Use $coherent-change to implement the complete target design, migrate affected consumers and authorized documentation, and validate and deliver the result within scope."
