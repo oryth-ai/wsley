@@ -3,21 +3,34 @@ Docker Engine and container tools
 Install:
   Install missing Docker packages and NVIDIA container support when an NVIDIA GPU is present.
   On each installation, add the invoking non-root user to the Docker group; sudo uses the original user, and direct root installations skip user access.
+  Configure an optional local HTTP proxy for the Docker daemon, including when Docker is already installed.
+  Explain when a container proxy relay is needed and ask before installing a new relay; default to skipping it without detecting proxy listeners.
+  Enable and start a newly installed relay socket; retain existing relay activity and startup settings.
   On a new engine installation, enable and restart Docker.
 
 Upgrade:
-  Update installed Docker and NVIDIA container packages, retaining service and proxy settings.
+  Update installed Docker and NVIDIA container packages and refresh an installed container relay.
+  Retain Docker service and daemon proxy settings; retain relay activity and startup settings.
 
 Status:
-  Report installed package versions, service activity and startup state, and presence of the Wsley proxy file.
+  Report installed package versions, Docker and container relay activity and startup state, and presence of the Wsley proxy file.
 
 Requirements:
   Ubuntu, APT and a running systemd instance; root or sudo.
 
 Configuration:
-  Proxy file: /etc/systemd/system/docker.service.d/wsley-proxy.conf; optional HTTP proxy at 127.0.0.1, configured during a new engine installation.
-  Existing Wsley proxy files are retained. Leave the port empty to use 7897, enter 0 to skip, or enter a port between 1 and 65535; --yes does not answer this prompt.
+  Daemon proxy: /etc/systemd/system/docker.service.d/wsley-proxy.conf; optional HTTP proxy at 127.0.0.1.
+  Existing Wsley proxy files are retained. Leave the port empty to use 7897, enter 0 to skip both daemon proxy configuration and relay installation, or enter a port between 1 and 65535.
+  Docker daemon proxy settings apply to image pulls; proxy settings inside containers are configured separately.
   NO_PROXY defaults include localhost, Docker host, and private networks.
+  Container relay: /etc/systemd/system/wsley-docker-proxy.socket and wsley-docker-proxy.service; module-managed units forward 172.17.0.1:7897 to the local port in the daemon proxy file.
+  Before a new relay installation, review the explanation and answer y to install it; n or Enter skips the relay while retaining the Docker daemon proxy configuration. Existing relay installations are refreshed without prompting. --yes does not answer either proxy prompt.
+  Set both HTTP_PROXY and HTTPS_PROXY to http://host.docker.internal:7897 in containers, with host.docker.internal:host-gateway in Docker extra_hosts or --add-host.
+  A host proxy listening on the Docker bridge address or 0.0.0.0:7897 can serve containers directly; keep the relay socket disabled in that setup to avoid a listener conflict. A proxy listening only on 127.0.0.1 requires the relay.
+  The listener supports the default Docker bridge. For a custom host-gateway address or relay port, use a socket drop-in that clears ListenStream= before setting the replacement.
+  Systemd starts the enabled relay socket at boot, including WSL distribution startup; the upstream proxy application must run separately. WSL mirrored networking provides access to a Windows proxy at 127.0.0.1.
+  Existing unit files are refreshed during install and upgrade; administrator overrides belong in systemd drop-ins.
+  Existing Docker installations require a manual Docker restart when a daemon proxy file is created; container relay installation does not restart Docker.
   Runtime configuration: /etc/docker/daemon.json; existing files are retained. Missing files are created when NVIDIA container support is newly installed.
   Apply new GPU runtime settings by restarting Docker when the engine was already installed.
   Docker group membership grants root-equivalent access. Log out and back in after membership changes.

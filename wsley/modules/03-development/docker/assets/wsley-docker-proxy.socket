@@ -1,0 +1,9 @@
+[Unit]
+Description=Wsley Docker container proxy socket
+
+[Socket]
+ListenStream=172.17.0.1:7897
+FreeBind=yes
+
+[Install]
+WantedBy=sockets.target

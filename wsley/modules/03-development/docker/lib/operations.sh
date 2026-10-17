@@ -11,11 +11,10 @@ docker_source=/etc/apt/sources.list.d/docker.sources
 docker_key=/etc/apt/keyrings/docker.asc
 nvidia_source=/etc/apt/sources.list.d/nvidia-container-toolkit.list
 nvidia_key=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
-docker_proxy=/etc/systemd/system/docker.service.d/wsley-proxy.conf
 
 install_docker() {
     local engine_state package state docker_user user_groups
-    local missing_engine_package=false gpu_state=missing
+    local missing_engine_package=false gpu_state=missing proxy_installed=false
     local -a gpu_packages=()
 
     require_ubuntu
@@ -89,13 +88,17 @@ EOF
         fi
     fi
 
-    if [[ "$engine_state" == installed ]]; then
-        print_message info 'Docker service settings preserved.\n'
-        return
+    if [[ -e "$docker_proxy" || -L "$docker_proxy" ]]; then
+        proxy_installed=true
     fi
-    if [[ ! -e "$docker_proxy" && ! -L "$docker_proxy" ]]; then
-        read_docker_proxy
-        configure_docker_proxy "$work" "$docker_proxy"
+    install_docker_proxy "$module_directory"
+    if [[ "$engine_state" == installed ]]; then
+        if [[ "$proxy_installed" == false && -f "$docker_proxy" ]]; then
+            as_root systemctl daemon-reload
+            print_message info 'Restart Docker to apply its proxy configuration.\n'
+        fi
+        print_message info 'Docker activity and startup settings preserved.\n'
+        return
     fi
     as_root systemctl daemon-reload
     as_root systemctl enable docker
@@ -108,6 +111,10 @@ upgrade_docker() {
 
     mapfile -t gpu_packages < <(component_ids "$module_components" apt-nvidia)
     apt_upgrade "${docker_packages[@]}" "${gpu_packages[@]}"
+
+    if [[ -e "$docker_proxy_socket" || -L "$docker_proxy_socket" || -e "$docker_proxy_service" || -L "$docker_proxy_service" ]]; then
+        refresh_docker_proxy_relay "$module_directory"
+    fi
 }
 
 preflight_module() {
@@ -132,4 +139,7 @@ show_docker_status() {
     else
         print_message info '%-28s not-configured (optional)\n' 'Wsley Docker proxy'
     fi
+
+    service_status wsley-docker-proxy.socket 'Container proxy socket'
+    service_status wsley-docker-proxy.service 'Container proxy relay'
 }
