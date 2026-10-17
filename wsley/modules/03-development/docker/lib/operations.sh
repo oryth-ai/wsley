@@ -91,7 +91,7 @@ EOF
     if [[ -e "$docker_proxy" || -L "$docker_proxy" ]]; then
         proxy_installed=true
     fi
-    install_docker_proxy "$module_directory"
+    install_docker_proxy
     if [[ "$engine_state" == installed ]]; then
         if [[ "$proxy_installed" == false && -f "$docker_proxy" ]]; then
             as_root systemctl daemon-reload
@@ -111,10 +111,6 @@ upgrade_docker() {
 
     mapfile -t gpu_packages < <(component_ids "$module_components" apt-nvidia)
     apt_upgrade "${docker_packages[@]}" "${gpu_packages[@]}"
-
-    if [[ -e "$docker_proxy_socket" || -L "$docker_proxy_socket" || -e "$docker_proxy_service" || -L "$docker_proxy_service" ]]; then
-        refresh_docker_proxy_relay "$module_directory"
-    fi
 }
 
 preflight_module() {
@@ -139,7 +135,4 @@ show_docker_status() {
     else
         print_message info '%-28s not-configured (optional)\n' 'Wsley Docker proxy'
     fi
-
-    service_status wsley-docker-proxy.socket 'Container proxy socket'
-    service_status wsley-docker-proxy.service 'Container proxy relay'
 }
