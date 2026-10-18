@@ -30,6 +30,8 @@ configure_skill_runtime() (
         { printf "%s%s\n", blanks, $0; blanks = "" }
     ' "$directory/SKILL.md" > "$temporary"
     cat "$module_directory/assets/runtime.md" >> "$temporary"
+    cmp -s -- "$temporary" "$directory/SKILL.md" && return 0
+    backup_file "$directory/SKILL.md" || return
     cat "$temporary" > "$directory/SKILL.md"
 )
 

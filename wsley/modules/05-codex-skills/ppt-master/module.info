@@ -18,5 +18,6 @@ Configuration:
   Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/ppt-master are consolidated into links to the destination when skill files are replaced.
   Python 3.12 environment: .venv inside the installed skill directory.
   The installed SKILL.md documents the configured Python environment and runtime usage.
+  Refreshing runtime instructions backs up SKILL.md before changes; unchanged content is preserved.
   LibreOffice uses the same APT package as the libreoffice application module.
   External image-generation services require user-provided credentials.
