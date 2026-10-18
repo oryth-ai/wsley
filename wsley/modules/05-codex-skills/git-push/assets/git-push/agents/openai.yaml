@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Push"
+  short_description: "Review and commit pending changes, then push"
+  default_prompt: "Use $git-push to review and commit pending changes when needed, then push the current branch to its remote."
