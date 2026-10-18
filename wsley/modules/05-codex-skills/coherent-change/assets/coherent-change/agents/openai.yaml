@@ -1,4 +1,7 @@
 interface:
   display_name: "Coherent Change"
-  short_description: "Align design, consumers, validation, and delivery"
-  default_prompt: "Use $coherent-change to implement the complete target design, migrate affected consumers and authorized documentation, and validate and deliver the result within scope."
+  short_description: "Implement features, fixes, and refactors coherently"
+  default_prompt: "Use $coherent-change to implement the requested change, synchronize affected callers, resources, and authorized documentation, remove superseded paths, and validate the result within scope."
+
+policy:
+  allow_implicit_invocation: true
