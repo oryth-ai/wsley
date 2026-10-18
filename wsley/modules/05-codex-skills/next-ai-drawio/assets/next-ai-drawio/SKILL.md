@@ -9,7 +9,7 @@ description: Create, edit, and export editable draw.io diagrams with a live brow
 
 ## 会话与输入
 
-- 确认 `drawio` MCP 工具可用。缺失时说明需要安装模块并重启 Codex；不要自行改写用户的 MCP 配置或启动完整 Web 应用代替。
+- 确认 `drawio` MCP 工具可用。缺失时说明所需的安装与配置；当前请求包含环境配置时按该范围处理，仅绘图的请求不扩展为改写全局 MCP 配置或启动完整 Web 应用。
 - 调用 `start_session`，读取返回的绘图指南并按其布局、连线和样式约束绘制。指南不在上下文时调用 `get_drawing_guide`；使用云服务等图标前通过 `get_shape_library` 获取真实形状标识。
 - 将返回的预览 URL 提供给用户。浏览器与服务位于不同机器时，按实际端口说明转发方式，保留 URL 中连接会话所需的参数。
 - 依据用户需求或实际读取的代码、文档确定节点、关系与边界。用户指定 draw.io 时保留该交付格式；只有关键内容无法确定时才澄清。
@@ -28,4 +28,4 @@ description: Create, edit, and export editable draw.io diagrams with a live brow
 
 交付时给出文件位置和预览 URL。截图或图片导出受环境限制时，说明实际已保存的文件和未完成部分，不将 XML 创建成功表述为已完成视觉检查。
 
-会话默认自动保存到 `~/.next-ai-drawio/`，但只保留最近的有限数量，不能代替正式交付。用户需要长期绘图偏好时，可使用该目录的 `instructions.md`；不要把单次任务要求写入全局偏好。
+会话默认自动保存到 `~/.next-ai-drawio/`，但只保留最近的有限数量，不能代替正式交付。用户明确要求保存长期绘图偏好时，才更新该目录的 `instructions.md`；单次绘图要求只用于当前图表。
