@@ -1,0 +1,3 @@
+group	manager	id	description
+Skill	bundled	git-review	Pre-commit auditing and fixes
+Version control	apt-missing	git	Git
