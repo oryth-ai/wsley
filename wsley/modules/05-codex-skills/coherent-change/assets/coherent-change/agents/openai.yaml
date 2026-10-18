@@ -1,7 +1,7 @@
 interface:
   display_name: "Coherent Change"
   short_description: "Implement, validate, and deliver coherent changes"
-  default_prompt: "Use $coherent-change to implement, validate, and deliver this change while preserving task requirements and project rules, updating affected callers and resources, and resuming unfinished work after interruptions."
+  default_prompt: "Use $coherent-change to implement, validate, and deliver this change while preserving task requirements and project rules, updating affected callers and resources, and restoring applicable skills when resuming unfinished work after interruptions."
 
 policy:
   allow_implicit_invocation: true

@@ -1,6 +1,6 @@
 ---
 name: coherent-change
-description: Use when implementing features, fixing bugs, refactoring, or changing repository code, configuration, or scripts, including small edits. Preserve task requirements and project rules, keep affected callers and resources consistent, and validate the complete result. Applies throughout the task, including when incorporating user feedback or resuming unfinished work after context compaction or a handoff. Not for read-only explanations, research-only requests, or Git-only operations.
+description: Use when implementing features, fixing bugs, refactoring, or changing repository code, configuration, or scripts, including small edits. Preserve task requirements and project rules, keep affected callers and resources consistent, and validate the complete result. Applies when incorporating user feedback or resuming unfinished work after context compaction or a handoff, including restoring applicable skills. Not for read-only explanations, research-only requests, or Git-only operations.
 ---
 
 # Coherent Change
@@ -31,9 +31,13 @@ description: Use when implementing features, fixing bugs, refactoring, or changi
 
 ### 上下文恢复
 
-上下文压缩后、接手交接摘要时，或发现关键任务依据缺失时，在继续修改或执行有副作用的操作前，完整重读本技能和适用的 `AGENTS.md`，按下一步需要重读相关项目规范与接口契约。不能用此前读过或摘要中的摘录代替本次恢复；恢复完成后，在同一上下文内复用未变化的内容。
+上下文压缩后、接手交接摘要时，或发现关键任务依据缺失时，在继续未完成工作前，完整重读本技能和适用的 `AGENTS.md`。不能用此前读过或摘要中的摘录代替本次恢复；恢复完成后，在同一上下文内复用未变化的内容。
 
 依据可见的用户原始要求、后续明确修正及已有任务状态，恢复目标、交付物、范围、已确认决定、有效授权和完成条件。区分未完成事项、已完成事项和持续约束，按未完成事项确定下一步，不将最近一条已完成的请求重新当作当前任务。压缩不重启任务，也不新增或撤销已有决定与授权。
+
+根据恢复后的未完成目标和下一步，重新识别仍适用的专项技能，依据当前可用技能信息定位并完整重读其 `SKILL.md`，再继续对应工作。按当前步骤需要读取技能引用的资料、项目规范与接口契约；技能名称、描述、历史读取记录或摘要中的摘录不能替代完整指令。
+
+专项技能按下一步的实际需要恢复，不照搬历史使用列表，不加载只服务于无关任务或已完成插入事项的技能，也不因此重新检查或汇报已完成事项。恢复技能只用于继续当前授权范围内的工作，不重新启动其曾经处理的任务。
 
 摘要用于定位已有工作和待办，可以承接任务状态及已有验证结论，但不构成新的用户指令或授权，也不能将推测、候选方案或未决事项当作已确认事实。不因原始执行记录已被压缩就要求重新证明所有完成项；与直接用户要求、项目规范或实际状态存在具体冲突，或有证据失效迹象时，才核对对应来源，不按摘要覆盖原要求。原始对话不可见时，可依据摘要继续，只澄清真正影响下一步正确性、范围或授权的关键缺口，其余工作继续推进。
 
@@ -155,4 +159,4 @@ description: Use when implementing features, fixing bugs, refactoring, or changi
 
 文件修改的授权不自动包含 Git 提交、推送、发布或外部系统变更；这些操作须获得用户明确授权。
 
-需要交接时，优先写清当前未完成目标与下一步，保留任务要求、持续约束、适用规范与技能位置、已确认决定、实际改动、有效验证和仍在运行的工作。已完成事项保留结果、必要验证依据及是否已汇报，不列回待办；事实、假设和未确认事项分别说明。
+需要交接时，优先写清当前未完成目标与下一步，保留任务要求、持续约束、适用规范、下一步仍需技能的名称、位置与用途、已确认决定、实际改动、有效验证和仍在运行的工作。已完成事项保留结果、必要验证依据及是否已汇报，不列回待办；事实、假设和未确认事项分别说明。
