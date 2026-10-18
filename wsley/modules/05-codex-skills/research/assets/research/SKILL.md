@@ -1,23 +1,23 @@
 ---
 name: research
-description: Use when investigating a technical question, gathering documentation or API facts, or delegating source reading and recording evidence-backed findings in a repository Markdown report. Not for implementing changes or answering a simple factual question that does not need a research artifact.
+description: Investigate technical questions using primary sources and produce an evidence-backed Markdown research report. Use for documentation, API, or implementation research that calls for a saved report. Not for implementing changes or answering simple factual questions.
 ---
 
 # Research
 
-围绕明确问题查阅一手资料，将结论、依据和未解决的问题写入项目中的一个 Markdown 文件，让后续决策能追溯到原始证据。
+围绕明确问题查阅一手资料，将结论、依据和未解决的问题整理为一个 Markdown 报告，让后续决策能追溯到原始证据。报告按当前请求和项目约定交付；用户要求仅在对话中回答时，不因技能匹配自行新增文件。
 
 ## Workflow
 
 1. **界定问题**：读取适用的 `AGENTS.md`、项目文档和已有研究，确认研究问题、相关版本、约束及完成条件。能从上下文确定的内容直接采用；缺少会改变研究方向的关键条件时再询问。
-2. **确定产物位置**：按照下文规则选择目录与文件名，检查已有同主题报告。研究开始时说明范围和预期路径，不为选用默认路径额外请求确认。
+2. **确定产物位置**：当前任务需要文件报告时，按照下文规则选择目录与文件名，检查已有同主题报告。研究开始时说明范围和预期路径，不为选用默认路径额外请求确认。
 3. **查阅一手资料**：优先使用官方文档、规范、维护者源码、原始论文或服务提供方 API。搜索摘要和二手文章只能提供线索，关键结论必须回到拥有该事实的原始来源。涉及当前版本、兼容性或易变化的信息时核对最新资料，并区分项目实际使用版本与上游最新版本。
 4. **整理证据**：把事实、推断和建议分开，记录来源、适用版本及限制。来源冲突时检查时间、版本和适用条件；无法消除的冲突如实保留。资料不可访问或证据不足时明确缺口，不编造链接、引用或验证结果。
-5. **写入并核对报告**：按下文结构生成单个 Markdown 文件，检查关键事实是否有直接支持它的引用、问题是否已回答、结论是否超出证据范围。完成后返回报告链接、主要结论与仍影响决策的缺口。
+5. **核对并交付结论**：检查关键事实是否有直接支持它的引用、问题是否已回答、结论是否超出证据范围。需要文件报告时按下文结构写入单个 Markdown 文件，并返回报告链接；交付主要结论与仍影响决策的缺口。
 
 ## Delegation
 
-有可独立执行的资料阅读任务、主代理同时有其他有用工作且当前环境允许时，优先交给后台子代理。提供研究问题、版本与范围、来源标准、输出路径和完成条件；由一个写入者负责最终报告，避免并发覆盖。
+委派是资料阅读的可选方式。当前任务允许使用子代理，且存在独立阅读任务和明确的并行收益时，才采用委派。提供研究问题、版本与范围、来源标准、输出路径和完成条件；由一个写入者负责最终报告，避免并发覆盖。
 
 主代理收到结果后核对关键来源与产物，再报告完成。没有子代理工具、没有独立任务或没有其他并行工作时直接完成研究；不因缺少委派能力中止，也不把启动后台任务当作研究已完成。
 
@@ -50,4 +50,4 @@ description: Use when investigating a technical question, gathering documentatio
 
 ## Boundaries
 
-研究请求授权收集资料和写入研究产物，不自动授权实现方案、修改业务代码、提交、推送、发布或发送消息。需要探针时优先使用只读检查或隔离的临时环境；外部副作用遵守当前任务授权。目录与命名规则只约束研究产物，不要求修改项目的 `.gitignore` 或其他配置。
+按当前请求收集资料和交付研究产物，不从技能本身推导实现方案、修改业务代码、提交、推送、发布或发送消息的授权。需要探针时优先使用只读检查或隔离的临时环境；外部副作用遵守当前任务授权。目录与命名规则只约束需要保存的研究产物，不要求修改项目的 `.gitignore` 或其他配置。
