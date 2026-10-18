@@ -188,7 +188,7 @@ make_workdir() {
 }
 
 backup_file() (
-    local target="$1" state="${XDG_STATE_HOME:-$HOME/.local/state}/wsley" key directory stage
+    local target="$1" state="${XDG_STATE_HOME:-$HOME/.local/state}/wsley" key label directory stage created_at
 
     if ((EUID == 0)); then
         state=/var/lib/wsley
@@ -200,15 +200,31 @@ backup_file() (
 
     target="$(realpath -ms -- "$target")"
     key="$(printf '%s' "$target" | sha256sum)"
-    directory="$state/backups/${key%% *}"
-    [[ ! -d "$directory" ]] || return 0
+    key="${key%% *}"
+    label="${target#/}"
+    label="${label//\//__}"
+    label="${label//[^a-zA-Z0-9._-]/_}"
+    if ((${#label} > 96)); then
+        label="${label: -96}"
+    fi
+    directory="$state/backups/$label--${key:0:16}"
+
+    if [[ -d "$directory" ]]; then
+        if [[ ! -f "$directory/path" || "$(< "$directory/path")" != "$target" ]]; then
+            printf 'Backup path does not match its metadata: %s\n' "$directory" >&2
+            exit 1
+        fi
+        return 0
+    fi
 
     mkdir -p -- "$(dirname -- "$target")"
     umask 077
     mkdir -p -- "$state/backups"
     stage="$(mktemp -d "$state/backups/.stage.XXXXXX")"
     trap 'rm -rf -- "$stage"' EXIT
+    created_at="$(date --iso-8601=seconds)"
     printf '%s\n' "$target" > "$stage/path"
+    printf '%s\n' "$created_at" > "$stage/created_at"
 
     if [[ -L "$target" ]]; then
         readlink -- "$target" > "$stage/link"
@@ -221,6 +237,7 @@ backup_file() (
         touch "$stage/created"
     fi
     mv -T -- "$stage" "$directory"
+    printf 'Backup saved at %s: %s -> %s\n' "$created_at" "$target" "$directory"
 )
 
 system_backup() {
