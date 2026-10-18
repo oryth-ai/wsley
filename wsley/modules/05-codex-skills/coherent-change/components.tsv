@@ -1,2 +1,3 @@
 group	manager	id	description
-Skill	bundled	coherent-change	Bundled skill for coherent implementation, validation, and delivery
+Skill	bundled	coherent-change	Bundled skill for coherent implementation, engineering conventions, validation, delivery and task recovery
+Configuration	config	config.toml:developer_instructions	Codex instruction to follow coherent-change for changes and reread it before resuming unfinished work
