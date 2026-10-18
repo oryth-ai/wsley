@@ -1,4 +1,4 @@
 interface:
   display_name: "Git Review"
-  short_description: "Audit and fix pending changes before committing"
-  default_prompt: "Use $git-review to audit pending changes against task requirements and repository rules, fix in-scope issues, and validate the result."
+  short_description: "Audit project conventions and structure before commits"
+  default_prompt: "Use $git-review to audit project conventions and the complete affected directory structure, fix authorized issues, and use targeted checks to verify the fixes."
