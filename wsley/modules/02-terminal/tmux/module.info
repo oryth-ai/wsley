@@ -1,4 +1,4 @@
-tmux and configuration
+tmux terminal multiplexer
 
 Install:
   Install missing tmux and create ~/.tmux.conf with mouse support if absent; preserve existing configuration.
@@ -13,5 +13,5 @@ Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
-  Configuration: ~/.tmux.conf
+  Configuration file: ~/.tmux.conf
   Upgrade preserves existing lines and does not create an absent configuration file.

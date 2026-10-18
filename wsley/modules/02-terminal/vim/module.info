@@ -1,4 +1,4 @@
-Vim and configuration
+Vim text editor
 
 Install:
   Install missing Vim and create ~/.vimrc with line numbers if absent; preserve existing configuration.
@@ -13,5 +13,5 @@ Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
-  Configuration: ~/.vimrc
+  Configuration file: ~/.vimrc
   Upgrade preserves existing lines and does not create an absent configuration file.

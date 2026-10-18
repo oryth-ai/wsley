@@ -1,10 +1,10 @@
 Evidence-based technical research
 
 Install:
-  Install the missing bundled skill; preserve detected installed copies.
+  Install the missing bundled skill; preserve installed skill files.
 
 Upgrade:
-  Back up and replace the installed skill with Wsley's bundled files; restore previous copies if replacement fails.
+  Back up and replace the installed skill with bundled files; restore previous skill files if replacement fails.
 
 Status:
   Report skill locations based on SKILL.md presence.

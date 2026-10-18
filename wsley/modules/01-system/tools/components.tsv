@@ -20,6 +20,6 @@ File management	apt	zip	zip
 Data processing	apt	jq	jq
 Data processing	apt	libxml2-utils	libxml2-utils
 Data processing	apt	sqlite3	sqlite3
-Version control	apt	git	git
+Version control	apt	git	Git
 Version control	apt	git-lfs	git-lfs
 Version control	apt	gh	gh

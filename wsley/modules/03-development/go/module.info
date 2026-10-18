@@ -7,13 +7,14 @@ Upgrade:
   Update the installed managed toolchain to the latest stable release; verify downloaded archives and repair missing command links and GOBIN configuration.
 
 Status:
-  Report the managed Go command location and version, falling back to Go on PATH when the managed command is unavailable.
+  Report the managed Go command location and version, or the Go command on PATH when the managed command is unavailable.
 
 Requirements:
-  Ubuntu, APT and a regular user with sudo access. Supported architectures: amd64 and arm64.
+  Ubuntu, APT and a regular user with sudo access.
+  Supported architectures: amd64 and arm64.
 
 Configuration:
-  Installation directory: ~/.local/share/go
+  Destination: ~/.local/share/go
   The current symlink selects the managed release; previous release directories are retained.
   Missing command links are created in ~/.local/bin; existing user entry points are preserved.
   GOBIN defaults to ~/.local/bin only when unset; existing values are preserved.

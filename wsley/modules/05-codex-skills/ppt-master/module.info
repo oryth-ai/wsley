@@ -1,13 +1,13 @@
-PPT Master skill
+Editable presentations
 
 Install:
-  Install the missing PPT Master skill, system tools and Python environment; prepare installer dependencies and repair incomplete Python dependencies.
+  Install the missing skill, system tools and Python environment; prepare installer dependencies and repair incomplete Python dependencies.
 
 Upgrade:
-  Back up and replace the installed PPT Master skill; update installed system tools and rebuild its Python environment, restoring previous skill files and environment if setup fails.
+  Back up and replace the installed skill; update installed system tools and rebuild its Python environment, restoring previous skill files and environment if setup fails.
 
 Status:
-  Report skill locations based on SKILL.md presence, system package versions, and core Python import availability.
+  Report skill locations based on SKILL.md presence, system package versions and core Python import availability.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.

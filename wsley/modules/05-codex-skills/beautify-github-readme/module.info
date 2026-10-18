@@ -1,10 +1,10 @@
-GitHub README design skill
+GitHub README design
 
 Install:
-  Install the missing Beautify GitHub README skill; prepare Node.js/pnpm and Git as needed.
+  Install the missing skill; prepare Node.js, pnpm and Git as needed.
 
 Upgrade:
-  Back up and replace the installed Beautify GitHub README skill; restore previous copies if replacement fails.
+  Back up and replace the installed skill; restore previous skill files if replacement fails.
 
 Status:
   Report skill locations based on SKILL.md presence.

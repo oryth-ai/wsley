@@ -7,14 +7,16 @@ Upgrade:
   Update pnpm and Node.js LTS installed under PNPM_HOME; repair pnpx and command links.
 
 Status:
-  Report command locations and local Node.js/pnpm versions.
+  Report Node.js and pnpm command locations and versions.
+  Report pnpx, npm and npx command locations.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
-  PNPM_HOME: ~/.local/share/pnpm by default; a custom absolute path is persisted.
+  PNPM_HOME: ~/.local/share/pnpm by default
+  A custom absolute PNPM_HOME is persisted.
   Existing Node.js and pnpm commands can satisfy installation; upgrade only updates versions managed under PNPM_HOME.
-  Shell configuration adds PNPM_HOME/bin, PNPM_HOME, and ~/.local/bin to PATH.
+  Shell configuration adds PNPM_HOME/bin, PNPM_HOME and ~/.local/bin to PATH.
   Existing npm/npx commands are preserved; Wsley compatibility links yield to commands available elsewhere on PATH.
   Open a new terminal after installation to load the environment.

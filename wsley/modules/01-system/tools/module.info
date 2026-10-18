@@ -14,6 +14,6 @@ Requirements:
 
 Configuration:
   GitHub CLI uses the official APT repository; existing repository and key files are retained.
-  uv is installed in ~/.local/bin when missing; Shell environment integration adds user commands to PATH.
+  uv is installed in ~/.local/bin when missing; shell environment integration adds user commands to PATH.
   uv selects or downloads Python for each tool.
   The Python module is not required; open a new terminal after installation to load environment changes.

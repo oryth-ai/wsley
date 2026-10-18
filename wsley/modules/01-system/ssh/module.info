@@ -7,10 +7,11 @@ Upgrade:
   Update the installed OpenSSH server, preserving its startup settings.
 
 Status:
-  Report the installed package version, service activity, and startup state.
+  Report the installed package version, service activity and startup state.
 
 Requirements:
-  Ubuntu, APT and a running systemd instance; root or sudo.
+  Ubuntu, APT, a running systemd instance and root or sudo access.
 
 Configuration:
-  Server configuration: /etc/ssh/sshd_config and its included files; authentication and server settings remain administrator-managed.
+  Server configuration: /etc/ssh/sshd_config and its included files
+  Authentication and server settings remain administrator-managed.

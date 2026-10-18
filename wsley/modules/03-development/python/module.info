@@ -7,7 +7,7 @@ Upgrade:
   Update installed uv and uv-managed Python versions.
 
 Status:
-  Report uv and Python command locations and versions, and locally detected Python installations.
+  Report uv and Python command locations and versions; list locally detected Python installations.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.

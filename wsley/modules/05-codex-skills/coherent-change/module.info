@@ -1,11 +1,11 @@
-Coherent implementation, validation, delivery, and task recovery
+Coherent changes and task recovery
 
 Install:
-  Install the missing bundled skill; preserve detected installed copies.
-  Add or replace Codex developer_instructions to read and follow coherent-change for changes and reread it after context compaction or a handoff, including when the skill is already installed.
+  Install the missing bundled skill; preserve installed skill files.
+  Add or replace Codex developer_instructions, including when the skill is already installed.
 
 Upgrade:
-  Back up and replace the installed skill with Wsley's bundled files; restore previous copies if replacement fails.
+  Back up and replace the installed skill with bundled files; restore previous skill files if replacement fails.
   Update Codex developer_instructions when the skill is installed; skip both operations when it is missing.
 
 Status:
@@ -17,10 +17,6 @@ Requirements:
 
 Configuration:
   Destination: ~/.agents/skills/coherent-change
-  The bundled skill guides ordinary development, fixes, refactoring and configuration changes, keeping task requirements, project rules, callers, resources and verification aligned.
-  Default rules cover responsibility boundaries, complete migrations, comments and output languages, verification costs, artifact directories and documentation authorization; explicit user requirements and project rules take precedence.
-  In-flight guidance updates task requirements or adds work to finish before resuming the original task; completed items retain their results, validation evidence and reporting status.
-  Context compaction and handoffs restore unfinished work, continuing constraints and working state; unaffected completed items are not reopened or reported again on each recovery.
   Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/coherent-change are consolidated into links to the destination when skill files are replaced.
   Codex configuration: ${CODEX_HOME:-$HOME/.codex}/config.toml
   developer_instructions = "Read and follow the coherent-change skill before changing code, configuration, or scripts. After context compaction or a handoff, reread it and resume unfinished work."

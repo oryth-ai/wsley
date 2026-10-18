@@ -1,4 +1,4 @@
-Google Chrome
+Google Chrome browser
 
 Install:
   Install Chrome from the official stable amd64 DEB if needed.
@@ -10,7 +10,8 @@ Status:
   Report the installed package version.
 
 Requirements:
-  Ubuntu amd64 and APT; root or sudo.
+  Ubuntu, APT and root or sudo access.
+  Supported architecture: amd64.
 
 Configuration:
   Browser user profiles are not modified by the module scripts.

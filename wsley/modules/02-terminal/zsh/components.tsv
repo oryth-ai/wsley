@@ -3,7 +3,7 @@ Shell	apt	zsh	Zsh
 Shell	git	https://github.com/ohmyzsh/ohmyzsh.git	Oh My Zsh
 Plugins	git	https://github.com/zsh-users/zsh-autosuggestions	zsh-autosuggestions
 Plugins	git	https://github.com/zsh-users/zsh-syntax-highlighting	zsh-syntax-highlighting
-Helper commands	apt	git	git
+Helper commands	apt	git	Git
 Helper commands	apt	curl	curl
 Helper commands	apt	iproute2	ss
 Helper commands	apt	procps	ps

@@ -10,20 +10,21 @@ Upgrade:
   Update installed Docker and NVIDIA container packages, retaining service and daemon proxy settings.
 
 Status:
-  Report installed package versions, Docker activity and startup state, and presence of the Wsley proxy file.
+  Report installed package versions, Docker service activity, startup state and daemon proxy file presence.
 
 Requirements:
-  Ubuntu, APT and a running systemd instance; root or sudo.
+  Ubuntu, APT, a running systemd instance and root or sudo access.
 
 Configuration:
-  Daemon proxy: /etc/systemd/system/docker.service.d/wsley-proxy.conf; optional HTTP proxy at 127.0.0.1.
-  Existing Wsley proxy files are retained. Leave the port empty to use 7897, enter 0 to skip, or enter a port between 1 and 65535; --yes does not answer this prompt.
+  Daemon proxy configuration: /etc/systemd/system/docker.service.d/wsley-proxy.conf
+  Runtime configuration: /etc/docker/daemon.json
+  The optional daemon proxy uses HTTP at 127.0.0.1; existing proxy configuration is preserved.
+  Leave the port empty to use 7897, enter 0 to skip or enter a port between 1 and 65535; --yes does not answer this prompt.
   Docker daemon proxy settings apply to image pulls; proxy settings inside containers are configured separately.
-  NO_PROXY defaults include localhost, Docker host, and private networks.
+  NO_PROXY defaults include localhost, the Docker host and private networks.
+  Existing runtime configuration is preserved; a missing file is created when NVIDIA container support is newly installed.
+  Restart an existing Docker engine to apply a newly created daemon proxy file or GPU runtime configuration.
   Containers connect directly to the upstream proxy. On native Ubuntu, host.docker.internal:host-gateway maps the Docker host; the proxy must listen on a container-reachable address.
   In WSL mirrored mode, direct access to a Windows proxy requires hostAddressLoopback=true in .wslconfig and a container mapping to the current Windows IPv4. Docker host-gateway still maps the Linux bridge.
   The upstream proxy application and its listener are administrator-managed.
-  Existing Docker installations require a manual Docker restart when a daemon proxy file is created.
-  Runtime configuration: /etc/docker/daemon.json; existing files are retained. Missing files are created when NVIDIA container support is newly installed.
-  Apply new GPU runtime settings by restarting Docker when the engine was already installed.
   Docker group membership grants root-equivalent access. Log out and back in after membership changes.

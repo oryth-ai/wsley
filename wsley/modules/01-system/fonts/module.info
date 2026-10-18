@@ -7,7 +7,7 @@ Upgrade:
   Update installed fontconfig and replace existing Windows font copies when the source is available; refresh the cache after copying.
 
 Status:
-  Report the fontconfig package version, copied font count, and source availability.
+  Report the fontconfig package version, copied font count and source availability.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.

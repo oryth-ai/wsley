@@ -1,10 +1,10 @@
-Oil UI design skill
+Interface design
 
 Install:
-  Install the missing Oil UI skill; prepare Node.js/pnpm and Git as needed.
+  Install the missing skill; prepare Node.js, pnpm and Git as needed.
 
 Upgrade:
-  Back up and replace the installed Oil UI skill; restore previous copies if replacement fails.
+  Back up and replace the installed skill; restore previous skill files if replacement fails.
 
 Status:
   Report skill locations based on SKILL.md presence.

@@ -1,12 +1,12 @@
 group	manager	id	description
-Skill	skill	ppt-master	PPT Master skill
-Installer runtime	runtime	node	Node.js and pnpm (prepared as needed)
-Installer runtime	apt-missing	git	Git (prepared when missing)
+Skill	skill	ppt-master	Editable presentations
+Installer runtime	runtime	node	Node.js and pnpm
+Installer runtime	apt-missing	git	Git
 Python environment	runtime	uv	uv
 Python environment	python-runtime	3.12	Python 3.12
-Python environment	requirements	requirements.txt	Requirements shipped with the installed skill
-Document tools	apt	libreoffice	libreoffice
-Document tools	apt	pandoc	pandoc
-Media tools	apt	ffmpeg	ffmpeg
-Fonts	apt	fontconfig	fontconfig
+Python environment	requirements	requirements.txt	Skill Python dependencies
+Document tools	apt	libreoffice	LibreOffice
+Document tools	apt	pandoc	Pandoc
+Media tools	apt	ffmpeg	FFmpeg
+Fonts	apt	fontconfig	Fontconfig tools
 Fonts	apt	fonts-noto-cjk	Noto CJK fonts

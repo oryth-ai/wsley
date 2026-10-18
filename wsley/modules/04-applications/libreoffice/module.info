@@ -10,7 +10,7 @@ Status:
   Report the installed suite and component package versions.
 
 Requirements:
-  Ubuntu and APT; root or sudo.
+  Ubuntu, APT and root or sudo access.
 
 Configuration:
   User profiles are not modified by the module scripts.
