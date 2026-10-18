@@ -1,0 +1,30 @@
+Editable draw.io diagrams
+
+Install:
+  Install the missing bundled skill and global MCP package; prepare Node.js and pnpm as needed.
+  Register the drawio MCP server in Codex when missing; preserve an existing drawio entry and other Codex settings.
+
+Upgrade:
+  Back up and replace the installed skill with bundled files; restore previous skill files if replacement fails.
+  Update the installed MCP package and register it when its Codex entry is missing; skip absent components.
+
+Status:
+  Report skill locations based on SKILL.md presence, Node.js and MCP command locations and the Node.js version.
+  Report whether drawio is registered in Codex; MCP connectivity and browser rendering are not checked.
+
+Requirements:
+  Ubuntu, APT and a regular user with sudo access.
+  Codex CLI must already be installed; install it separately with wsley install codex.
+
+Configuration:
+  Source: https://github.com/DayuanJiang/next-ai-draw-io/tree/main/packages/mcp-server
+  Destination: ~/.agents/skills/next-ai-drawio
+  Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/next-ai-drawio are consolidated into links to the destination when skill files are replaced.
+  Codex configuration: ${CODEX_HOME:-$HOME/.codex}/config.toml
+  MCP server: drawio; the command uses the installed executable's absolute path.
+  Back up the Codex configuration before adding the server; preserve existing tool approval settings.
+  Session data and drawing preferences: ~/.next-ai-drawio/
+  Preview: 127.0.0.1:6002; ports through 6020 are tried when occupied.
+  A connected preview tab in a regular browser is required for live editing, screenshots and image exports.
+  Remote or WSL hosts may require port forwarding or manual opening of the preview URL.
+  Restart Codex after installation to load the skill and MCP tools; /mcp shows connected tools.

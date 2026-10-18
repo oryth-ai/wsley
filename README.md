@@ -35,7 +35,7 @@ wsley status node           # 确认本地状态
 | `terminal`     | `zsh`、`tmux`、`vim`             | Zsh / Oh My Zsh、终端复用与编辑器配置       |
 | `development`  | `node`、`python`、`go`、`docker` | Node.js LTS / pnpm、Python / uv、Go、Docker |
 | `applications` | `chrome`、`codex`、`libreoffice` | 浏览器、Codex CLI、办公套件                 |
-| `codex-skills` | 见下方列表                       | Skill 文件及各模块配套的工具与依赖          |
+| `codex-skills` | 见下方列表                       | Skill 文件、配套工具、运行时与配置         |
 
 <details>
 <summary>查看 Codex skills 模块</summary>
@@ -46,6 +46,7 @@ wsley status node           # 确认本地状态
 - `codebase-design` — 模块与接口设计
 - `coherent-change` — 项目变更一致性
 - `git-commit` — 原子化 Git 提交
+- `next-ai-drawio` — draw.io 图表绘制与编辑
 - `oil-ui` — 界面设计
 - `ppt-master` — 演示文稿制作
 - `research` — 基于证据的技术研究
@@ -73,7 +74,9 @@ wsley status development codex
 wsley upgrade node python --yes
 ```
 
-各模块分别决定配置的创建、追加和替换规则，安装操作也可能替换已有配置。执行前可通过 `wsley list <模块>` 查看具体行为；安装或升级所需的运行时依赖会按需补齐。共享 PATH 配置保存在 `~/.config/wsley/environment/`，加载入口会注册到 Bash/Zsh 启动文件。
+安装和升级会先检查所有目标模块的前置条件，全部通过后再执行。模块要求的前置应用需要提前安装，由模块管理的运行时依赖按需补齐。
+
+各模块分别决定配置的创建、追加和替换规则，安装操作也可能替换已有配置。执行前通过 `wsley list <模块>` 查看具体行为。共享 PATH 配置保存在 `~/.config/wsley/environment/`，加载入口会注册到 Bash/Zsh 启动文件。
 
 用户文件的首次备份位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`，系统文件的首次备份位于 `/var/lib/wsley/backups/`。同一路径的后续修改保留首次备份。
 
