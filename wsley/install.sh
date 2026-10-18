@@ -8,7 +8,7 @@ install_link() {
         return
     fi
     mkdir -p -- "$(dirname -- "$target")"
-    backup_file "$target"
+    backup_file "$target" || return
     ln -sfnT -- "$source_file" "$target"
 }
 

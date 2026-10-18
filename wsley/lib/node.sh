@@ -66,7 +66,7 @@ configure_node_commands() {
     if ! command -v pnpx > /dev/null; then
         target="$PNPM_HOME/bin/pnpx"
         [[ ! -e "$target" && ! -L "$target" ]] || fail "Cannot create pnpx: $target already exists but is not executable."
-        backup_file "$target"
+        backup_file "$target" || return
         # shellcheck disable=SC2016
         printf '#!/bin/sh\nexec pnpm dlx "$@"\n' > "$target"
         chmod 0755 "$target"
@@ -80,12 +80,12 @@ configure_node_commands() {
         [[ "$name" != npx ]] || executable="$(command -v pnpx)"
         if [[ -L "$target" && "$(readlink -f -- "$target")" == "$(readlink -f -- "$executable")" ]] &&
             node_command_outside_bin "$name" > /dev/null; then
-            backup_file "$target"
+            backup_file "$target" || return
             rm -- "$target"
             hash -r
         fi
         if ! command -v "$name" > /dev/null && [[ ! -e "$target" && ! -L "$target" ]]; then
-            backup_file "$target"
+            backup_file "$target" || return
             ln -s -- "$executable" "$target"
             hash -r
         fi

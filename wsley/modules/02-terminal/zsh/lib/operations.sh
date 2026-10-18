@@ -56,10 +56,23 @@ install_zsh() {
     print_message success 'Zsh setup complete. Open a new Zsh session.\n'
 }
 
-configure_zsh() {
-    local action="$1" config_file target
+configure_zsh() (
+    local action="$1" config_file target stage
 
-    mkdir -p "$custom/plugins" "$custom/themes" "${ZDOTDIR:-$HOME}"
+    stage="$(mktemp -d)"
+    trap 'rm -rf -- "$stage"' EXIT
+
+    {
+        printf 'export ZSH=%q\n' "$terminal_root"
+        printf 'export ZSH_CUSTOM=%q\n\n' "$custom"
+        cat "$assets/.zshrc"
+    } > "$stage/zshrc"
+    {
+        printf 'wsley_zsh_root=%q\n' "$terminal_root"
+        printf 'wsley_zsh_custom=%q\n' "$custom"
+    } > "$stage/settings"
+
+    mkdir -p "$custom/plugins" "$custom/themes" "${ZDOTDIR:-$HOME}" "$(dirname -- "$zsh_settings")"
     for config_file in "$assets"/custom/*.zsh "$assets"/themes/*.zsh-theme; do
         if [[ "$config_file" == *.zsh-theme ]]; then
             target="$custom/themes/${config_file##*/}"
@@ -67,25 +80,23 @@ configure_zsh() {
             target="$custom/${config_file##*/}"
         fi
         if [[ "$action" == upgrade || (! -e "$target" && ! -L "$target") ]]; then
-            backup_file "$target"
+            cmp -s -- "$config_file" "$target" && continue
+            backup_file "$target" || return
             cp -p "$config_file" "$target"
         fi
     done
 
     target="${ZDOTDIR:-$HOME}/.zshrc"
-    backup_file "$target"
-    {
-        printf 'export ZSH=%q\n' "$terminal_root"
-        printf 'export ZSH_CUSTOM=%q\n\n' "$custom"
-        cat "$assets/.zshrc"
-    } > "$target"
+    if ! cmp -s -- "$stage/zshrc" "$target"; then
+        backup_file "$target" || return
+        cat "$stage/zshrc" > "$target"
+    fi
 
-    backup_file "$zsh_settings"
-    {
-        printf 'wsley_zsh_root=%q\n' "$terminal_root"
-        printf 'wsley_zsh_custom=%q\n' "$custom"
-    } > "$zsh_settings"
-}
+    if ! cmp -s -- "$stage/settings" "$zsh_settings"; then
+        backup_file "$zsh_settings" || return
+        cat "$stage/settings" > "$zsh_settings"
+    fi
+)
 
 upgrade_zsh() {
     local repository

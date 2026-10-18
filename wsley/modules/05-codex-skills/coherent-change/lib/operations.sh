@@ -43,7 +43,7 @@ configure_codex() (
         return 0
     fi
 
-    backup_file "$codex_configuration"
+    backup_file "$codex_configuration" || return
     if [[ -f "$target" ]]; then
         chmod --reference="$target" "$temporary"
     fi

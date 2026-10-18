@@ -68,7 +68,8 @@ configure_go_environment() {
     go_environment="$("$go_root/current/bin/go" env GOENV)"
     [[ "$go_environment" != off ]] || fail 'GOENV=off prevents persistent Go configuration.'
     if [[ -z "$("$go_root/current/bin/go" env GOBIN)" ]]; then
-        backup_file "$go_environment"
+        backup_file "$go_environment" || return
+        mkdir -p -- "$(dirname -- "$go_environment")"
         "$go_root/current/bin/go" env -w GOBIN="$bin_dir"
     fi
 }

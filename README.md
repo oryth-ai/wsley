@@ -78,7 +78,9 @@ wsley upgrade node python --yes
 
 各模块分别决定配置的创建、追加和替换规则，安装操作也可能替换已有配置。执行前通过 `wsley list <模块>` 查看具体行为。共享 PATH 配置保存在 `~/.config/wsley/environment/`，加载入口会注册到 Bash/Zsh 启动文件。
 
-用户文件的首次备份位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`，系统文件的首次备份位于 `/var/lib/wsley/backups/`。同一路径的后续修改保留首次备份。
+Wsley 在写入配置或替换技能目录前保存独立快照，后续变更继续新增快照，跳过的操作不产生备份；备份失败则停止对应变更。用户快照位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`，系统快照位于 `/var/lib/wsley/backups/`。
+
+备份目录采用 `<来源路径>--YYYYMMDD-HHMMSS` 命名，同秒重名时追加序号。每份快照记录原路径、带时区的创建时间和变更前状态；历史快照不自动删除。
 
 Skills 安装时保留已检测到的 skill，升级时整体替换 skill 目录，包括其中的本地修改。替换过程会备份已有副本，失败时恢复原目录；配套软件包的更新不随 skill 文件回退。安装目录为 `~/.agents/skills/<名称>`，已有的 `${CODEX_HOME:-$HOME/.codex}/skills/<名称>` 副本会在替换时整合为指向该目录的链接。
 

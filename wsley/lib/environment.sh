@@ -25,7 +25,7 @@ ENV
     for file in "$stage"/*.sh; do
         template="${file##*/}"
         if ! cmp -s -- "$file" "$directory/$template"; then
-            backup_file "$directory/$template"
+            backup_file "$directory/$template" || return
             mv -- "$file" "$directory/$template"
         fi
     done
@@ -78,7 +78,8 @@ register_shell_configuration() {
         return
     fi
 
-    backup_file "$file"
+    backup_file "$file" || return
+    mkdir -p -- "$(dirname -- "$file")"
     if [[ -s "$file" ]]; then
         if [[ -n "$(tail -c 1 -- "$file")" ]]; then
             printf '\n' >> "$file"

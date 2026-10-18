@@ -71,7 +71,7 @@ replace_skill() (
     trap 'exit 143' TERM
 
     for directory in "${targets[@]}"; do
-        backup_file "$directory"
+        backup_file "$directory" || return
     done
     for directory in "${!targets[@]}"; do
         if [[ -e "${targets[$directory]}" || -L "${targets[$directory]}" ]]; then

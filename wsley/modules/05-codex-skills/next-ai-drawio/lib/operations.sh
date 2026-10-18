@@ -59,7 +59,7 @@ configure_drawio_server() {
     fi
 
     codex mcp list > /dev/null
-    backup_file "$codex_configuration"
+    backup_file "$codex_configuration" || return
     codex mcp add drawio -- "$(command -v next-ai-drawio-mcp)"
 }
 

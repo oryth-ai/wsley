@@ -187,62 +187,8 @@ make_workdir() {
     trap 'rm -rf -- "$work"' EXIT
 }
 
-backup_file() (
-    local target="$1" state="${XDG_STATE_HOME:-$HOME/.local/state}/wsley" key label directory stage created_at
-
-    if ((EUID == 0)); then
-        state=/var/lib/wsley
-    fi
-    [[ "$state" == /* && "$target" == /* ]] || {
-        printf 'Backup paths must be absolute.\n' >&2
-        exit 1
-    }
-
-    target="$(realpath -ms -- "$target")"
-    key="$(printf '%s' "$target" | sha256sum)"
-    key="${key%% *}"
-    label="${target#/}"
-    label="${label//\//__}"
-    label="${label//[^a-zA-Z0-9._-]/_}"
-    if ((${#label} > 96)); then
-        label="${label: -96}"
-    fi
-    directory="$state/backups/$label--${key:0:16}"
-
-    if [[ -d "$directory" ]]; then
-        if [[ ! -f "$directory/path" || "$(< "$directory/path")" != "$target" ]]; then
-            printf 'Backup path does not match its metadata: %s\n' "$directory" >&2
-            exit 1
-        fi
-        return 0
-    fi
-
-    mkdir -p -- "$(dirname -- "$target")"
-    umask 077
-    mkdir -p -- "$state/backups"
-    stage="$(mktemp -d "$state/backups/.stage.XXXXXX")"
-    trap 'rm -rf -- "$stage"' EXIT
-    created_at="$(date --iso-8601=seconds)"
-    printf '%s\n' "$target" > "$stage/path"
-    printf '%s\n' "$created_at" > "$stage/created_at"
-
-    if [[ -L "$target" ]]; then
-        readlink -- "$target" > "$stage/link"
-        if [[ -e "$target" ]]; then
-            cp -aL -- "$target" "$stage/original"
-        fi
-    elif [[ -e "$target" ]]; then
-        cp -a -- "$target" "$stage/original"
-    else
-        touch "$stage/created"
-    fi
-    mv -T -- "$stage" "$directory"
-    printf 'Backup saved at %s: %s -> %s\n' "$created_at" "$target" "$directory"
-)
-
-system_backup() {
-    as_root bash -euc "$(declare -f backup_file); backup_file \"\$1\"" bash "$1"
-}
+# shellcheck source=wsley/lib/backup.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/backup.sh"
 
 # shellcheck source=wsley/lib/environment.sh
 source "$(dirname -- "${BASH_SOURCE[0]}")/environment.sh"
@@ -314,7 +260,8 @@ append_configuration_line() {
         return
     fi
 
-    backup_file "$file"
+    backup_file "$file" || return
+    mkdir -p -- "$(dirname -- "$file")"
     if [[ -s "$file" && -n "$(tail -c 1 -- "$file")" ]]; then
         printf '\n' >> "$file"
     fi

@@ -2,11 +2,11 @@ Zsh and Oh My Zsh
 
 Install:
   Install missing Zsh and helper packages, Oh My Zsh and plugins; copy missing custom scripts and the theme, preserving existing copies.
-  Back up and replace .zshrc with the bundled configuration; register shell environment loading in .zshenv.
+  Back up and replace .zshrc when its contents differ from the bundled configuration; register shell environment loading in .zshenv.
   Set /bin/zsh as the login shell when the Zsh package is newly installed.
 
 Upgrade:
-  Update installed packages, Oh My Zsh and plugins; back up and replace bundled custom scripts, the theme and .zshrc when Zsh configuration exists.
+  Update installed packages, Oh My Zsh and plugins; refresh bundled custom scripts, the theme and .zshrc when Zsh configuration exists, backing up files whose contents differ before replacement.
   Refresh shell environment integration and preserve the login shell.
 
 Status:
