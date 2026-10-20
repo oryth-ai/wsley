@@ -1,4 +1,4 @@
 interface:
   display_name: "Git Commit"
-  short_description: "Create repository-aware atomic Git commits directly"
-  default_prompt: "Use $git-commit to inspect the current worktree and create repository-aware atomic Git commits directly."
+  short_description: "Create atomic commits under repository conventions"
+  default_prompt: "Use $git-commit to inspect the requested changes and create atomic commits under the repository's commit conventions."
