@@ -1,0 +1,4 @@
+group	manager	id	description
+Skill	skill	find-skills	Skill discovery
+Installer runtime	runtime	node	Node.js and pnpm
+Installer runtime	apt-missing	git	Git

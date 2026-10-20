@@ -45,6 +45,7 @@ wsley status node           # 确认本地状态
 - `beautify-github-readme` — README 设计
 - `codebase-design` — 模块与接口设计
 - `disciplined-dev` — 规范开发与任务恢复
+- `find-skills` — 技能发现与安装
 - `git-commit` — 原子化 Git 提交
 - `git-push` — 审查、提交并推送
 - `git-review` — 提交前审计与修正
