@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 backup_file() (
-    local target="${1:-}" state="${XDG_STATE_HOME:-$HOME/.local/state}/wsley"
+    local target="${1:-}" state="$HOME/.local/state/wsley"
     local label destination timestamp lock suffix=0
 
     if ((EUID == 0)); then
