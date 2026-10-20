@@ -9,12 +9,12 @@ source "$(dirname -- "${BASH_SOURCE[0]}")/../../../../lib/skills.sh"
 skill_name="$(component_ids "$module_components" bundled)"
 skill_assets="$module_directory/assets/$skill_name"
 codex_configuration="${CODEX_HOME:-$HOME/.codex}/config.toml"
-skill_instructions='Read and follow the coherent-change skill before changing code, configuration, or scripts. After context compaction or a handoff, reread it and resume unfinished work.'
+skill_instructions='Read and follow the disciplined-dev skill before changing repository files. After context compaction or a handoff, reread it and resume unfinished work.'
 
 preflight_module() {
     require_user
     require_command awk chmod cmp cp mv mktemp readlink
-    [[ -r "$skill_assets/SKILL.md" ]] || fail 'Missing bundled skill: coherent-change'
+    [[ -r "$skill_assets/SKILL.md" ]] || fail 'Missing bundled skill: disciplined-dev'
     [[ "$codex_configuration" == /* ]] || fail 'CODEX_HOME must be an absolute path.'
     if [[ -f "$codex_configuration" ]]; then
         process_codex_configuration replace "$codex_configuration" > /dev/null
@@ -33,7 +33,7 @@ configure_codex() (
     [[ ! -e "$target" || -f "$target" ]] || fail "Not a regular configuration file: $codex_configuration"
     directory="$(dirname -- "$target")"
     mkdir -p -- "$directory"
-    temporary="$(mktemp "$directory/.wsley-coherent-change.XXXXXX")"
+    temporary="$(mktemp "$directory/.wsley-disciplined-dev.XXXXXX")"
     trap 'rm -f -- "$temporary"' EXIT
 
     [[ ! -f "$target" ]] || input="$target"

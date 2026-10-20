@@ -44,7 +44,7 @@ wsley status node           # 确认本地状态
 - `archify` — 架构图
 - `beautify-github-readme` — README 设计
 - `codebase-design` — 模块与接口设计
-- `coherent-change` — 项目变更一致性
+- `disciplined-dev` — 规范开发与任务恢复
 - `git-commit` — 原子化 Git 提交
 - `git-push` — 审查、提交并推送
 - `git-review` — 提交前审计与修正

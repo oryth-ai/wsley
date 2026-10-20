@@ -1,4 +1,4 @@
-Coherent changes and task recovery
+Disciplined development and task recovery
 
 Install:
   Install the missing bundled skill; preserve installed skill files.
@@ -16,8 +16,8 @@ Requirements:
   A regular user, AWK and standard file utilities.
 
 Configuration:
-  Destination: ~/.agents/skills/coherent-change
-  Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/coherent-change are consolidated into links to the destination when skill files are replaced.
+  Destination: ~/.agents/skills/disciplined-dev
+  Existing copies at ${CODEX_HOME:-$HOME/.codex}/skills/disciplined-dev are consolidated into links to the destination when skill files are replaced.
   Codex configuration: ${CODEX_HOME:-$HOME/.codex}/config.toml
-  developer_instructions = "Read and follow the coherent-change skill before changing code, configuration, or scripts. After context compaction or a handoff, reread it and resume unfinished work."
-  Replace the entire developer_instructions value; preserve other settings and back up the configuration before its first change.
+  developer_instructions = "Read and follow the disciplined-dev skill before changing repository files. After context compaction or a handoff, reread it and resume unfinished work."
+  Replace the entire developer_instructions value; preserve other settings and back up the configuration before changes.
