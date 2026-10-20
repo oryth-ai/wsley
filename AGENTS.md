@@ -2,15 +2,17 @@
 
 ## 模块变更
 
-模块源码位于 `wsley/modules/`，每个模块通过 `module.info` 描述行为，通过 `components.tsv` 声明组件，并提供安装、升级和状态查询脚本。修改模块行为时，同步相关实现、组件清单和模块说明，使各入口的实际行为与描述一致。
+模块源码位于 `wsley/modules/`，每个模块通过 `module.info` 描述行为，通过 `components.tsv` 声明组件，并提供安装、升级和状态查询脚本。需要额外源码校验的模块提供可选 `check.sh`，只检查源码与资源，不安装依赖、修改用户配置或调用外部服务。修改模块行为时，同步相关实现、组件清单和模块说明，使各入口的实际行为与描述一致。
 
 ## 开发与验证
 
-在仓库根目录运行开发命令。使用 `make help` 查看可用命令，使用 `make setup` 安装开发工具和 Git hooks；环境准备需要 sudo、APT 和 uv。
+在仓库根目录运行开发命令。使用 `make help` 查看可用命令，使用 `make setup` 安装 shfmt、ShellCheck、Zsh、系统 Python 及 TOML/YAML 依赖，并通过 uv 安装 Ruff、pre-commit 和 Git hooks；环境准备需要 sudo、APT 和 uv。
 
-修改 Bash 脚本后，先运行 `make format`，检查格式化差异，再运行 `make check`。`make format` 使用 shfmt 格式化 `wsley/` 和 `scripts/` 下的 `.sh` 文件并直接写回；格式检查只报告差异，不执行修复。
+修改 Bash 或 Python 源码后，先运行 `make format`，检查格式化差异，再运行 `make check`。`make format` 使用 shfmt 格式化 `wsley/` 和 `scripts/` 下的 `.sh` 文件，使用 Ruff 整理 Python 导入与格式并直接写回。检查命令只报告问题，不执行修复。
 
-`make check` 通过 Git 定位暂存区、工作区和未跟踪的改动文件，检查对应的格式、语法、静态规则和模块描述。需要全仓检查时，运行 `make check-all`，检查全部脚本和模块描述，并验证模块列表命令可运行。
+`make check` 通过 Git 定位暂存区、工作区和未跟踪的改动文件，检查对应的 Bash、Zsh、AWK、Python、JSON、YAML 和模块描述；模块文件发生变更或删除时，同时运行该模块的可选源码校验，并验证模块列表。修改 Makefile、检查脚本、Git hooks 或共享模块校验规则时，自动检查全仓。
+
+需要全仓检查时，运行 `make check-all`，检查全部源码、配置、模块描述和模块自有校验，并验证 Git hooks 配置及模块列表命令可运行。Git 提交前执行同一检查入口，删除文件也纳入影响判断。
 
 行为验证使用临时命令，不将验证脚本保存到仓库。
 

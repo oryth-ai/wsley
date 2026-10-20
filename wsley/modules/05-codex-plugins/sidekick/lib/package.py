@@ -105,6 +105,7 @@ def validate_sources(module):
         raise ValueError("Local skills, upstream tools and component declarations differ.")
     for name in sorted(local):
         validate_skill(assets / "skills" / name)
+    validate_references(assets, upstream_tools=imported)
     manifest = json.loads((assets / "plugin.json").read_text())
     if manifest["name"] != "sidekick" or not re.fullmatch(
         r"[0-9]+\.[0-9]+\.[0-9]+", manifest["version"]
@@ -193,14 +194,24 @@ def resolve_runtimes(destination):
     (destination / "runtime-packages.json").write_text(json.dumps(runtimes, indent=2) + "\n")
 
 
-def validate_package(destination):
+def validate_references(destination, *, upstream_tools=()):
     for document in (destination / "skills").rglob("*.md"):
         for target in re.findall(r"\]\(([^\s)]+)(?:\s+[^)]*)?\)", document.read_text()):
             if ":" in target or target.startswith("#"):
                 continue
             path = unquote(target.split("#", 1)[0])
-            if path and not (document.parent / path).exists():
+            reference = (document.parent / path).resolve()
+            if any(
+                reference.is_relative_to((destination / "vendor" / name).resolve())
+                for name in upstream_tools
+            ):
+                continue
+            if path and not reference.exists():
                 raise ValueError(f"Missing skill reference: {document}: {target}")
+
+
+def validate_package(destination):
+    validate_references(destination)
     for path in destination.rglob("*"):
         if path.is_symlink() and (
             not path.exists() or not path.resolve().is_relative_to(destination.resolve())
