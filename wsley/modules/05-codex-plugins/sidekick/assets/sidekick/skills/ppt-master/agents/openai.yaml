@@ -1,0 +1,4 @@
+interface:
+  display_name: "Presentations"
+  short_description: "Create editable presentations with the installed workflow"
+  default_prompt: "Use $sidekick:ppt-master to create or edit the requested presentation using the installed PPT Master workflow."

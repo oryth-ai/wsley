@@ -1,0 +1,4 @@
+interface:
+  display_name: "Disciplined Dev"
+  short_description: "Apply engineering conventions and verify coherent changes"
+  default_prompt: "Use $sidekick:disciplined-dev to apply project engineering conventions, keep related changes consistent and validate the implementation."

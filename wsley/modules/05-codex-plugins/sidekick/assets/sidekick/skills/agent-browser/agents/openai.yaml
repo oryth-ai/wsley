@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser Automation"
+  short_description: "Operate real browser sessions with version-matched guidance"
+  default_prompt: "Use $sidekick:agent-browser to perform this browser task using the installed CLI and report actual results."

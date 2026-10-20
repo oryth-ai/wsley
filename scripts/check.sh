@@ -46,8 +46,12 @@ while IFS= read -r -d '' file; do
         wsley/*.zsh | wsley/*.zsh-theme | wsley/.zshrc | wsley/*/.zshrc)
             zsh -n "$file"
             ;;
-        wsley/*.awk) awk -v mode=replace -f "$file" /dev/null ;;
-        wsley/modules/*/*/module.info) validate_module_info "$file" ;;
+        wsley/*.awk) awk -f "$file" /dev/null ;;
+        wsley/*.py | scripts/*.py) python3 -c 'import ast, pathlib, sys; ast.parse(pathlib.Path(sys.argv[1]).read_text(), filename=sys.argv[1])' "$file" ;;
+        wsley/modules/*/*/module.info)
+            validate_module_info "$file"
+            check_cli=true
+            ;;
         wsley/modules/*/*/components.tsv) validate_components "$file" ;;
         *) continue ;;
     esac

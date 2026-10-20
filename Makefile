@@ -9,7 +9,7 @@ help: ## Show development commands
 	@awk 'BEGIN { FS = ":.*## "; print "Commands:" } /^[a-z][a-z-]*:.*## / { printf "  make %-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 setup: ## Install development tools and Git hooks
-	sudo apt update && sudo apt install shfmt shellcheck zsh
+	sudo apt update && sudo apt install python3 shfmt shellcheck zsh
 	uv tool install --upgrade pre-commit
 	"$$(uv tool dir --bin)/pre-commit" install
 

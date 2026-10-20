@@ -1,0 +1,4 @@
+interface:
+  display_name: "User Research"
+  short_description: "Plan and synthesize research with traceable evidence"
+  default_prompt: "Use $sidekick:user-research to plan or analyze research for this product decision and separate findings from hypotheses."

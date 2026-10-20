@@ -1,0 +1,4 @@
+interface:
+  display_name: "SEO Audit"
+  short_description: "Audit public pages using crawl and search evidence"
+  default_prompt: "Use $sidekick:seo-audit to audit the relevant public pages and prioritize evidence-backed SEO findings."

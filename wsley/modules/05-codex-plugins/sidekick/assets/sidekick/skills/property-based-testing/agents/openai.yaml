@@ -1,0 +1,4 @@
+interface:
+  display_name: "Property-Based Testing"
+  short_description: "Verify real invariants with generated inputs"
+  default_prompt: "Use $sidekick:property-based-testing to design or review properties that constrain the real contract and explain any counterexamples."

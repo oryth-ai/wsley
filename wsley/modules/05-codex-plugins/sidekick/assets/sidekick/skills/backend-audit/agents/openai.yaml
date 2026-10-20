@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backend Audit"
+  short_description: "Audit backend correctness, recovery and operations"
+  default_prompt: "Use $sidekick:backend-audit to review the backend against its contracts and produce evidence-backed findings and acceptance criteria."

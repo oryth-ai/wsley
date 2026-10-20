@@ -1,0 +1,4 @@
+interface:
+  display_name: "Accessibility"
+  short_description: "Review access barriers with real interaction evidence"
+  default_prompt: "Use $sidekick:accessibility to review the relevant accessibility barriers and verify the affected user tasks."

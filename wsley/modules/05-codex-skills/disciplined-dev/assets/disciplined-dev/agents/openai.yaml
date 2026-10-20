@@ -1,7 +1,0 @@
-interface:
-  display_name: "Disciplined Dev"
-  short_description: "Develop within project rules and validate complete results"
-  default_prompt: "Use $disciplined-dev to complete this development task under the project rules, preserve task scope, and validate the result."
-
-policy:
-  allow_implicit_invocation: true

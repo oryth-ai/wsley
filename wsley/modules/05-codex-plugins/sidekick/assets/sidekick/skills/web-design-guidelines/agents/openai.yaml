@@ -1,0 +1,4 @@
+interface:
+  display_name: "Web Design Guidelines"
+  short_description: "Review web implementation and verify affected behavior"
+  default_prompt: "Use $sidekick:web-design-guidelines to review this web interface implementation and verify the relevant user interactions."

@@ -1,5 +1,0 @@
-group	manager	id	description
-Skill	bundled	git-push	Reviewed Git pushes
-Required skills	bundled	git-review	Pre-commit convention and structure audits
-Required skills	bundled	git-commit	Atomic Git commits
-Version control	apt-missing	git	Git

@@ -1,0 +1,4 @@
+interface:
+  display_name: "UX Copy"
+  short_description: "Write clear interface actions, states and errors"
+  default_prompt: "Use $sidekick:ux-copy to write or review the interface copy against the actual task, state and product terminology."

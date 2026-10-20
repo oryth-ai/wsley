@@ -1,0 +1,57 @@
+Sidekick Codex plugin
+
+Install:
+  On first installation, validate bundled skills, fetch complete Archify and PPT Master tool resources with pnpx skills@latest in an isolated project, and assemble the plugin.
+  For an existing installation, preserve plugin files; use wsley upgrade sidekick to synchronize bundled skills and upstream tool resources.
+  Prepare and verify Node.js, pnpm, uv, browser and MCP packages, Chromium with Linux dependencies, and presentation Python and system tools before activation.
+  Register the Wsley local marketplace and enable Sidekick when needed, including a previously disabled installation; maintain its Mira instruction block without replacing user instructions.
+  Set agents.max_concurrent_threads_per_session to 20 on every install.
+
+Upgrade:
+  Skip the operation when Sidekick is not installed.
+  Assemble the current bundled skills and latest upstream tool resources, synchronize system and runtime dependencies, and verify the environments before replacing the plugin.
+  Refresh plugin registration and the Mira entry instruction, and enable Sidekick even if it was previously disabled.
+  Update agents.max_concurrent_threads_per_session to 20 while preserving other agent settings.
+
+Status:
+  Report plugin registration, upstream tool records, managed Codex configuration, browser and MCP package versions, Chromium binding, presentation dependencies and system packages.
+  Check local environments without installing, upgrading or probing external services; status skips the live browser launch test.
+
+Requirements:
+  Ubuntu, APT, AWK, an installed Codex CLI with plugin marketplace commands and a regular user with sudo access.
+  Installation and upgrades require network access to the relevant GitHub, npm, Python, Chromium and APT sources.
+
+Configuration:
+  Marketplace root: ${XDG_DATA_HOME:-$HOME/.local/share}/sidekick
+  Plugin source: ${XDG_DATA_HOME:-$HOME/.local/share}/sidekick/plugin
+  Plugin registration: sidekick@wsley; installed plugin files are managed by the Codex plugin cache.
+  Entry skill: sidekick:mira; describe project work naturally without selecting internal skills.
+  All public skill entries and methods are maintained in assets/sidekick/skills using skills/<name>/SKILL.md; all skills use the host's default automatic selection.
+  Mira owns task scope, feedback, execution state, recovery and delivery; disciplined-dev owns engineering conventions, implementation consistency and engineering validation.
+  Local frontmatter contains name and description; agents/openai.yaml owns interface metadata and tool dependencies, while each skills/<name>/LICENSE retains applicable terms and upstream references with full commit hashes.
+  Local skills change with the Wsley module source; installation and upgrade do not replace them with upstream instruction files.
+  assets/upstream.json declares only complete version-coupled tool resources, installed under vendor/<name>; original instructions, scripts, templates and licenses remain intact.
+  agent-browser supplies its current workflow through the installed CLI; the local skill loads that version-matched guide without importing a separate discovery stub.
+  Resolve each tool repository HEAD once per assembly and let the skills CLI acquire the selected resources with project-scoped --copy; global skill directories are not modified.
+  Follow the upstream default branch unless an explicit revision and pin_reason document a compatibility constraint.
+  skills-lock.json records actual tool source commits and hashes; it is not reused to constrain later upgrades.
+  Query published browser and MCP package versions with pnpm view during assembly and record them in runtime-packages.json.
+  The private browser CLI and draw.io MCP use those versions; mcp.json points directly to the installed executable and ordinary use does not download or resolve packages.
+  Codex configuration: ${CODEX_HOME:-$HOME/.codex}/config.toml
+  Manage one <wsley-sidekick>...</wsley-sidekick> block within developer_instructions; preserve text outside that block.
+  Block content: "Read and follow sidekick:mira for project work. After context compaction or a handoff, reread it and resume unfinished work."
+  Set agents.max_concurrent_threads_per_session to 20 spawned-agent threads, excluding the primary thread; first installation, repeated installation and upgrades use the same value.
+  Preserve other agent settings and custom roles, and all unrelated configuration.
+  Use TOML Kit to preserve configuration structure and comments; reject malformed TOML, non-string instructions, invalid agent tables or limits, and incomplete or duplicate Sidekick blocks before writing.
+  Back up existing targets before changes and restore plugin files and configuration if activation fails; managed configuration writes are skipped when no values change.
+  Assembly or environment validation failure leaves plugin files and configuration untouched; do not fall back to older upstream versions.
+  Dependency installation is cumulative like APT: completed dependency changes remain if later steps fail; rerun install to repair environments, or upgrade to synchronize module resources and dependencies.
+  Managed environments: ${XDG_DATA_HOME:-$HOME/.local/share}/sidekick/runtimes
+  Browser installation uses a private agent-browser package and install --with-deps, followed by an offline headless launch test.
+  Bind the validated Chromium executable at runtimes/chromium; Archify uses ARCHIFY_CHROME with that path and ARCHIFY_UPDATE_CHECK_DISABLED=1.
+  Presentation installation uses uv, Python 3.12, vendor/ppt-master/requirements.txt, LibreOffice, Pandoc, FFmpeg, Fontconfig and baseline Latin and CJK fonts.
+  Reuse a valid managed Python 3.12 environment; after backing up its runtime directory, rebuild an absent, damaged or incorrectly versioned environment without following environment symlinks.
+  Existing managed runtime directories and the Chromium link are backed up before changes; browser and Python interpreter caches follow their tools' storage settings.
+  Mira and its internal skills use installed environments directly; installation, repair and updates belong to Wsley commands rather than task execution.
+  API keys, accounts, remote services and project-specific resources remain task configuration.
+  Open a new Codex conversation after installation or upgrade to load the plugin and entry instruction.

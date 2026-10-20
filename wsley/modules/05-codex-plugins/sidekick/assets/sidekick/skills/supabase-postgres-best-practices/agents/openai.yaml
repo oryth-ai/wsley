@@ -1,0 +1,4 @@
+interface:
+  display_name: "PostgreSQL Engineering"
+  short_description: "Review schemas, transactions, queries and database access"
+  default_prompt: "Use $sidekick:supabase-postgres-best-practices to review or implement the PostgreSQL behavior against its real contracts and query evidence."

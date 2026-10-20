@@ -1,0 +1,4 @@
+interface:
+  display_name: "FastAPI Expert"
+  short_description: "Design async API lifecycles and transaction boundaries"
+  default_prompt: "Use $sidekick:fastapi-expert to review or implement the FastAPI behavior with explicit lifecycle, contract and transaction ownership."

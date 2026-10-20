@@ -16,7 +16,7 @@ validate_components() {
         NF != 4 || /\r/ { exit 1 }
         {
             for (i = 1; i <= 4; i++) if ($i !~ /[^[:space:]]/) exit 1
-            if ($2 !~ /^(apt|apt-missing|apt-nvidia|uv-tool|pnpm|skill|bundled|runtime|python-runtime|node-runtime|git|asset|config|deb|requirements)$/) exit 1
+            if ($2 !~ /^(apt|apt-missing|apt-nvidia|uv-tool|pnpm|plugin|skill|bundled|runtime|python-runtime|node-runtime|git|asset|config|deb|requirements)$/) exit 1
             if (seen[$2 SUBSEP $3]++) exit 1
             if ($1 != previous && groups[$1]++) exit 1
             previous = $1

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Archify"
+  short_description: "Create validated HTML diagrams and one-page explainers"
+  default_prompt: "Use $sidekick:archify to create the requested diagram or explainer using the installed renderer and project output rules."

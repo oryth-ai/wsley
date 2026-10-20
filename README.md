@@ -2,7 +2,7 @@
 
 **用一套命令，搭建与维护 Ubuntu 开发环境。**
 
-Wsley 将系统工具、终端配置、语言运行时、开发应用和 Codex skills 按模块组织。可以单独安装一个模块，也可以按分组批量管理；安装补齐缺失组件，升级更新已有组件并刷新模块管理的配置，状态查询帮助了解本机环境。
+Wsley 将系统工具、终端配置、语言运行时、开发应用和 Codex 插件按模块组织。可以单独安装一个模块，也可以按分组批量管理；安装补齐缺失组件，升级更新已有组件并刷新模块管理的配置，状态查询帮助了解本机环境。
 
 [快速开始](#快速开始) · [模块概览](#模块概览) · [命令参考](#命令参考) · [环境要求](#环境要求)
 
@@ -35,26 +35,7 @@ wsley status node           # 确认本地状态
 | `terminal`     | `zsh`、`tmux`、`vim`             | Zsh / Oh My Zsh、终端复用与编辑器配置       |
 | `development`  | `node`、`python`、`go`、`docker` | Node.js LTS / pnpm、Python / uv、Go、Docker |
 | `applications` | `chrome`、`codex`、`libreoffice` | 浏览器、Codex CLI、办公套件                 |
-| `codex-skills` | 见下方列表                       | Skill 文件、配套工具、运行时与配置         |
-
-<details>
-<summary>查看 Codex skills 模块</summary>
-
-- `agent-browser` — 浏览器自动化
-- `archify` — 架构图
-- `beautify-github-readme` — README 设计
-- `codebase-design` — 模块与接口设计
-- `disciplined-dev` — 规范开发与任务恢复
-- `find-skills` — 技能发现与安装
-- `git-commit` — 原子化 Git 提交
-- `git-push` — 审查、提交并推送
-- `git-review` — 提交前审计与修正
-- `next-ai-drawio` — draw.io 图表绘制与编辑
-- `oil-ui` — 界面设计
-- `ppt-master` — 演示文稿制作
-- `research` — 基于证据的技术研究
-
-</details>
+| `codex-plugins` | `sidekick`                       | Codex 插件、配套工具与配置                 |
 
 具体组件、配置位置和操作行为以 `wsley list <模块>` 为准。
 
@@ -81,11 +62,9 @@ wsley upgrade node python --yes
 
 各模块分别决定配置的创建、追加和替换规则，安装操作也可能替换已有配置。执行前通过 `wsley list <模块>` 查看具体行为。共享 PATH 配置保存在 `~/.config/wsley/environment/`，加载入口会注册到 Bash/Zsh 启动文件。
 
-Wsley 在修改已有配置、替换技能目录或更新已复制字体前，保存变更前内容的独立备份；后续变更继续新增备份，首次创建和跳过的操作不产生备份，备份失败则停止对应变更。用户备份位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`，系统备份位于 `/var/lib/wsley/backups/`。
+模块直接写入已有配置、替换目录或更新已复制资源前，保存变更前内容的独立备份；后续变更继续新增备份，首次创建和跳过的操作不产生备份，备份失败则停止对应变更。用户备份位于 `${XDG_STATE_HOME:-$HOME/.local/state}/wsley/backups/`，系统备份位于 `/var/lib/wsley/backups/`。
 
 备份采用 `<来源路径>--YYYYMMDD-HHMMSS±HHMM` 命名，时间包含时区偏移，同秒重名时追加序号。已有文件或目录通过 `cp -a` 直接复制到该路径，保留权限和符号链接；软链接只复制链接本身，不跟随目标。不另存路径、时间或空状态文件；历史备份不自动删除。
-
-Skills 安装时保留已检测到的 skill，升级时整体替换 skill 目录，包括其中的本地修改。替换过程会备份已有副本，失败时恢复原目录；配套软件包的更新不随 skill 文件回退。安装目录为 `~/.agents/skills/<名称>`，已有的 `${CODEX_HOME:-$HOME/.codex}/skills/<名称>` 副本会在替换时整合为指向该目录的链接。
 
 `install`、`upgrade` 和 `self-upgrade` 支持 `--yes`（或 `-y`），用于跳过操作确认；APT 镜像和 Docker 代理问题仍需交互选择。
 

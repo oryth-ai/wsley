@@ -1,0 +1,4 @@
+interface:
+  display_name: "Security and Hardening"
+  short_description: "Review trust boundaries and harden concrete attack paths"
+  default_prompt: "Use $sidekick:security-and-hardening to review the relevant trust boundaries, verify exploitability and address security issues within the project contracts."

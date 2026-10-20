@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Testing"
+  short_description: "Verify Go behavior, dependencies and concurrency"
+  default_prompt: "Use $sidekick:golang-testing to verify the changed Go behavior using the project test structure and appropriate dependency boundaries."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reliability Engineering"
+  short_description: "Connect service goals to capacity and recovery evidence"
+  default_prompt: "Use $sidekick:sre-engineer to review the service reliability goals, capacity and recovery behavior within the requested scope."

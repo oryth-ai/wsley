@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Commit"
+  short_description: "Create atomic commits under repository conventions"
+  default_prompt: "Use $sidekick:git-commit to inspect the requested changes and create atomic commits under the repository's commit conventions."

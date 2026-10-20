@@ -1,0 +1,4 @@
+interface:
+  display_name: "README Design"
+  short_description: "Design clear repository homepages and visual assets"
+  default_prompt: "Use $sidekick:beautify-github-readme to design the requested README or visual assets within the confirmed scope."

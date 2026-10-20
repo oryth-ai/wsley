@@ -1,6 +1,0 @@
-group	manager	id	description
-Skill	bundled	next-ai-drawio	Editable draw.io diagrams
-MCP server	pnpm	@next-ai-drawio/mcp-server@latest	Next AI Draw.io MCP server
-Configuration	config	config.toml:mcp_servers.drawio	Codex drawio MCP registration
-Installer runtime	runtime	node	Node.js and pnpm
-Installer runtime	runtime	codex	Codex CLI

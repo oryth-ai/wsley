@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Concurrency"
+  short_description: "Design bounded concurrency with explicit ownership"
+  default_prompt: "Use $sidekick:golang-concurrency to review or implement the concurrent Go behavior with clear ownership and shutdown."

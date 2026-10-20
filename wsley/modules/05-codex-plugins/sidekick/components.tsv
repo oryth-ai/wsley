@@ -1,0 +1,64 @@
+group	manager	id	description
+Plugin	plugin	sidekick	Sidekick project workflow plugin
+Plugin	asset	skills-lock.json	Upstream tool source commits and content hashes
+Plugin	asset	runtime-packages.json	Published browser and MCP package versions
+Plugin	asset	skills/*/LICENSE	Skill licenses and upstream source references
+Skills	bundled	accessibility	Web accessibility audits
+Skills	bundled	agent-browser	Browser automation
+Skills	bundled	archify	Architecture diagrams
+Skills	bundled	backend-audit	Backend architecture and commercial readiness audits
+Skills	bundled	beautify-github-readme	GitHub README design
+Skills	bundled	codebase-design	Module and interface design
+Skills	bundled	disciplined-dev	Engineering conventions and implementation consistency
+Skills	bundled	domain-modeling	Domain terminology, ownership and business invariants
+Skills	bundled	fastapi-expert	Async FastAPI services and database transaction boundaries
+Skills	bundled	find-skills	Skill discovery
+Skills	bundled	frontend-audit	Frontend product and experience audits
+Skills	bundled	git-commit	Atomic Git commits
+Skills	bundled	git-push	Reviewed Git pushes
+Skills	bundled	git-review	Pre-commit convention and structure audits
+Skills	bundled	golang-concurrency	Go concurrency ownership, cancellation and leak prevention
+Skills	bundled	golang-testing	Behavior-focused Go tests and concurrency verification
+Skills	bundled	i18n-expert	Interface internationalization
+Skills	bundled	mira	Natural-language task routing and continuity
+Skills	bundled	next-ai-drawio	Editable draw.io diagrams
+Skills	bundled	observability-and-instrumentation	Production logs, metrics and distributed tracing
+Skills	bundled	oil-ui	Interface design
+Skills	bundled	ppt-master	Editable presentations
+Skills	bundled	property-based-testing	Property-based tests and domain invariants
+Skills	bundled	research	Evidence-based technical research
+Skills	bundled	security-and-hardening	Security threat modeling and application hardening
+Skills	bundled	seo-audit	Public website SEO audits
+Skills	bundled	sre-engineer	Service reliability, capacity and recovery verification
+Skills	bundled	supabase-postgres-best-practices	PostgreSQL schema, concurrency and query performance
+Skills	bundled	user-research	User research and usability studies
+Skills	bundled	ux-copy	Interface copy and terminology
+Skills	bundled	vercel-react-best-practices	React performance reviews
+Skills	bundled	web-design-guidelines	Web interface implementation reviews
+Tool resources	skill	archify	Complete Archify renderer, schemas and resources
+Tool resources	skill	ppt-master	Complete PPT Master workflow, scripts and resources
+Installer runtime	apt	ca-certificates	TLS certificates
+Installer runtime	apt	curl	Runtime bootstrap downloads
+Installer runtime	apt	git	Git
+Installer runtime	apt	python3	System Python
+Installer runtime	apt	python3-tomlkit	TOML configuration editor
+Installer runtime	apt	python3-yaml	Python YAML parser
+Installer runtime	runtime	codex	Codex CLI with plugin commands
+Installer runtime	runtime	node	Node.js and pnpm
+Installer runtime	runtime	uv	Isolated Python environments
+Browser runtime	runtime	agent-browser	Private browser automation CLI
+Browser runtime	runtime	chromium	Chromium and Linux system dependencies
+Browser runtime	config	runtimes/chromium	Managed Chromium executable link for renderers
+Presentation runtime	python-runtime	3.12	Private presentation Python environment
+Presentation runtime	requirements	vendor/ppt-master/requirements.txt	Presentation Python dependencies
+Presentation runtime	apt	libreoffice	Office document conversion and rendering
+Presentation runtime	apt	pandoc	Document format conversion
+Presentation runtime	apt	ffmpeg	Audio and video processing
+Presentation runtime	apt	fontconfig	Font discovery and cache
+Presentation runtime	apt	fonts-dejavu-core	DejaVu fonts
+Presentation runtime	apt	fonts-liberation	Liberation fonts
+Presentation runtime	apt	fonts-noto-cjk	CJK fonts
+Configuration	config	config.toml:agents.max_concurrent_threads_per_session	Concurrent agent thread limit
+Configuration	config	config.toml:developer_instructions	Managed Mira instruction block
+Configuration	config	config.toml:plugins.sidekick@wsley	Codex plugin registration
+MCP server	runtime	drawio	Private Next AI Draw.io MCP server

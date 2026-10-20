@@ -1,0 +1,4 @@
+interface:
+  display_name: "Domain Modeling"
+  short_description: "Clarify domain ownership and business invariants"
+  default_prompt: "Use $sidekick:domain-modeling to clarify the relevant concepts, ownership, invariants and lifecycle scenarios in this project."

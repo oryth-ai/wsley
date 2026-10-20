@@ -1,0 +1,4 @@
+interface:
+  display_name: "Find Skills"
+  short_description: "Find and assess skills for a concrete capability gap"
+  default_prompt: "Use $sidekick:find-skills to find and assess skills for this capability and explain their installation impact."

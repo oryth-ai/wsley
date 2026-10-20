@@ -1,4 +1,0 @@
-interface:
-  display_name: "Research"
-  short_description: "Research primary sources and save cited Markdown findings"
-  default_prompt: "Use $research to investigate this question using primary sources and deliver a cited Markdown report within the requested scope and project conventions."

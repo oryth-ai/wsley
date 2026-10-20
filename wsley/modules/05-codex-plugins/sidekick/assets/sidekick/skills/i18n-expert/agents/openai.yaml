@@ -1,0 +1,4 @@
+interface:
+  display_name: "Internationalization"
+  short_description: "Localize interface states within the supported languages"
+  default_prompt: "Use $sidekick:i18n-expert to complete the requested localization work within the project languages and conventions."

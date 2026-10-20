@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Review"
+  short_description: "Audit project conventions and structure before commits"
+  default_prompt: "Use $sidekick:git-review to audit project conventions and the complete affected directory structure, fix authorized issues, and use targeted checks to verify the fixes."
