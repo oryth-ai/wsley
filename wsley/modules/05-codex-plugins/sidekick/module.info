@@ -28,6 +28,7 @@ Configuration:
   Entry skill: sidekick:mira; describe project work naturally without selecting internal skills.
   All public skill entries and methods are maintained in assets/sidekick/skills using skills/<name>/SKILL.md; all skills use the host's default automatic selection.
   Mira owns task scope, feedback, execution state, recovery and delivery; disciplined-dev owns engineering conventions, implementation consistency and engineering validation.
+  frontend-design handles Web interface design and implementation; oil-ui handles visual direction exploration and comparisons, and frontend-audit organizes systematic reviews of existing interfaces.
   Local frontmatter contains name and description; agents/openai.yaml owns interface metadata and tool dependencies, while each skills/<name>/LICENSE retains applicable terms and upstream references with full commit hashes.
   Local skills change with the Wsley module source; installation and upgrade do not replace them with upstream instruction files.
   assets/upstream.json declares only complete version-coupled tool resources, installed under vendor/<name>; original instructions, scripts, templates and licenses remain intact.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Design"
+  short_description: "Build distinctive web interfaces grounded in the brief"
+  default_prompt: "Use $sidekick:frontend-design to design and implement this web interface with intentional visual choices, preserving project conventions and verifying the rendered result."

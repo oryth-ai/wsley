@@ -16,6 +16,7 @@
 
 | 实际问题 | 采用的技能 | 结果如何进入后续工作 |
 | --- | --- | --- |
+| 新建或重做 Web 页面、应用界面与组件，需要具体视觉设计与实现 | [frontend-design](../../frontend-design/SKILL.md) | 将主题、排版、色彩、布局与交互落实为可运行且经过实际查看的界面 |
 | 界面实现需要对照 Web 规范检查 | [web-design-guidelines](../../web-design-guidelines/SKILL.md) | 记录具体实现偏差，保持项目现有设计与技术选择 |
 | 键盘、焦点、语义和辅助技术访问存在障碍 | [accessibility](../../accessibility/SKILL.md) | 连接交互状态、组件实现与实际可访问性验证 |
 | React 渲染、数据获取或资源加载有性能问题 | [vercel-react-best-practices](../../vercel-react-best-practices/SKILL.md) | 在项目版本与运行方式内调整，并验证对应性能行为 |

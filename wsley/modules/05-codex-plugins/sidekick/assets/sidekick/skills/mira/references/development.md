@@ -6,7 +6,9 @@
 
 承接已经确定的任务目标、支持范围和完成条件，读取实际入口及相关实现，选择当前仍缺少的设计判断。
 
-业务概念、生命周期或责任归属不清时使用 [domain-modeling](../../domain-modeling/SKILL.md)，取得一致的术语、事实拥有者与不变量。模块边界和依赖妨碍实现或验证时使用 [codebase-design](../../codebase-design/SKILL.md)，确定负责该行为的模块、接口和测试接缝。涉及视觉方案和交互设计判断时采用 [oil-ui](../../oil-ui/SKILL.md)；具体改法已经明确时直接按项目现有界面实现。
+业务概念、生命周期或责任归属不清时使用 [domain-modeling](../../domain-modeling/SKILL.md)，取得一致的术语、事实拥有者与不变量。模块边界和依赖妨碍实现或验证时使用 [codebase-design](../../codebase-design/SKILL.md)，确定负责该行为的模块、接口和测试接缝。
+
+设计并实现 Web 页面、应用界面或组件时采用 [frontend-design](../../frontend-design/SKILL.md)；需要探索或比较视觉方向时采用 [oil-ui](../../oil-ui/SKILL.md)，将选定结果带入实现。具体改法已经明确的小调整直接按项目现有界面处理，不重复启动设计流程。
 
 将设计结果用于实现顺序和验收场景。多模块变更按契约与依赖安排工作，不为每个文件独立维护一份设计或重复确认已经决定的事项。
 

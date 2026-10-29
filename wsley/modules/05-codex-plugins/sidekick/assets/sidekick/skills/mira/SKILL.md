@@ -34,6 +34,7 @@ description: Coordinate Sidekick project work from natural-language requests, se
 | 当前需要 | 读取与采用 |
 | --- | --- |
 | 开发功能、修复缺陷、重构、修改配置或项目文档 | [开发工作流](references/development.md)，从当前实际阶段继续 |
+| 设计并实现 Web 页面、应用界面或组件，或重做现有界面视觉 | [frontend-design](../frontend-design/SKILL.md)，方向探索与方案比较采用 [oil-ui](../oil-ui/SKILL.md) |
 | 系统审查前端、后端或完整业务流程 | [审计与整改](references/audits.md)，按范围组合对应审计 |
 | 领域、界面、技术栈、质量或运维专项判断 | [专项能力](references/capabilities.md)，只选择与实际问题有关的技能 |
 | 调研、绘图、演示、README 设计或浏览器操作 | 从专项能力进入相应工具或产物流程，无须先启动完整开发流程 |

@@ -76,6 +76,6 @@ description: Audit an existing frontend across product tasks, information archit
 
 ## 专项能力
 
-需要专项知识时按需读取本插件的对应技能：用户研究采用 [user-research](../user-research/SKILL.md)，文案采用 [ux-copy](../ux-copy/SKILL.md)，视觉判断采用 [oil-ui](../oil-ui/SKILL.md)，界面规则采用 [web-design-guidelines](../web-design-guidelines/SKILL.md)，可访问性采用 [accessibility](../accessibility/SKILL.md)，React 性能采用 [vercel-react-best-practices](../vercel-react-best-practices/SKILL.md)，国际化采用 [i18n-expert](../i18n-expert/SKILL.md)，公开页面 SEO 采用 [seo-audit](../seo-audit/SKILL.md)。
+需要专项知识时按需读取本插件的对应技能：用户研究采用 [user-research](../user-research/SKILL.md)，文案采用 [ux-copy](../ux-copy/SKILL.md)，视觉方向探索采用 [oil-ui](../oil-ui/SKILL.md)，已授权的 Web 界面设计实现采用 [frontend-design](../frontend-design/SKILL.md)，界面规则采用 [web-design-guidelines](../web-design-guidelines/SKILL.md)，可访问性采用 [accessibility](../accessibility/SKILL.md)，React 性能采用 [vercel-react-best-practices](../vercel-react-best-practices/SKILL.md)，国际化采用 [i18n-expert](../i18n-expert/SKILL.md)，公开页面 SEO 采用 [seo-audit](../seo-audit/SKILL.md)。
 
 实际浏览器操作可使用 [agent-browser](../agent-browser/SKILL.md)；实施遵循项目开发规范及适用的 [disciplined-dev](../disciplined-dev/SKILL.md)。专项规则须与项目技术栈、权威事实和任务范围核对，只加载相关能力，不因开展审计自动安装依赖、接入服务或执行全部专项流程。

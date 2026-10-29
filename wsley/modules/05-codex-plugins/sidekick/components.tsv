@@ -14,6 +14,7 @@ Skills	bundled	domain-modeling	Domain terminology, ownership and business invari
 Skills	bundled	fastapi-expert	Async FastAPI services and database transaction boundaries
 Skills	bundled	find-skills	Skill discovery
 Skills	bundled	frontend-audit	Frontend product and experience audits
+Skills	bundled	frontend-design	Distinctive web interface design and implementation
 Skills	bundled	git-commit	Atomic Git commits
 Skills	bundled	git-push	Reviewed Git pushes
 Skills	bundled	git-review	Pre-commit convention and structure audits

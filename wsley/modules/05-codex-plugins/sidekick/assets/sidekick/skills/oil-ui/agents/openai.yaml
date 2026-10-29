@@ -1,4 +1,4 @@
 interface:
   display_name: "Interface Design"
-  short_description: "Shape product-specific design and verify real screens"
-  default_prompt: "Use $sidekick:oil-ui to design or refine this interface within the confirmed direction and verify the result."
+  short_description: "Explore interface directions and compare visual concepts"
+  default_prompt: "Use $sidekick:oil-ui to explore and compare interface directions within the project's constraints and verify the concepts."

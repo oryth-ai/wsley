@@ -1,11 +1,11 @@
 ---
 name: oil-ui
-description: Design and refine interfaces through product-specific visual direction, layout, typography, imagery, motion and rendered review. Use when design judgment or a comparison of directions is needed. Preserve confirmed choices; routine edits with an explicit solution do not need a new design process.
+description: Explore and compare interface directions through product-specific layout, typography, imagery, motion and rendered concepts. Use for visual direction exploration, design alternatives and concept refinement. Use frontend-design to implement a Web interface within the selected direction; routine edits with an explicit solution do not need a new design process.
 ---
 
 # Interface Design
 
-从用户任务、真实内容和产品身份推导界面，让构图、文字、色彩、素材和交互服务于同一个明确方向。视觉表现和任务是否完成分别验证，不用装饰替代产品结构。
+从用户任务、真实内容和产品身份探索界面方向，通过设计稿、代表页面或对比方案确定构图、文字、色彩、素材和交互的共同选择。视觉表现和任务是否完成分别验证，不用装饰替代产品结构。
 
 ## 范围与方向
 
@@ -22,6 +22,8 @@ description: Design and refine interfaces through product-specific visual direct
 新界面和改流程保留加载、空状态、失败、处理中、未知结果和完成后的行为。对信息是否必要的判断来自实际决策与操作，不能为追求极简删除对象、单位、范围、成本或恢复入口。
 
 ## 制作与评审
+
+需要将选定方向落实为 Web 页面或组件时，衔接 [frontend-design](../frontend-design/SKILL.md)，传递已有决定、参考及有效证据，不重新探索已经确定的方向。方向比较所需的可运行样本仍按当前请求制作。
 
 使用已安装的 [agent-browser](../agent-browser/SKILL.md) 在目标视口取得截图并实际查看，按 [运行与评审](references/review.md) 核对关键页面、状态与受影响操作。没有运行证据时限定结论，不把代码生成或截图文件存在当作已完成视觉验收。
 
