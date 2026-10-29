@@ -11,22 +11,25 @@ Skills	bundled	beautify-github-readme	GitHub README design
 Skills	bundled	codebase-design	Module and interface design
 Skills	bundled	disciplined-dev	Engineering conventions and implementation consistency
 Skills	bundled	domain-modeling	Domain terminology, ownership and business invariants
-Skills	bundled	fastapi-expert	Async FastAPI services and database transaction boundaries
+Skills	bundled	fastapi-expert	FastAPI contracts, lifecycles, request performance and streaming
 Skills	bundled	find-skills	Skill discovery
 Skills	bundled	frontend-audit	Frontend product and experience audits
 Skills	bundled	frontend-design	Distinctive web interface design and implementation
 Skills	bundled	git-commit	Atomic Git commits
 Skills	bundled	git-push	Reviewed Git pushes
 Skills	bundled	git-review	Pre-commit convention and structure audits
+Skills	bundled	golang-benchmark	Go benchmarks, profiling and statistical performance comparisons
 Skills	bundled	golang-concurrency	Go concurrency ownership, cancellation and leak prevention
+Skills	bundled	golang-performance	Evidence-based Go CPU, allocation, runtime and I/O optimization
 Skills	bundled	golang-testing	Behavior-focused Go tests and concurrency verification
 Skills	bundled	i18n-expert	Interface internationalization
 Skills	bundled	mira	Natural-language task routing and continuity
 Skills	bundled	next-ai-drawio	Editable draw.io diagrams
 Skills	bundled	observability-and-instrumentation	Production logs, metrics and distributed tracing
-Skills	bundled	oil-ui	Interface design
+Skills	bundled	oil-ui	Interface direction exploration and visual comparisons
 Skills	bundled	ppt-master	Editable presentations
 Skills	bundled	property-based-testing	Property-based tests and domain invariants
+Skills	bundled	python-performance-optimization	Python profiling, memory analysis and evidence-based optimization
 Skills	bundled	research	Evidence-based technical research
 Skills	bundled	security-and-hardening	Security threat modeling and application hardening
 Skills	bundled	seo-audit	Public website SEO audits
@@ -34,7 +37,7 @@ Skills	bundled	sre-engineer	Service reliability, capacity and recovery verificat
 Skills	bundled	supabase-postgres-best-practices	PostgreSQL schema, concurrency and query performance
 Skills	bundled	user-research	User research and usability studies
 Skills	bundled	ux-copy	Interface copy and terminology
-Skills	bundled	vercel-react-best-practices	React performance reviews
+Skills	bundled	vercel-react-best-practices	React loading, rendering and interaction performance measurement
 Skills	bundled	web-design-guidelines	Web interface implementation reviews
 Tool resources	skill	archify	Complete Archify renderer, schemas and resources
 Tool resources	skill	ppt-master	Complete PPT Master workflow, scripts and resources

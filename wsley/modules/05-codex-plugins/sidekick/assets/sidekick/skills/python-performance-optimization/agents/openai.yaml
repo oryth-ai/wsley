@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Performance"
+  short_description: "Profile Python CPU, memory and I/O costs with evidence"
+  default_prompt: "Use $sidekick:python-performance-optimization to locate the Python bottleneck and verify an optimization with comparable measurements and preserved behavior."

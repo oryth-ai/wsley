@@ -19,18 +19,26 @@
 | 新建或重做 Web 页面、应用界面与组件，需要具体视觉设计与实现 | [frontend-design](../../frontend-design/SKILL.md) | 将主题、排版、色彩、布局与交互落实为可运行且经过实际查看的界面 |
 | 界面实现需要对照 Web 规范检查 | [web-design-guidelines](../../web-design-guidelines/SKILL.md) | 记录具体实现偏差，保持项目现有设计与技术选择 |
 | 键盘、焦点、语义和辅助技术访问存在障碍 | [accessibility](../../accessibility/SKILL.md) | 连接交互状态、组件实现与实际可访问性验证 |
-| React 渲染、数据获取或资源加载有性能问题 | [vercel-react-best-practices](../../vercel-react-best-practices/SKILL.md) | 在项目版本与运行方式内调整，并验证对应性能行为 |
+| React 渲染、数据获取、资源加载或交互有性能问题 | [vercel-react-best-practices](../../vercel-react-best-practices/SKILL.md) | 结合 React 与浏览器证据定位，在项目版本与运行方式内调整并比较 |
 | 多语言资源、格式、排版或语言切换不一致 | [i18n-expert](../../i18n-expert/SKILL.md) | 同步界面、资源和语言行为，遵循项目目标语言范围 |
 | 公开页面的抓取、索引或搜索呈现需要审计 | [seo-audit](../../seo-audit/SKILL.md) | 将发现落到公开路由、元数据和实际可验证的页面 |
 
-## 后端、质量与运维
+## 后端与技术栈
 
 | 实际问题 | 采用的技能 | 结果如何进入后续工作 |
 | --- | --- | --- |
-| FastAPI 异步调用、依赖、事务或资源生命周期 | [fastapi-expert](../../fastapi-expert/SKILL.md) | 明确请求、用例和数据库边界，再实现相关接口与行为验证 |
+| FastAPI 接口、依赖、事务、请求性能或流式响应 | [fastapi-expert](../../fastapi-expert/SKILL.md) | 明确请求与资源边界，关联链路证据并验证接口、提交与收尾行为 |
+| Python 计算、内存、数据处理或 I/O 性能问题 | [python-performance-optimization](../../python-performance-optimization/SKILL.md) | 区分进程内热点与外部等待，形成基线、归因、优化及前后证据 |
 | Go goroutine 所有权、取消、竞争或泄漏 | [golang-concurrency](../../golang-concurrency/SKILL.md) | 明确启动、停止和回收责任，验收并发与退出行为 |
 | Go 行为测试、夹具、模糊测试或竞争验证 | [golang-testing](../../golang-testing/SKILL.md) | 为实际行为缺口选择项目已有测试方式和有效断言 |
+| Go 性能基线、benchmark、pprof、trace 或前后比较 | [golang-benchmark](../../golang-benchmark/SKILL.md) | 形成可复现测量，区分 CPU、分配、等待、调度与环境噪声 |
+| Go 热点优化或性能代码审查 | [golang-performance](../../golang-performance/SKILL.md) | 用测量依据选择算法、内存、CPU、运行时及 I/O 改法，并验证收益与行为 |
 | PostgreSQL 结构、锁、连接和查询性能 | [supabase-postgres-best-practices](../../supabase-postgres-best-practices/SKILL.md) | 根据项目契约与实际查询证据调整，不推导额外平台依赖 |
+
+## 质量与运维
+
+| 实际问题 | 采用的技能 | 结果如何进入后续工作 |
+| --- | --- | --- |
 | 状态机、数量关系或组合输入适合不变量验证 | [property-based-testing](../../property-based-testing/SKILL.md) | 从已确定的领域规则生成断言和输入，保留可解释的失败样例 |
 | 变更影响信任边界、权限、敏感数据或外部依赖 | [security-and-hardening](../../security-and-hardening/SKILL.md) | 结合实际攻击路径确定拒绝行为、修复位置与安全验证 |
 | 生产问题缺少日志、指标、追踪或有效告警 | [observability-and-instrumentation](../../observability-and-instrumentation/SKILL.md) | 在现有设施中补充诊断信号，并验证实际输出与信息保护 |

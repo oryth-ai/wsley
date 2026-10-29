@@ -40,4 +40,6 @@ channel 传递指针或引用时仍可能共享可变状态，必须有明确的
 
 修改遵循 [disciplined-dev](../disciplined-dev/SKILL.md)，使用 [golang-testing](../golang-testing/SKILL.md) 验证调度、取消、竞争和退出。复用已有 race、profile 与泄漏检查，按项目版本核对工具能力，不因使用本技能安装整套检测工具。
 
+需要比较并发实现的成本时采用 [golang-benchmark](../golang-benchmark/SKILL.md)，按证据优化热点时采用 [golang-performance](../golang-performance/SKILL.md)。性能测量与竞争检测分别运行，不以吞吐改善代替所有权和业务并发保证。
+
 交付并发边界、拥有者与停止方式，以及实际通过的场景和剩余限制。race 未报告问题不能证明所有业务并发顺序正确，goroutine 数量稳定也不能单独证明没有泄漏。

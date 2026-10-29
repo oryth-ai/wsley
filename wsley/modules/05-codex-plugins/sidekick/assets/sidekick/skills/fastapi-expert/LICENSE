@@ -1,9 +1,13 @@
 Adapted from jeffallan/claude-skills, fastapi-expert:
 https://github.com/jeffallan/claude-skills/tree/36f3fe8052da7c57083783268c6ea3265d075265/skills/fastapi-expert
 
+Adapted from fastapi/fastapi, fastapi:
+https://github.com/fastapi/fastapi/tree/79cab5bed28b24d92c185d236feb33f5783dfeb3/fastapi/.agents/skills/fastapi
+
 MIT License
 
 Copyright (c) 2025
+Copyright (c) 2018 Sebastián Ramírez
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

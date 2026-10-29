@@ -15,6 +15,7 @@ description: Diagnose and improve React and Next.js data loading, bundle size, r
 
 | 问题 | 读取资料 |
 | --- | --- |
+| 性能基线、Profiler、浏览器时间线与前后比较 | [测量与归因](references/measurement.md) |
 | 请求瀑布、服务端边界、缓存与客户端包体 | [数据与资源](references/data-and-bundles.md) |
 | 状态订阅、Effect、重渲染、hydration 与视觉更新 | [状态与渲染](references/state-and-rendering.md) |
 | 浏览器监听、持久化、计算与微优化 | [客户端成本](references/client-costs.md) |

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Benchmarking"
+  short_description: "Measure Go costs and compare performance with evidence"
+  default_prompt: "Use $sidekick:golang-benchmark to measure this Go performance question with representative inputs, controlled conditions and reproducible evidence."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Go Performance"
+  short_description: "Optimize measured Go hot paths while preserving behavior"
+  default_prompt: "Use $sidekick:golang-performance to review or optimize the Go performance issue using measured bottlenecks and verify the result without changing behavior."

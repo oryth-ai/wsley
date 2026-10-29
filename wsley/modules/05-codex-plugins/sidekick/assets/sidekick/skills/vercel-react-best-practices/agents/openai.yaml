@@ -1,4 +1,4 @@
 interface:
   display_name: "React Performance"
-  short_description: "Improve measured React loading and rendering behavior"
-  default_prompt: "Use $sidekick:vercel-react-best-practices to diagnose or improve the React performance issue while preserving application semantics."
+  short_description: "Profile React loading, rendering and interaction costs"
+  default_prompt: "Use $sidekick:vercel-react-best-practices to measure and improve the React performance issue with comparable evidence and preserved application semantics."

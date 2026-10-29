@@ -33,7 +33,9 @@ description: Audit backend architecture and commercial readiness across business
 | PostgreSQL 结构、锁、连接和查询 | [supabase-postgres-best-practices](../supabase-postgres-best-practices/SKILL.md) |
 | 数量关系、状态机和生成式验证 | [property-based-testing](../property-based-testing/SKILL.md) |
 | Go 生命周期、竞争和行为测试 | [golang-concurrency](../golang-concurrency/SKILL.md)、[golang-testing](../golang-testing/SKILL.md) |
-| Python 异步接口和数据库边界 | [fastapi-expert](../fastapi-expert/SKILL.md) |
+| Go 性能测量、热点及资源成本 | [golang-benchmark](../golang-benchmark/SKILL.md)、[golang-performance](../golang-performance/SKILL.md) |
+| FastAPI 接口、请求性能、流式与数据库边界 | [fastapi-expert](../fastapi-expert/SKILL.md) |
+| Python CPU、内存、数据处理及 I/O 成本 | [python-performance-optimization](../python-performance-optimization/SKILL.md) |
 | 遥测、可靠性、容量和恢复证据 | [observability-and-instrumentation](../observability-and-instrumentation/SKILL.md)、[sre-engineer](../sre-engineer/SKILL.md) |
 
 专项技能按需使用，不把整张表当作固定依赖或安装清单。不适用的技术、安装缺项和无法取得的运行证据分别说明；不自动安装工具或引入框架来凑齐评审面。

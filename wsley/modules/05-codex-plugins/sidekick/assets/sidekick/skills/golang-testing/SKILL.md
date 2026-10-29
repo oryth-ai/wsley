@@ -13,7 +13,7 @@ description: Write, review or debug Go tests that verify observable behavior, re
 - SQL、约束、锁、持久队列及外部协议使用真实专用依赖验证
 - goroutine、取消、超时和共享状态覆盖退出条件与竞争
 - 具有不变量、往返关系或独立参考结果的输入域适合 fuzzing 或属性测试
-- 性能疑问使用有代表性的 benchmark 和前后测量，不能用单次测试耗时替代
+- 性能疑问采用 [golang-benchmark](../golang-benchmark/SKILL.md) 进行有代表性的测量与比较，不能用单次测试耗时替代
 
 沿用项目已有目录、包、命名、build tags 和执行入口，不强制单文件对应、统一测试包后缀或新增集成标签。所用标准库 API 依据项目实际 Go 版本核验，不为使用示例升级工具链或增加旧版适配分支。
 
