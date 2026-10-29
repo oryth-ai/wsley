@@ -13,9 +13,14 @@ def runtime_root():
     return data / "sidekick/runtimes"
 
 
+def prepare_runtime_directory(directory, backup):
+    if directory.is_symlink() or (directory.exists() and not directory.is_dir()):
+        raise ValueError(f"A managed runtime must be a directory, not a link or file: {directory}")
+    backup(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+
+
 def prepare_presentation_environment(directory):
-    if directory.is_symlink():
-        raise ValueError(f"The presentation runtime must not be a symlink: {directory}")
     environment = directory / ".venv"
     interpreter = environment / "bin/python"
     ready = False
@@ -48,11 +53,15 @@ def prepare_presentation_environment(directory):
 
 def install_runtimes(plugin, upgrading, backup):
     root = runtime_root()
+    if root.is_symlink() or (root.exists() and not root.is_dir()):
+        raise ValueError(f"The runtime root must be a directory, not a link or file: {root}")
+    chromium = root / "chromium"
+    if chromium.exists() and not chromium.is_symlink():
+        raise ValueError(f"The managed Chromium path must be a symlink: {chromium}")
     packages = json.loads((plugin / "runtime-packages.json").read_text())
     for name, metadata in packages.items():
         directory = root / name
-        backup(directory)
-        directory.mkdir(parents=True, exist_ok=True)
+        prepare_runtime_directory(directory, backup)
         arguments = [
             "pnpm",
             "--dir",
@@ -70,8 +79,7 @@ def install_runtimes(plugin, upgrading, backup):
     subprocess.run([str(browser), "install", "--with-deps"], check=True)
 
     directory = root / "ppt-master"
-    backup(directory)
-    directory.mkdir(parents=True, exist_ok=True)
+    prepare_runtime_directory(directory, backup)
     interpreter = prepare_presentation_environment(directory)
     requirements = plugin / "vendor/ppt-master/requirements.txt"
     arguments = [
@@ -94,12 +102,10 @@ def install_runtimes(plugin, upgrading, backup):
         raise ValueError(
             "Sidekick environment validation failed; rerun wsley install sidekick after fixing the reported errors."
         )
-    chromium = root / "chromium"
-    if chromium.exists() and not chromium.is_symlink():
-        raise ValueError(f"The managed Chromium path must be a symlink: {chromium}")
-    backup(chromium)
-    chromium.unlink(missing_ok=True)
-    chromium.symlink_to(result["chromium"])
+    if not chromium.is_symlink() or chromium.resolve() != result["chromium"].resolve():
+        backup(chromium)
+        chromium.unlink(missing_ok=True)
+        chromium.symlink_to(result["chromium"])
     print(f"Chromium executable: {chromium}")
 
 
@@ -165,7 +171,13 @@ def check_runtimes(plugin, quick=False):
     ]
     for label, arguments in checks:
         try:
-            result = subprocess.run(arguments, capture_output=True, text=True, check=False)
+            result = subprocess.run(
+                arguments,
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=30 if quick else 60,
+            )
             passed = result.returncode == 0
             detail = (result.stderr or result.stdout).strip() if not passed else ""
             if label == "Chromium" and passed:
@@ -173,7 +185,7 @@ def check_runtimes(plugin, quick=False):
                 passed = chromium is not None
                 if not passed:
                     detail = "The browser CLI did not report an executable Chromium path."
-        except OSError as error:
+        except (OSError, ValueError, subprocess.TimeoutExpired) as error:
             passed, detail = False, str(error)
         print(f"{label}: {'ready' if passed else 'failed'}")
         if detail:
@@ -183,7 +195,8 @@ def check_runtimes(plugin, quick=False):
     requirements = plugin / "vendor/ppt-master/requirements.txt"
     stamp = root / "ppt-master/requirements.sha256"
     synchronized = (
-        stamp.is_file()
+        requirements.is_file()
+        and stamp.is_file()
         and stamp.read_text().strip() == hashlib.sha256(requirements.read_bytes()).hexdigest()
     )
     print(f"Presentation requirements: {'synchronized' if synchronized else 'not synchronized'}")

@@ -69,6 +69,9 @@ def apply_plugin(module, upgrading):
     catalog = root / ".agents/plugins/marketplace.json"
     configuration = codex_home / "config.toml"
     resolved_configuration = configuration.resolve()
+    update_configuration(
+        resolved_configuration.read_text() if resolved_configuration.exists() else ""
+    )
     cache = codex_home / "plugins/cache/wsley/sidekick"
     if current is not None and Path(current["source"]["path"]).resolve() != source.resolve():
         raise ValueError(

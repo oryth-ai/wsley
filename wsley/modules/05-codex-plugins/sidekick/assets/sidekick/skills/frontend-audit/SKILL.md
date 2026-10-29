@@ -76,6 +76,18 @@ description: Audit an existing frontend across product tasks, information archit
 
 ## 专项能力
 
-需要专项知识时按需读取本插件的对应技能：用户研究采用 [user-research](../user-research/SKILL.md)，文案采用 [ux-copy](../ux-copy/SKILL.md)，视觉方向探索采用 [oil-ui](../oil-ui/SKILL.md)，已授权的 Web 界面设计实现采用 [frontend-design](../frontend-design/SKILL.md)，界面规则采用 [web-design-guidelines](../web-design-guidelines/SKILL.md)，可访问性采用 [accessibility](../accessibility/SKILL.md)，React 性能采用 [vercel-react-best-practices](../vercel-react-best-practices/SKILL.md)，国际化采用 [i18n-expert](../i18n-expert/SKILL.md)，公开页面 SEO 采用 [seo-audit](../seo-audit/SKILL.md)。
+按实际问题读取本插件的对应技能，向其传递已有发现、项目约束与有效证据：
 
-实际浏览器操作可使用 [agent-browser](../agent-browser/SKILL.md)；实施遵循项目开发规范及适用的 [disciplined-dev](../disciplined-dev/SKILL.md)。专项规则须与项目技术栈、权威事实和任务范围核对，只加载相关能力，不因开展审计自动安装依赖、接入服务或执行全部专项流程。
+| 问题 | 采用的专项技能 |
+| --- | --- |
+| 用户需求与使用行为缺少证据 | [user-research](../user-research/SKILL.md) |
+| 术语、动作与状态文案不清 | [ux-copy](../ux-copy/SKILL.md) |
+| 视觉方向需要探索或比较 | [oil-ui](../oil-ui/SKILL.md) |
+| 已确定方向需要 Web 界面设计与实现 | [frontend-design](../frontend-design/SKILL.md) |
+| Web 实现、语义、键盘与辅助技术存在问题 | [web-design-guidelines](../web-design-guidelines/SKILL.md)、[accessibility](../accessibility/SKILL.md) |
+| React 加载、渲染与交互有性能问题 | [vercel-react-best-practices](../vercel-react-best-practices/SKILL.md) |
+| 语言资源、格式与切换行为不一致 | [i18n-expert](../i18n-expert/SKILL.md) |
+| 公开页面的抓取、索引与搜索呈现需要检查 | [seo-audit](../seo-audit/SKILL.md) |
+| 需要真实页面操作或浏览器证据 | [agent-browser](../agent-browser/SKILL.md) |
+
+实施采用 [disciplined-dev](../disciplined-dev/SKILL.md)。专项规则须与项目技术栈、权威事实和任务范围核对，只加载相关能力，不因开展审计自动安装依赖、接入服务或执行全部专项流程。

@@ -9,10 +9,25 @@ from urllib.parse import unquote
 from runtime import runtime_root
 
 
+def validate_text(path):
+    content = path.read_bytes()
+    if (
+        content.startswith(b"\xef\xbb\xbf")
+        or not content.endswith(b"\n")
+        or content.endswith(b"\n\n")
+        or b"\r" in content
+        or any(line != line.rstrip(b" \t") for line in content.splitlines())
+    ):
+        raise ValueError(f"Invalid plugin text formatting: {path}")
+    content.decode("utf-8")
+
+
 def validate_skill(directory):
     import yaml
 
     name = directory.name
+    if not re.fullmatch(r"[a-z][a-z0-9-]{0,63}", name):
+        raise ValueError(f"Invalid local skill name: {name}")
     document = directory / "SKILL.md"
     match = re.match(r"\A---\n(.*?)\n---\n\n# [^\n]+\n", document.read_text(), re.DOTALL)
     if not match:
@@ -45,16 +60,13 @@ def validate_skill(directory):
     license_file = directory / "LICENSE"
     if not license_file.is_file() or not license_file.read_text().strip():
         raise ValueError(f"Missing or empty skill license: {name}")
-
-    for path in directory.rglob("*"):
-        if path.is_file() and path.suffix in {".md", ".yaml"}:
-            content = path.read_bytes()
-            if (
-                not content.endswith(b"\n")
-                or b"\r" in content
-                or any(line != line.rstrip(b" \t") for line in content.splitlines())
-            ):
-                raise ValueError(f"Invalid skill text formatting: {path}")
+    license_text = license_file.read_text()
+    sources = re.findall(r"(?m)^Adapted from [^\n]+:\n([^\n]+)", license_text)
+    if license_text.count("Adapted from ") != len(sources) or any(
+        not re.fullmatch(r"https://github\.com/[\w.-]+/[\w.-]+/tree/[0-9a-f]{40}(?:/\S+)?", source)
+        for source in sources
+    ):
+        raise ValueError(f"A skill source requires a full commit reference: {name}")
 
 
 def validate_sources(module):
@@ -92,7 +104,11 @@ def validate_sources(module):
         imported.add(name)
 
     assets = module / "assets/sidekick"
-    local = {path.parent.name for path in (assets / "skills").glob("*/SKILL.md")}
+    local = set()
+    for path in (assets / "skills").iterdir():
+        if not path.is_dir() or not (path / "SKILL.md").is_file():
+            raise ValueError(f"A local skill requires its own directory and SKILL.md: {path}")
+        local.add(path.name)
     with (module / "components.tsv").open() as stream:
         rows = list(csv.DictReader(stream, delimiter="\t"))
     declared = {
@@ -105,7 +121,10 @@ def validate_sources(module):
         raise ValueError("Local skills, upstream tools and component declarations differ.")
     for name in sorted(local):
         validate_skill(assets / "skills" / name)
-    validate_references(assets, upstream_tools=imported)
+    for path in (module / "assets").rglob("*"):
+        if path.is_file() and (path.suffix in {".md", ".yaml", ".json"} or path.name == "LICENSE"):
+            validate_text(path)
+    validate_package(assets, upstream_tools=imported)
     manifest = json.loads((assets / "plugin.json").read_text())
     if manifest["name"] != "sidekick" or not re.fullmatch(
         r"[0-9]+\.[0-9]+\.[0-9]+", manifest["version"]
@@ -201,6 +220,8 @@ def validate_references(destination, *, upstream_tools=()):
                 continue
             path = unquote(target.split("#", 1)[0])
             reference = (document.parent / path).resolve()
+            if not reference.is_relative_to(destination.resolve()):
+                raise ValueError(f"A skill reference escapes the plugin: {document}: {target}")
             if any(
                 reference.is_relative_to((destination / "vendor" / name).resolve())
                 for name in upstream_tools
@@ -210,8 +231,8 @@ def validate_references(destination, *, upstream_tools=()):
                 raise ValueError(f"Missing skill reference: {document}: {target}")
 
 
-def validate_package(destination):
-    validate_references(destination)
+def validate_package(destination, *, upstream_tools=()):
+    validate_references(destination, upstream_tools=upstream_tools)
     for path in destination.rglob("*"):
         if path.is_symlink() and (
             not path.exists() or not path.resolve().is_relative_to(destination.resolve())
