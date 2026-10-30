@@ -3,7 +3,10 @@ import json
 import os
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
+
+from configuration import write_configuration
 
 
 def runtime_root():
@@ -13,17 +16,32 @@ def runtime_root():
     return data / "sidekick/runtimes"
 
 
-def prepare_runtime_directory(directory, backup):
+def validate_runtime_directory(directory):
     if directory.is_symlink() or (directory.exists() and not directory.is_dir()):
         raise ValueError(f"A managed runtime must be a directory, not a link or file: {directory}")
-    backup(directory)
-    directory.mkdir(parents=True, exist_ok=True)
 
 
-def prepare_presentation_environment(directory):
+def runtime_package_matches(directory, metadata):
+    installed = directory / "node_modules" / metadata["name"] / "package.json"
+    if not installed.is_file():
+        return False
+    try:
+        current = json.loads(installed.read_text())
+    except (OSError, ValueError):
+        return False
+    return (
+        isinstance(current, dict)
+        and current.get("version") == metadata["version"]
+        and all(
+            os.access(directory / "node_modules/.bin" / binary, os.X_OK)
+            for binary in metadata["bin"]
+        )
+    )
+
+
+def presentation_interpreter(directory):
     environment = directory / ".venv"
     interpreter = environment / "bin/python"
-    ready = False
     if environment.is_dir() and not environment.is_symlink():
         try:
             result = subprocess.run(
@@ -37,18 +55,21 @@ def prepare_presentation_environment(directory):
                 check=False,
                 timeout=10,
             )
-            ready = result.returncode == 0
+            if result.returncode == 0:
+                return interpreter
         except (OSError, subprocess.TimeoutExpired):
             pass
-    if ready:
-        return interpreter
+    return None
 
+
+def create_presentation_environment(directory):
+    environment = directory / ".venv"
     if environment.is_symlink() or (environment.exists() and not environment.is_dir()):
         environment.unlink()
     elif environment.exists():
         shutil.rmtree(environment)
     subprocess.run(["uv", "venv", "--python", "3.12", str(environment)], check=True)
-    return interpreter
+    return environment / "bin/python"
 
 
 def install_runtimes(plugin, upgrading, backup):
@@ -61,7 +82,12 @@ def install_runtimes(plugin, upgrading, backup):
     packages = json.loads((plugin / "runtime-packages.json").read_text())
     for name, metadata in packages.items():
         directory = root / name
-        prepare_runtime_directory(directory, backup)
+        validate_runtime_directory(directory)
+        if runtime_package_matches(directory, metadata):
+            print(f"Skipped {name}: {metadata['version']} is already installed.")
+            continue
+        backup(directory)
+        directory.mkdir(parents=True, exist_ok=True)
         arguments = [
             "pnpm",
             "--dir",
@@ -79,8 +105,13 @@ def install_runtimes(plugin, upgrading, backup):
     subprocess.run([str(browser), "install", "--with-deps"], check=True)
 
     directory = root / "ppt-master"
-    prepare_runtime_directory(directory, backup)
-    interpreter = prepare_presentation_environment(directory)
+    validate_runtime_directory(directory)
+    interpreter = presentation_interpreter(directory)
+    rebuilt = interpreter is None
+    if rebuilt:
+        backup(directory)
+        directory.mkdir(parents=True, exist_ok=True)
+        interpreter = create_presentation_environment(directory)
     requirements = plugin / "vendor/ppt-master/requirements.txt"
     arguments = [
         "uv",
@@ -93,9 +124,31 @@ def install_runtimes(plugin, upgrading, backup):
     ]
     if upgrading:
         arguments.append("--upgrade")
-    subprocess.run(arguments, check=True)
+    changes = True
+    if not rebuilt:
+        print("Resolving presentation dependencies...", flush=True)
+        result = subprocess.run(
+            [*arguments, "--dry-run", "--output-format", "json"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        plan = json.loads(result.stdout)
+        if not isinstance(plan, dict) or not isinstance(plan.get("changes"), list):
+            raise ValueError("The uv installation plan must contain a changes array.")
+        changes = bool(plan["changes"])
+    if changes:
+        if not rebuilt:
+            backup(directory)
+        subprocess.run(arguments, check=True)
+    else:
+        print("Skipped presentation dependencies: the environment already satisfies the plan.")
     digest = hashlib.sha256(requirements.read_bytes()).hexdigest()
-    (directory / "requirements.sha256").write_text(digest + "\n")
+    write_configuration(
+        directory / "requirements.sha256",
+        digest + "\n",
+        backup=(lambda target: None) if rebuilt or changes else backup,
+    )
 
     result = check_runtimes(plugin)
     if not result["ready"]:
@@ -103,9 +156,11 @@ def install_runtimes(plugin, upgrading, backup):
             "Sidekick environment validation failed; rerun wsley install sidekick after fixing the reported errors."
         )
     if not chromium.is_symlink() or chromium.resolve() != result["chromium"].resolve():
-        backup(chromium)
-        chromium.unlink(missing_ok=True)
-        chromium.symlink_to(result["chromium"])
+        with tempfile.TemporaryDirectory(prefix=".chromium-", dir=root) as temporary:
+            link = Path(temporary) / "chromium"
+            link.symlink_to(result["chromium"])
+            backup(chromium)
+            link.replace(chromium)
     print(f"Chromium executable: {chromium}")
 
 
@@ -128,15 +183,7 @@ def check_runtimes(plugin, quick=False):
     chromium = None
     packages = json.loads(manifest.read_text())
     for name, metadata in packages.items():
-        installed = root / name / "node_modules" / metadata["name"] / "package.json"
-        matches = (
-            installed.is_file()
-            and json.loads(installed.read_text())["version"] == metadata["version"]
-            and all(
-                os.access(root / name / "node_modules/.bin" / binary, os.X_OK)
-                for binary in metadata["bin"]
-            )
-        )
+        matches = runtime_package_matches(root / name, metadata)
         print(
             f"{name}: {'installed' if matches else 'missing or outdated'} ({metadata['version']})"
         )

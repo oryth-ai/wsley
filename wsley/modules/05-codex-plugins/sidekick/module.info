@@ -3,13 +3,13 @@ Sidekick Codex plugin
 Install:
   On first installation, validate bundled skills and assemble the plugin with the current Archify and PPT Master tool resources.
   For an existing installation, preserve plugin files; use wsley upgrade sidekick to synchronize bundled skills and upstream tool resources.
-  Prepare and verify managed environments, register the Wsley local marketplace and enable Sidekick, including a previously disabled installation.
+  Prepare and verify managed environments, register the Wsley local marketplace when absent and enable Sidekick, including a previously disabled installation.
   Refresh the managed Mira instruction and set agents.max_concurrent_threads_per_session to 20 while preserving unrelated configuration.
 
 Upgrade:
   Skip the operation when Sidekick is not installed.
   Assemble bundled skills and latest upstream tool resources, synchronize dependencies and verify environments before replacing the plugin.
-  Refresh registration and managed configuration, set the agent thread limit to 20 and enable Sidekick even if it was previously disabled.
+  Refresh changed plugin files and caches, repair missing registration and managed configuration, set the agent thread limit to 20 and enable Sidekick even if it was previously disabled.
 
 Status:
   Report plugin registration, upstream tool records, managed Codex configuration, browser and MCP package versions, Chromium binding, presentation dependencies and system packages.
@@ -18,6 +18,7 @@ Status:
 Requirements:
   Ubuntu, APT, AWK, an installed Codex CLI with plugin marketplace commands and a regular user with sudo access.
   Installation and upgrades require network access to the relevant GitHub, npm, Python, Chromium and APT sources.
+  The uv installation command must support JSON dry-run plans through --dry-run --output-format json.
 
 Configuration:
   Marketplace root: ${XDG_DATA_HOME:-$HOME/.local/share}/sidekick
@@ -34,16 +35,20 @@ Configuration:
   skills-lock.json records acquired tool commits and hashes; later upgrades resolve current sources without reusing this record as a version pin.
 
   Browser and draw.io MCP packages use published versions recorded in runtime-packages.json; the generated mcp.json calls the managed executable directly.
+  Matching package versions and executable entries are preserved; changed or missing packages are backed up before installation.
   The browser CLI provides version-matched instructions and installs Chromium with Linux dependencies; activation includes an offline launch test.
   Archify uses the validated runtimes/chromium link with ARCHIFY_CHROME and ARCHIFY_UPDATE_CHECK_DISABLED=1; an unchanged binding is preserved.
   Presentations use a managed Python 3.12 environment, vendor/ppt-master/requirements.txt and the system tools declared in components.tsv.
   Reuse a valid presentation interpreter and rebuild a missing, damaged or incorrectly versioned environment; reject symlinked runtime directories and replace environment symlinks without following them.
+  Resolve presentation dependency changes with a read-only uv plan; back up and update the environment only when changes are planned, while upgrades still resolve newer dependencies.
   Environments are prepared by Wsley commands and used directly by skills; project toolchains, dependencies, accounts, keys and remote services remain project or task configuration.
 
   Manage one <wsley-sidekick>...</wsley-sidekick> block in developer_instructions, preserving user text outside it and instructing Mira to resume unfinished work after compaction or handoffs.
   Installation and upgrade set agents.max_concurrent_threads_per_session to 20 spawned-agent threads, excluding the primary thread; preserve other settings, custom roles and TOML comments.
   Reject invalid Codex configuration before preparing runtime environments; skip managed configuration writes when values do not change.
-  Back up existing targets before changes, preserving symlinks as links; restore plugin files and configuration if activation fails.
+  Back up existing targets before changes, preserving symlinks as links; publish configuration and Chromium bindings by atomic replacement without modifying symlink targets.
+  Preserve identical plugin sources and caches, and skip existing marketplace registration; restore affected plugin files and configuration if activation fails.
+  Reuse the configuration snapshot within an activation while its contents, permissions and link state remain unchanged; each later changed state receives its own snapshot.
   Assembly or environment validation failure leaves plugin files and configuration untouched; completed dependency changes remain and no older upstream version is substituted.
   Browser downloads and Python interpreter caches follow their tools' storage settings; global skill directories are not modified.
   Open a new Codex conversation after installation or upgrade to load the plugin and entry instruction.

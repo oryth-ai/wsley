@@ -54,13 +54,11 @@ def update_configuration(original):
     return tomlkit.dumps(document)
 
 
-def configure_codex(configuration, *, backup):
-    configuration = Path(configuration).resolve()
+def write_configuration(configuration, replacement, *, backup, replace_symlink=False):
+    configuration = Path(configuration)
     original = configuration.read_text() if configuration.exists() else ""
-    replacement = update_configuration(original)
-    if replacement == original:
-        return
-    backup(configuration)
+    if replacement == original and not (replace_symlink and configuration.is_symlink()):
+        return False
     configuration.parent.mkdir(parents=True, exist_ok=True)
     descriptor, name = tempfile.mkstemp(prefix=".wsley-sidekick-", dir=configuration.parent)
     os.close(descriptor)
@@ -68,6 +66,14 @@ def configure_codex(configuration, *, backup):
     try:
         temporary.write_text(replacement)
         temporary.chmod(configuration.stat().st_mode & 0o777 if configuration.exists() else 0o600)
+        backup(configuration)
         temporary.replace(configuration)
     finally:
         temporary.unlink(missing_ok=True)
+    return True
+
+
+def configure_codex(configuration, *, backup):
+    configuration = Path(configuration)
+    original = configuration.read_text() if configuration.exists() else ""
+    write_configuration(configuration, update_configuration(original), backup=backup)

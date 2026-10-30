@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import filecmp
 import json
 import os
 import shutil
@@ -9,7 +10,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from configuration import configure_codex, update_configuration
+from configuration import configure_codex, update_configuration, write_configuration
 from package import build_plugin, validate_sources
 from runtime import check_runtimes, install_runtimes
 
@@ -54,6 +55,25 @@ def copy_path(source, target):
     run(["cp", "-a", "--", str(source), str(target)])
 
 
+def same_tree(source, target):
+    if source.is_symlink() or target.is_symlink():
+        return (
+            source.is_symlink() and target.is_symlink() and source.readlink() == target.readlink()
+        )
+    if not source.exists() or not target.exists():
+        return False
+    if source.stat().st_mode != target.stat().st_mode:
+        return False
+    if source.is_file() and target.is_file():
+        return filecmp.cmp(source, target, shallow=False)
+    if source.is_dir() and target.is_dir():
+        names = {path.name for path in source.iterdir()}
+        return names == {path.name for path in target.iterdir()} and all(
+            same_tree(source / name, target / name) for name in names
+        )
+    return False
+
+
 def apply_plugin(module, upgrading):
     current = installed_plugin()
     if upgrading and current is None:
@@ -68,21 +88,20 @@ def apply_plugin(module, upgrading):
     source = root / "plugin"
     catalog = root / ".agents/plugins/marketplace.json"
     configuration = codex_home / "config.toml"
-    resolved_configuration = configuration.resolve()
-    update_configuration(
-        resolved_configuration.read_text() if resolved_configuration.exists() else ""
-    )
+    original = configuration.read_text() if configuration.exists() else ""
+    update_configuration(original)
     cache = codex_home / "plugins/cache/wsley/sidekick"
     if current is not None and Path(current["source"]["path"]).resolve() != source.resolve():
         raise ValueError(
             "Sidekick is registered from another source; existing registration was preserved."
         )
-    for marketplace in codex("marketplace", "list")["marketplaces"]:
-        if marketplace["name"] == "wsley" and Path(marketplace["root"]).resolve() != root.resolve():
-            raise ValueError(
-                "The Wsley marketplace name is already registered from another source."
-            )
-    if current is not None and not upgrading and current["enabled"]:
+    marketplace = next(
+        (item for item in codex("marketplace", "list")["marketplaces"] if item["name"] == "wsley"),
+        None,
+    )
+    if marketplace is not None and Path(marketplace["root"]).resolve() != root.resolve():
+        raise ValueError("The Wsley marketplace name is already registered from another source.")
+    if current is not None and not upgrading and current["enabled"] and marketplace is not None:
         install_runtimes(source, False, lambda target: backup(module, target))
         configure_codex(configuration, backup=lambda target: backup(module, target))
         print("Skipped Sidekick plugin files: already installed.")
@@ -92,14 +111,41 @@ def apply_plugin(module, upgrading):
         package = stage / "package"
         if current is None or upgrading:
             build_plugin(module, package, stage)
+        replace_package = package.exists() and not same_tree(package, source)
         install_runtimes(
             package if package.exists() else source,
             upgrading,
             lambda target: backup(module, target),
         )
-        targets = list(
-            dict.fromkeys([source, catalog, cache, configuration, resolved_configuration])
-        )
+        listing = {
+            "name": "wsley",
+            "interface": {"displayName": "Wsley"},
+            "plugins": [
+                {
+                    "name": "sidekick",
+                    "source": {"source": "local", "path": "./plugin"},
+                    "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+                    "category": "Developer Tools",
+                }
+            ],
+        }
+        content = json.dumps(listing, indent=2) + "\n"
+        replace_catalog = not catalog.exists() or catalog.read_text() != content
+        refresh = current is None or not current["enabled"] or replace_package
+        if current is not None and not refresh:
+            refresh = not same_tree(source, cache / current["version"])
+        commands = []
+        if marketplace is None:
+            commands.append(("marketplace", "add", str(root)))
+        if refresh:
+            commands.append(("add", "sidekick@wsley"))
+        targets = [configuration]
+        if replace_package:
+            targets.append(source)
+        if replace_catalog:
+            targets.append(catalog)
+        if refresh:
+            targets.append(cache)
         previous = []
         for index, target in enumerate(targets):
             saved = stage / f"previous-{index}"
@@ -107,53 +153,50 @@ def apply_plugin(module, upgrading):
             if exists:
                 copy_path(target, saved)
             previous.append((target, saved, exists))
+        last_configuration = None
+
+        def backup_configuration(target):
+            nonlocal last_configuration
+            state = None
+            if target.is_symlink():
+                state = ("link", target.readlink())
+            elif target.is_file():
+                state = ("file", target.stat().st_mode, target.read_bytes())
+            if state != last_configuration:
+                backup(module, target)
+                last_configuration = state
+
         started = False
         try:
-            if package.exists():
+            if replace_package:
                 backup(module, source)
                 started = True
                 remove_path(source)
                 package.replace(source)
-            listing = {
-                "name": "wsley",
-                "interface": {"displayName": "Wsley"},
-                "plugins": [
-                    {
-                        "name": "sidekick",
-                        "source": {"source": "local", "path": "./plugin"},
-                        "policy": {
-                            "installation": "AVAILABLE",
-                            "authentication": "ON_INSTALL",
-                        },
-                        "category": "Developer Tools",
-                    }
-                ],
-            }
-            content = json.dumps(listing, indent=2) + "\n"
-            if not catalog.exists() or catalog.read_text() != content:
-                backup(module, catalog)
+            if replace_catalog:
                 started = True
-                catalog.parent.mkdir(parents=True, exist_ok=True)
-                catalog.write_text(content)
-            for arguments in (
-                ("marketplace", "add", str(root)),
-                ("add", "sidekick@wsley"),
-            ):
-                backup(module, configuration)
-                if resolved_configuration != configuration:
-                    backup(module, resolved_configuration)
+                write_configuration(catalog, content, backup=lambda target: backup(module, target))
+            for arguments in commands:
+                started = True
+                detached = write_configuration(
+                    configuration,
+                    configuration.read_text() if configuration.exists() else "",
+                    backup=backup_configuration,
+                    replace_symlink=True,
+                )
+                if not detached:
+                    backup_configuration(configuration)
                 if arguments[0] == "add":
                     backup(module, cache)
-                    started = True
                     remove_path(cache)
-                started = True
                 codex(*arguments)
             if current is not None and not upgrading:
                 for target, saved, existed in previous:
                     if target == cache and existed:
                         remove_path(cache)
                         copy_path(saved, cache)
-            configure_codex(configuration, backup=lambda target: backup(module, target))
+            started = True
+            configure_codex(configuration, backup=backup_configuration)
             enabled = installed_plugin()
             if enabled is None or not enabled["enabled"]:
                 raise ValueError("Codex did not enable Sidekick.")
