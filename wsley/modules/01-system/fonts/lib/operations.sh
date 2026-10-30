@@ -21,7 +21,7 @@ install_windows_fonts() {
         fi
         require_command fc-cache
         mkdir -p "$font_root"
-        cp -p -- "$source_file" "$target"
+        replace_file "$source_file" "$target"
         changed=true
     done < <(find /mnt/c/Windows/Fonts -maxdepth 1 -type f \( -iname '*.ttf' -o -iname '*.ttc' -o -iname '*.otf' \) -print0)
     if [[ "$changed" == true ]]; then
@@ -46,8 +46,7 @@ upgrade_windows_fonts() {
         cmp -s -- "$source_file" "$target" && continue
         require_command fc-cache
         mkdir -p "$font_root"
-        backup_file "$target" || return
-        cp -p -- "$source_file" "$target"
+        replace_file "$source_file" "$target"
         changed=true
     done < <(find /mnt/c/Windows/Fonts -maxdepth 1 -type f \( -iname '*.ttf' -o -iname '*.ttc' -o -iname '*.otf' \) -print0)
     if [[ "$changed" == true ]]; then

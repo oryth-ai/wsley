@@ -80,22 +80,13 @@ configure_zsh() (
             target="$custom/${config_file##*/}"
         fi
         if [[ "$action" == upgrade || (! -e "$target" && ! -L "$target") ]]; then
-            cmp -s -- "$config_file" "$target" && continue
-            backup_file "$target" || return
-            cp -p "$config_file" "$target"
+            replace_file "$config_file" "$target"
         fi
     done
 
     target="${ZDOTDIR:-$HOME}/.zshrc"
-    if ! cmp -s -- "$stage/zshrc" "$target"; then
-        backup_file "$target" || return
-        cat "$stage/zshrc" > "$target"
-    fi
-
-    if ! cmp -s -- "$stage/settings" "$zsh_settings"; then
-        backup_file "$zsh_settings" || return
-        cat "$stage/settings" > "$zsh_settings"
-    fi
+    replace_file "$stage/zshrc" "$target"
+    replace_file "$stage/settings" "$zsh_settings"
 )
 
 upgrade_zsh() {

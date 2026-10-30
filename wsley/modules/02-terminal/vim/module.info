@@ -15,3 +15,4 @@ Requirements:
 Configuration:
   Configuration file: ~/.vimrc
   Upgrade preserves existing lines and does not create an absent configuration file.
+  Changed configuration paths are replaced atomically; symbolic links are backed up and replaced without modifying their targets.

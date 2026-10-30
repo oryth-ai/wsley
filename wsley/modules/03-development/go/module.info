@@ -16,7 +16,9 @@ Requirements:
 Configuration:
   Destination: ~/.local/share/go
   The current symlink selects the managed release; previous release directories are retained.
+  Back up the current link only when selecting a different release, then publish the new link atomically.
   Missing command links are created in ~/.local/bin; existing user entry points are preserved.
   GOBIN defaults to ~/.local/bin only when unset; existing values are preserved.
   GOENV must allow persistent Go configuration.
+  Changed GOENV files are staged and renamed into place; symbolic links are backed up and replaced without modifying their targets.
   Open a new terminal after installation to load environment changes.

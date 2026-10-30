@@ -253,20 +253,33 @@ configuration_status() {
     fi
 }
 
-append_configuration_line() {
-    local file="$1" line="$2"
+append_configuration_line() (
+    local file="$1" line="$2" description="${3:-}" temporary mode
 
     if grep -Fxq "$line" "$file" 2> /dev/null; then
         return
     fi
 
-    backup_file "$file" || return
-    mkdir -p -- "$(dirname -- "$file")"
-    if [[ -s "$file" && -n "$(tail -c 1 -- "$file")" ]]; then
-        printf '\n' >> "$file"
+    temporary="$(mktemp)" || return
+    trap 'rm -f -- "$temporary"' EXIT
+    mode="$(printf '%o' "$((0666 & ~$(umask)))")"
+    if [[ -e "$file" ]]; then
+        [[ -f "$file" ]] || fail "Configuration path is not a regular file: $file"
+        cat -- "$file" > "$temporary" || return
+        mode="$(stat -Lc '%a' -- "$file")" || return
     fi
-    printf '%s\n' "$line" >> "$file"
-}
+    if [[ -s "$temporary" && -n "$(tail -c 1 -- "$temporary")" ]]; then
+        printf '\n' >> "$temporary"
+    fi
+    if [[ -n "$description" ]]; then
+        if [[ -s "$temporary" && -n "$(tail -n 1 -- "$temporary")" ]]; then
+            printf '\n' >> "$temporary"
+        fi
+        printf '# %s\n' "$description" >> "$temporary"
+    fi
+    printf '%s\n' "$line" >> "$temporary"
+    replace_file "$temporary" "$file" "$mode"
+)
 
 # shellcheck source=wsley/lib/components.sh
 source "$(dirname -- "${BASH_SOURCE[0]}")/components.sh"

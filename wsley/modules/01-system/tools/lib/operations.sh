@@ -36,13 +36,11 @@ configure_github_source() {
     if [[ ! -e "$keyring" && ! -L "$keyring" ]]; then
         require_command curl
         download https://cli.github.com/packages/githubcli-archive-keyring.gpg "$work/github.gpg"
-        system_backup "$keyring" || return
-        as_root install -D -m 0644 "$work/github.gpg" "$keyring"
+        system_replace_file "$work/github.gpg" "$keyring" 0644
     fi
     if [[ ! -e "$source_list" && ! -L "$source_list" ]]; then
         printf 'deb [arch=%s signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main\n' "$(dpkg --print-architecture)" > "$work/github.list"
-        system_backup "$source_list" || return
-        as_root install -D -m 0644 "$work/github.list" "$source_list"
+        system_replace_file "$work/github.list" "$source_list" 0644
     fi
 }
 

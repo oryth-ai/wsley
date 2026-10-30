@@ -57,22 +57,27 @@ publish_go_release() (
         mv "$temporary/go" "$version_dir"
     fi
 
-    ln -sfn "$version_dir" "$current_link"
+    replace_link "$version_dir" "$current_link"
     restore_go_commands
 
 )
 
-configure_go_environment() {
-    local go_environment bin_dir="$HOME/.local/bin"
+configure_go_environment() (
+    local go_environment temporary bin_dir="$HOME/.local/bin"
 
     go_environment="$("$go_root/current/bin/go" env GOENV)"
     [[ "$go_environment" != off ]] || fail 'GOENV=off prevents persistent Go configuration.'
-    if [[ -z "$("$go_root/current/bin/go" env GOBIN)" ]]; then
-        backup_file "$go_environment" || return
-        mkdir -p -- "$(dirname -- "$go_environment")"
-        "$go_root/current/bin/go" env -w GOBIN="$bin_dir"
+    if [[ -z "${GOBIN:-}" ]] && ! grep -q '^GOBIN=.' "$go_environment" 2> /dev/null; then
+        temporary="$(mktemp)"
+        trap 'rm -f -- "$temporary"' EXIT
+        if [[ -e "$go_environment" ]]; then
+            [[ -f "$go_environment" ]] || fail "GOENV is not a regular file: $go_environment"
+            cp -- "$go_environment" "$temporary"
+        fi
+        GOENV="$temporary" "$go_root/current/bin/go" env -w GOBIN="$bin_dir"
+        replace_file "$temporary" "$go_environment"
     fi
-}
+)
 
 install_go() {
     require_user

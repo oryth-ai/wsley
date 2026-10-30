@@ -1,17 +1,5 @@
 #!/usr/bin/env bash
 
-install_link() {
-    local source_file="$1" target="$2"
-
-    [[ ! -d "$target" || -L "$target" ]] || fail "Installation path is a directory: $target"
-    if [[ -L "$target" && "$(readlink -- "$target")" == "$source_file" ]]; then
-        return
-    fi
-    mkdir -p -- "$(dirname -- "$target")"
-    backup_file "$target" || return
-    ln -sfnT -- "$source_file" "$target"
-}
-
 install_wsley() (
     set -euo pipefail
 
@@ -71,11 +59,11 @@ install_wsley() (
     # shellcheck source=wsley/lib/common.sh
     source "$root/lib/common.sh"
 
-    install_link "$root/cli.sh" "$HOME/.local/bin/wsley"
-    install_link "$root/assets/completions/bash.sh" "$data_directory/bash-completion/completions/wsley"
-    install_link "$root/assets/completions/zsh.zsh" "$data_directory/zsh/site-functions/_wsley"
-    install_link "$root/assets/shell/bash.sh" "$HOME/.config/wsley/shell/bash.sh"
-    install_link "$root/assets/shell/zsh.zsh" "$HOME/.config/wsley/shell/zsh.zsh"
+    replace_link "$root/cli.sh" "$HOME/.local/bin/wsley"
+    replace_link "$root/assets/completions/bash.sh" "$data_directory/bash-completion/completions/wsley"
+    replace_link "$root/assets/completions/zsh.zsh" "$data_directory/zsh/site-functions/_wsley"
+    replace_link "$root/assets/shell/bash.sh" "$HOME/.config/wsley/shell/bash.sh"
+    replace_link "$root/assets/shell/zsh.zsh" "$HOME/.config/wsley/shell/zsh.zsh"
     install_user_environment
 
     printf '%s\n' 'Wsley and shell completions installed. Open a new terminal to use them.'

@@ -50,9 +50,6 @@ replace_apt_sources() (
 
     for file in "$@"; do
         process_apt_sources replace "$file" > "$temporary"
-        if ! cmp --silent "$file" "$temporary"; then
-            system_backup "$file" || return
-            as_root install -m 0644 "$temporary" "$file"
-        fi
+        system_replace_file "$temporary" "$file" 0644
     done
 )

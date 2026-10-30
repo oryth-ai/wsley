@@ -21,6 +21,7 @@ Configuration:
   ZSH_CUSTOM: $ZSH/custom by default
   Selected absolute paths are saved in .zshrc and ~/.config/wsley/zsh.sh; later operations reuse them unless environment variables override them.
   A custom ZDOTDIR must also be configured in the shell startup environment.
+  Changed configurations are staged and renamed into place; symbolic links are backed up and replaced without modifying their targets.
   Open a new Zsh session after installation or configuration updates.
   show-size displays disk usage as a tree and supports minimum-size filtering; see show-size --help.
   The rm alias uses trash-cli; cleanup-dirs permanently removes caches and can also remove generated environments and build output; see cleanup-dirs --help.

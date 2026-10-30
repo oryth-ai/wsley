@@ -44,3 +44,58 @@ backup_file() (
 system_backup() {
     as_root bash -euc "$(declare -f backup_file); backup_file \"\$1\"" bash "$1"
 }
+
+replace_file() (
+    local source_file="$1" target="$2" mode="${3:-}" temporary
+
+    if [[ ! -f "$source_file" || "$target" != /* || (-e "$target" && ! -f "$target") ]]; then
+        printf 'File replacement requires a regular source and an absolute file target: %s\n' "$target" >&2
+        return 1
+    fi
+    if [[ -z "$mode" && -f "$target" ]]; then
+        mode="$(stat -Lc '%a' -- "$target")" || return
+    fi
+    if [[ -n "$mode" ]]; then
+        [[ "$mode" =~ ^[0-7]{1,4}$ ]] || {
+            printf 'Invalid replacement file mode: %s\n' "$mode" >&2
+            return 1
+        }
+        mode="$(printf '%o' "$((8#$mode))")"
+    fi
+    if cmp -s -- "$source_file" "$target" &&
+        [[ -z "$mode" || "$(stat -Lc '%a' -- "$target")" == "$mode" ]]; then
+        return
+    fi
+
+    mkdir -p -- "$(dirname -- "$target")" || return
+    temporary="$(mktemp "$(dirname -- "$target")/.wsley-file.XXXXXX")" || return
+    trap 'rm -f -- "$temporary"' EXIT
+    cp --preserve=mode,timestamps -- "$source_file" "$temporary" || return
+    if [[ -n "$mode" ]]; then
+        chmod "$mode" "$temporary" || return
+    fi
+    backup_file "$target" || return
+    mv -Tf -- "$temporary" "$target"
+)
+
+system_replace_file() {
+    as_root bash -euc "$(declare -f backup_file replace_file); replace_file \"\$@\"" bash "$@"
+}
+
+replace_link() (
+    local source_file="$1" target="$2" temporary
+
+    if [[ "$target" != /* || (-d "$target" && ! -L "$target") ]]; then
+        printf 'Link replacement requires an absolute non-directory target: %s\n' "$target" >&2
+        return 1
+    fi
+    if [[ -L "$target" && "$(readlink -- "$target")" == "$source_file" ]]; then
+        return
+    fi
+    mkdir -p -- "$(dirname -- "$target")" || return
+    temporary="$(mktemp -d "$(dirname -- "$target")/.wsley-link.XXXXXX")" || return
+    trap 'rm -rf -- "$temporary"' EXIT
+    ln -s -- "$source_file" "$temporary/link" || return
+    backup_file "$target" || return
+    mv -Tf -- "$temporary/link" "$target"
+)

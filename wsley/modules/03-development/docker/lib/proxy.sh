@@ -33,12 +33,7 @@ Environment="HTTP_PROXY=$docker_proxy_url"
 Environment="HTTPS_PROXY=$docker_proxy_url"
 Environment="NO_PROXY=localhost,127.0.0.1,::1,host.docker.internal,*.local,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 EOF
-    if as_root cmp -s -- "$work/proxy.conf" "$docker_proxy" &&
-        [[ "$(as_root stat -Lc '%a' -- "$docker_proxy")" == 600 ]]; then
-        return 0
-    fi
-    system_backup "$docker_proxy" || return
-    as_root install -D -m 0600 "$work/proxy.conf" "$docker_proxy"
+    system_replace_file "$work/proxy.conf" "$docker_proxy" 0600
 }
 
 install_docker_proxy() {

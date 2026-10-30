@@ -16,3 +16,4 @@ Configuration:
   Source: /mnt/c/Windows/Fonts
   Destination: ~/.local/share/fonts/windows
   Missing source directories and unchanged fonts are skipped; upgrade does not copy fonts that have not been installed.
+  Changed files are staged and renamed into place; symbolic links are backed up and replaced without modifying their targets.

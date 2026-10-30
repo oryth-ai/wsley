@@ -33,8 +33,7 @@ install_docker() {
         make_workdir
         if [[ ! -e "$docker_key" && ! -L "$docker_key" ]]; then
             download https://download.docker.com/linux/ubuntu/gpg "$work/docker.asc"
-            system_backup "$docker_key" || return
-            as_root install -D -m 0644 "$work/docker.asc" "$docker_key"
+            system_replace_file "$work/docker.asc" "$docker_key" 0644
         fi
         if [[ ! -e "$docker_source" && ! -L "$docker_source" ]]; then
             cat > "$work/docker.sources" << EOF
@@ -45,8 +44,7 @@ Components: stable
 Architectures: $(dpkg --print-architecture)
 Signed-By: $docker_key
 EOF
-            system_backup "$docker_source" || return
-            as_root install -D -m 0644 "$work/docker.sources" "$docker_source"
+            system_replace_file "$work/docker.sources" "$docker_source" 0644
         fi
     fi
     apt_install "${docker_packages[@]}"
@@ -59,14 +57,12 @@ EOF
             if [[ ! -e "$nvidia_key" && ! -L "$nvidia_key" ]]; then
                 download https://nvidia.github.io/libnvidia-container/gpgkey "$work/nvidia.asc"
                 gpg --batch --yes --dearmor -o "$work/nvidia.gpg" "$work/nvidia.asc"
-                system_backup "$nvidia_key" || return
-                as_root install -D -m 0644 "$work/nvidia.gpg" "$nvidia_key"
+                system_replace_file "$work/nvidia.gpg" "$nvidia_key" 0644
             fi
             if [[ ! -e "$nvidia_source" && ! -L "$nvidia_source" ]]; then
                 download https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list "$work/nvidia.list"
                 sed "s#deb https://#deb [signed-by=$nvidia_key] https://#g" "$work/nvidia.list" > "$work/nvidia.sources"
-                system_backup "$nvidia_source" || return
-                as_root install -D -m 0644 "$work/nvidia.sources" "$nvidia_source"
+                system_replace_file "$work/nvidia.sources" "$nvidia_source" 0644
             fi
             apt_install "${gpu_packages[@]}"
             if [[ ! -e /etc/docker/daemon.json && ! -L /etc/docker/daemon.json ]]; then

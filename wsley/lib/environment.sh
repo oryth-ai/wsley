@@ -24,16 +24,13 @@ ENV
 
     for file in "$stage"/*.sh; do
         template="${file##*/}"
-        if ! cmp -s -- "$file" "$directory/$template"; then
-            backup_file "$directory/$template" || return
-            mv -- "$file" "$directory/$template"
-        fi
+        replace_file "$file" "$directory/$template"
     done
 
     # shellcheck disable=SC2016
     line='[ ! -r "$HOME/.config/wsley/environment/init.sh" ] || . "$HOME/.config/wsley/environment/init.sh"'
     for file in "$(bash_login_file)" "$HOME/.bashrc" "$zsh_directory/.zshenv"; do
-        register_shell_configuration "$file" "Wsley environment" "$line"
+        append_configuration_line "$file" "$line" "Wsley environment"
     done
     register_shell_integration
 )
@@ -61,30 +58,12 @@ register_shell_integration() {
         # shellcheck disable=SC2016
         line='[ ! -r "$HOME/.config/wsley/shell/bash.sh" ] || . "$HOME/.config/wsley/shell/bash.sh"'
         for file in "$(bash_login_file)" "$HOME/.bashrc"; do
-            register_shell_configuration "$file" "Wsley Bash integration" "$line"
+            append_configuration_line "$file" "$line" "Wsley Bash integration"
         done
     fi
     if [[ -r "$HOME/.config/wsley/shell/zsh.zsh" ]]; then
         # shellcheck disable=SC2016
         line='[ ! -r "$HOME/.config/wsley/shell/zsh.zsh" ] || . "$HOME/.config/wsley/shell/zsh.zsh"'
-        register_shell_configuration "${ZDOTDIR:-$HOME}/.zshrc" "Wsley Zsh integration" "$line"
+        append_configuration_line "${ZDOTDIR:-$HOME}/.zshrc" "$line" "Wsley Zsh integration"
     fi
-}
-
-register_shell_configuration() {
-    local file="$1" description="$2" line="$3"
-
-    if grep -Fxq "$line" "$file" 2> /dev/null; then
-        return
-    fi
-
-    backup_file "$file" || return
-    mkdir -p -- "$(dirname -- "$file")"
-    if [[ -s "$file" ]]; then
-        if [[ -n "$(tail -c 1 -- "$file")" ]]; then
-            printf '\n' >> "$file"
-        fi
-        [[ -z "$(tail -n 1 -- "$file")" ]] || printf '\n' >> "$file"
-    fi
-    printf '# %s\n%s\n' "$description" "$line" >> "$file"
 }
