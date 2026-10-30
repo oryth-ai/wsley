@@ -16,7 +16,8 @@
 
 | 实际问题 | 采用的技能 | 结果如何进入后续工作 |
 | --- | --- | --- |
-| 新建或重做 Web 页面、应用界面与组件，需要具体视觉设计与实现 | [frontend-design](../../frontend-design/SKILL.md) | 将主题、排版、色彩、布局与交互落实为可运行且经过实际查看的界面 |
+| 新建或重做 Web 页面、应用界面与组件，需要具体视觉设计与实现 | [frontend-design](../../frontend-design/SKILL.md) | 连贯处理设计决定、项目组件、官方示例、业务接入与实际验证 |
+| shadcn/ui 组件、区块、主题或组合需要查找、引入、定制与修正 | [shadcn](../../shadcn/SKILL.md) | 连接官网预览、匹配的 API、registry 源码与项目实际配置，保留本地定制 |
 | 界面实现需要对照 Web 规范检查 | [web-design-guidelines](../../web-design-guidelines/SKILL.md) | 记录具体实现偏差，保持项目现有设计与技术选择 |
 | 键盘、焦点、语义和辅助技术访问存在障碍 | [accessibility](../../accessibility/SKILL.md) | 连接交互状态、组件实现与实际可访问性验证 |
 | React 渲染、数据获取、资源加载或交互有性能问题 | [vercel-react-best-practices](../../vercel-react-best-practices/SKILL.md) | 结合 React 与浏览器证据定位，在项目版本与运行方式内调整并比较 |

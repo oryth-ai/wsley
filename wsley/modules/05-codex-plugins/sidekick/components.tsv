@@ -14,7 +14,7 @@ Skills	bundled	domain-modeling	Domain terminology, ownership and business invari
 Skills	bundled	fastapi-expert	FastAPI contracts, lifecycles, request performance and streaming
 Skills	bundled	find-skills	Skill discovery
 Skills	bundled	frontend-audit	Frontend product and experience audits
-Skills	bundled	frontend-design	Distinctive web interface design and implementation
+Skills	bundled	frontend-design	Web interface design, component integration and rendered verification
 Skills	bundled	git-commit	Atomic Git commits
 Skills	bundled	git-push	Reviewed Git pushes
 Skills	bundled	git-review	Pre-commit convention and structure audits
@@ -33,6 +33,7 @@ Skills	bundled	python-performance-optimization	Python profiling, memory analysis
 Skills	bundled	research	Evidence-based technical research
 Skills	bundled	security-and-hardening	Security threat modeling and application hardening
 Skills	bundled	seo-audit	Public website SEO audits
+Skills	bundled	shadcn	Official shadcn/ui examples, registry source and project-aware integration
 Skills	bundled	sre-engineer	Service reliability, capacity and recovery verification
 Skills	bundled	supabase-postgres-best-practices	PostgreSQL schema, concurrency and query performance
 Skills	bundled	user-research	User research and usability studies

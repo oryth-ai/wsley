@@ -84,6 +84,7 @@ description: Audit an existing frontend across product tasks, information archit
 | 术语、动作与状态文案不清 | [ux-copy](../ux-copy/SKILL.md) |
 | 视觉方向需要探索或比较 | [oil-ui](../oil-ui/SKILL.md) |
 | 已确定方向需要 Web 界面设计与实现 | [frontend-design](../frontend-design/SKILL.md) |
+| shadcn/ui 的 API、组合、主题或本地定制存在偏差 | [shadcn](../shadcn/SKILL.md)，按当前只读或整改范围核对项目实现 |
 | Web 实现、语义、键盘与辅助技术存在问题 | [web-design-guidelines](../web-design-guidelines/SKILL.md)、[accessibility](../accessibility/SKILL.md) |
 | React 加载、渲染与交互有性能问题 | [vercel-react-best-practices](../vercel-react-best-practices/SKILL.md) |
 | 语言资源、格式与切换行为不一致 | [i18n-expert](../i18n-expert/SKILL.md) |

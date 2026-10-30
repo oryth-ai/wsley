@@ -1,0 +1,4 @@
+interface:
+  display_name: "shadcn/ui"
+  short_description: "Official examples and project-aware shadcn integration"
+  default_prompt: "Use $sidekick:shadcn to inspect the project, find suitable official examples and integrate or fix the requested components while preserving local conventions."

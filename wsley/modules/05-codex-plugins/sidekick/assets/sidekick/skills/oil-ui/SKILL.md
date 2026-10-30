@@ -23,7 +23,7 @@ description: Explore and compare interface directions through product-specific l
 
 ## 制作与评审
 
-需要将选定方向落实为 Web 页面或组件时，衔接 [frontend-design](../frontend-design/SKILL.md)，传递已有决定、参考及有效证据，不重新探索已经确定的方向。方向比较所需的可运行样本仍按当前请求制作。
+需要将选定方向落实为 Web 页面或组件时，衔接 [frontend-design](../frontend-design/SKILL.md)，传递已有决定、参考及有效证据，由其根据项目组件体系接续源码与业务集成，不重新探索已经确定的方向。方向比较所需的可运行样本仍按当前请求制作，组件与示例来源沿用其 [组件与实现依据](../frontend-design/references/components.md)。
 
 使用已安装的 [agent-browser](../agent-browser/SKILL.md) 在目标视口取得截图并实际查看，按 [运行与评审](references/review.md) 核对关键页面、状态与受影响操作。没有运行证据时限定结论，不把代码生成或截图文件存在当作已完成视觉验收。
 

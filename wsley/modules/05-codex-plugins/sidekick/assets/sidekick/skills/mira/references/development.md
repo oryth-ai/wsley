@@ -8,7 +8,7 @@
 
 业务概念、生命周期或责任归属不清时使用 [domain-modeling](../../domain-modeling/SKILL.md)，取得一致的术语、事实拥有者与不变量。模块边界和依赖妨碍实现或验证时使用 [codebase-design](../../codebase-design/SKILL.md)，确定负责该行为的模块、接口和测试接缝。
 
-设计并实现 Web 页面、应用界面或组件时采用 [frontend-design](../../frontend-design/SKILL.md)；需要探索或比较视觉方向时采用 [oil-ui](../../oil-ui/SKILL.md)，将选定结果带入实现。具体改法已经明确的小调整直接按项目现有界面处理，不重复启动设计流程。
+设计并实现 Web 页面、应用界面或组件时，由 [frontend-design](../../frontend-design/SKILL.md) 衔接项目依据、视觉决定、组件与源码、业务接入及实际验证。方向尚未确定时采用 [oil-ui](../../oil-ui/SKILL.md)；组件相关工作按实际体系选择专项能力，shadcn/ui 使用 [shadcn](../../shadcn/SKILL.md) 的官网与项目集成方法。承接已有决定和有效证据，具体改法明确时直接实施，不重复启动设计流程。
 
 将设计结果用于实现顺序和验收场景。多模块变更按契约与依赖安排工作，不为每个文件独立维护一份设计或重复确认已经决定的事项。
 

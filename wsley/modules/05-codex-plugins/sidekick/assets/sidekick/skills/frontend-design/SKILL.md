@@ -1,23 +1,23 @@
 ---
 name: frontend-design
-description: Design and implement distinctive web pages, application interfaces and components, or visually reshape existing ones. Use for landing pages, dashboards, frontend builds and visual redesigns that need intentional typography, layout, color and motion. Preserve the project's design system and confirmed direction; use frontend-audit for systematic reviews.
+description: Design and implement distinctive Web pages, application interfaces and components through project context, intentional visual choices, existing components, official examples and rendered verification. Use for frontend builds and visual redesigns. Use oil-ui for direction exploration and frontend-audit for systematic reviews.
 ---
 
 # Frontend Design
 
-根据产品主题、使用者和任务设计并实现有辨识度的 Web 界面。让内容、排版、色彩、构图和交互表达同一个方向，交付可运行且经过实际查看的结果，不把通用模板换色当作设计完成。
+根据产品主题、使用者和任务设计并实现有辨识度的 Web 界面，将项目依据、视觉决定、组件源码、业务接入和实际验证连成完整交付。内容、排版、色彩、构图与交互共同表达产品，不把通用模板换色当作设计完成。
 
-## 主题与约束
+## 项目依据
 
-读取需求、实际内容、现有页面、品牌、设计变量和组件，确认界面为谁服务、帮助完成什么，以及应保留的技术栈和视觉选择。主题或主要任务仍不明确且会改变方案时，提出具体建议并确认，不凭记忆替用户决定产品。
+读取需求、实际内容、现有页面、品牌、设计变量和相关组件，确认界面为谁服务、帮助完成什么，以及应保留的技术栈、业务契约和视觉选择。核对项目包管理器、框架、组件体系及实际样式入口，不从示例反推项目应使用的工具。
 
-已有设计系统、明确参考和用户选定的风格作为设计依据。只有尚未确定的维度才需要探索；常见配色和布局也可能适合当前要求，不能为了追求新颖推翻已确认的方向。需要比较多种界面方向时采用 [oil-ui](../oil-ui/SKILL.md)，复用选定结果继续实现；具体改法已明确的小调整直接沿用现有界面。
+主题、主要任务或关键行为尚不明确且会改变方案时，提出具体建议并确认。已有设计系统、明确参考和选定风格作为依据；截图还原保留参考视口与结构，具体改法明确的小调整直接沿用现有界面。
 
-## 设计与校准
+## 方向与表现
 
-先形成与任务规模相称的简短设计计划，再实现和评审。明确有语义的色彩及具体色值、字体角色与层级、布局与对齐、间距和最需要被记住的视觉重点。必要时用简短线框比较结构，不默认新增设计文档或独立原型。
+先形成与任务规模相称的简短设计计划，明确色彩角色及具体色值、字体与层级、布局、间距和最需要被记住的视觉重点。已有决定直接承接，不重复规划或要求额外批准。需要探索或比较尚未确定的方向时采用 [oil-ui](../oil-ui/SKILL.md)，将选定结果带入实现，不默认新增设计文档或独立原型。
 
-实现前将计划逐项对照需求：哪些决定来自这个产品的内容、行业、材料或使用情境，哪些只是习惯性默认值？若更换项目名称后仍可原样套用，调整缺少依据的部分。已有明确方案时承接这些决定，不重复规划或要求额外批准。
+将设计决定逐项对照产品内容、行业、材料与使用情境。若更换项目名称后仍可原样套用，调整缺少依据的部分；常见配色、字体和布局也可能适合当前要求，不能为追求新颖推翻已确认方向。
 
 | 方面 | 设计判断 |
 | --- | --- |
@@ -30,9 +30,17 @@ description: Design and implement distinctive web pages, application interfaces 
 
 奶油色配衬线标题、深色配荧光强调、报纸式细线分栏和圆角 SaaS 卡片都可能成立，判断依据是当前需求。没有需求依据时，不把同一配色、全大写眉题、单词变色、单行元信息或每节淡入上移当作默认风格，也不将这些手法一概禁止。
 
+## 组件与源码
+
+按 [组件与实现依据](references/components.md) 选择本地组件、官方示例与必要自定义实现。优先阅读真实源码和调用方，复用项目有效的行为与视觉语法；需要示例时查看实际效果并取得对应代码，不凭组件名称猜测 API，也不把截图临摹当作源码集成。
+
+项目采用或任务已选择 shadcn/ui 时读取 [shadcn](../shadcn/SKILL.md)，通过官网的 Components、Blocks、Charts 等入口选择适合的示例，结合项目配置获取源码并完成适配。其他组件体系沿其自身官方资源工作，不因本技能支持 shadcn 而迁移技术栈。
+
+组件选型服务于任务、状态与内容关系。现有组件已能满足需求时直接组合；新增组件或完整区块时核对文件、依赖、样式、资源与接入范围，不把上游演示数据和模拟行为作为产品能力。
+
 ## 实现与内容
 
-修改遵循 [disciplined-dev](../disciplined-dev/SKILL.md)，复用项目现有框架、组件和样式入口。保持 CSS 选择器、覆盖关系与组件边界清楚，特别核对区块与元素样式是否互相抵消间距；不通过持续增加优先级修补布局。
+修改遵循 [disciplined-dev](../disciplined-dev/SKILL.md)，将选定结构和组件接入实际路由、数据、表单、权限与状态。保持组件职责、样式入口及覆盖关系清楚，核对区块与元素样式是否互相抵消间距，不通过持续增加优先级修补布局。
 
 用真实或明确标识的示例内容完成构图。文案从使用者的对象、动作和结果出发，同一动作在按钮、等待和完成反馈中保持相同术语；错误和空状态提供准确的下一步。缺少的业务事实不能用虚构的客户、指标或承诺补齐，文案专项问题采用 [ux-copy](../ux-copy/SKILL.md)。
 
@@ -40,8 +48,8 @@ description: Design and implement distinctive web pages, application interfaces 
 
 ## 评审与交付
 
-实现稳定后使用 [agent-browser](../agent-browser/SKILL.md) 查看真实页面与截图，核对目标视口、移动宽度、长内容、交互和受影响状态。把实际画面与设计计划对照，优先修复层级、裁切、对齐和操作障碍，再删除没有作用的装饰。
+实现稳定后按 [验证与交付](references/verification.md) 使用 [agent-browser](../agent-browser/SKILL.md) 查看真实页面与截图，验证受影响操作、状态及项目必要检查。将实际画面与设计计划和参考对照，优先修复层级、裁切、对齐和操作障碍，再处理装饰细节。
 
-需要审查整个产品体验时采用 [frontend-audit](../frontend-audit/SKILL.md)，不因一次页面制作启动完整审计。无法运行或查看时明确限制，不把代码生成、截图文件存在或静态检查通过称为视觉验证完成。
+完整产品体验审查采用 [frontend-audit](../frontend-audit/SKILL.md)，局部 Web 实现、可访问性和性能问题按实际需要采用相应能力，不重复启动已完成的检查。无法运行或查看时明确限制，不把代码生成、截图文件存在或静态检查通过称为视觉验证完成。
 
 交付界面、主要设计取舍、实际验证和未完成部分，区分原型、示例数据与真实接入。临时设计材料及截图遵循项目产物约定，不写入技能目录。
