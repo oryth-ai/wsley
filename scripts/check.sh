@@ -3,18 +3,34 @@
 set -euo pipefail
 export LC_ALL=C
 
+all=false
+for argument in "$@"; do
+    case "$argument" in
+        -h | --help)
+            cat << 'HELP'
+Usage: bash scripts/check.sh [options]
+
+Check project formatting, syntax, module sources and configuration.
+
+Options:
+  -h, --help    Show this help message and exit.
+  --all         Check all project files instead of Git changes.
+
+Without --all, check staged, unstaged and untracked changes, including deletions.
+Changes to shared validation rules also trigger a full check.
+HELP
+            exit 0
+            ;;
+        --all) all=true ;;
+        *)
+            printf 'Unknown argument: %s. Run bash scripts/check.sh --help.\n' "$argument" >&2
+            exit 2
+            ;;
+    esac
+done
+
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
 git rev-parse --show-toplevel > /dev/null
-
-all=false
-case "$*" in
-    '') ;;
-    --all) all=true ;;
-    *)
-        printf 'Usage: bash scripts/check.sh [--all]\n' >&2
-        exit 2
-        ;;
-esac
 
 changes="$(mktemp)"
 trap 'rm -f -- "$changes"' EXIT
@@ -23,7 +39,8 @@ if [[ "$all" == false ]]; then
     git diff --cached --name-only --no-renames -z >> "$changes"
     git ls-files -z --others --exclude-standard >> "$changes"
     if grep -zFxq -e Makefile -e .pre-commit-config.yaml \
-        -e scripts/check.sh -e wsley/lib/components.sh -e wsley/lib/modules.sh "$changes"; then
+        -e scripts/check.sh -e wsley/lib/components.sh -e wsley/lib/modules.sh \
+        -e wsley/lib/help.sh "$changes"; then
         all=true
     fi
 fi

@@ -3,8 +3,24 @@
 install_wsley() (
     set -euo pipefail
 
+    if (($# == 1)) && [[ "$1" == -h || "$1" == --help ]]; then
+        cat << 'HELP'
+Usage: bash wsley/install.sh [options]
+
+Install Wsley, shell completions and shell environment integration.
+
+Options:
+  -h, --help    Show this help message and exit.
+
+Notes:
+  Run without sudo. Missing Git is installed through sudo and APT.
+  The checkout is stored in ${XDG_DATA_HOME:-$HOME/.local/share}/wsley.
+  An existing installation is preserved; run wsley self-upgrade to update it.
+HELP
+        exit 0
+    fi
     (($# == 0)) || {
-        printf '%s\n' 'The installer does not accept arguments.' >&2
+        printf '%s\n' 'The installer does not accept arguments. Run bash wsley/install.sh --help.' >&2
         exit 2
     }
     ((EUID != 0)) || {

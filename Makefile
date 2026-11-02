@@ -1,12 +1,12 @@
 SHELL := /bin/bash
-SHELL_FILES := $(shell find wsley scripts -type f -name '*.sh' | sort)
+SHELL_FILES = $(shell find wsley scripts -type f -name '*.sh' | sort)
 SHFMT_FLAGS := -i 4 -ci -sr
 
 .DEFAULT_GOAL := help
 .PHONY: help setup format check check-all
 
 help: ## Show development commands
-	@awk 'BEGIN { FS = ":.*## "; print "Commands:" } /^[a-z][a-z-]*:.*## / { printf "  make %-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
+	@awk 'BEGIN { FS = ":.*## "; print "Usage: make <command>\n\nDevelop and validate Wsley.\n\nCommands:" } /^[a-z][a-z-]*:.*## / { printf "  %-12s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
 setup: ## Install development tools and Git hooks
 	sudo apt update && sudo apt install python3 python3-tomlkit python3-yaml shfmt shellcheck zsh

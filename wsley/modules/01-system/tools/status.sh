@@ -3,12 +3,9 @@
 # shellcheck source=wsley/lib/common.sh
 source "$(dirname -- "${BASH_SOURCE[0]}")/../../../lib/common.sh"
 
-load_module_context "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+status_options "$@"
 
-if (($#)); then
-    print_message error '%s\n' 'Usage: wsley status tools' >&2
-    exit 2
-fi
+load_module_context "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 require_apt
 

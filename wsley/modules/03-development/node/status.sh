@@ -3,9 +3,9 @@
 # shellcheck source=wsley/lib/common.sh
 source "$(dirname -- "${BASH_SOURCE[0]}")/../../../lib/common.sh"
 
-load_module_context "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-
 status_options "$@"
+
+load_module_context "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
 command_status node "$PNPM_HOME/bin/node" --version
 command_status pnpm "$PNPM_HOME/bin/pnpm" --version

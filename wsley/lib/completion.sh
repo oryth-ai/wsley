@@ -11,7 +11,7 @@ complete_wsley() {
 
     (($# == 0)) || prefix="${!#}"
     if (($# <= 1)); then
-        candidates=(list install upgrade status self-upgrade help)
+        candidates=(list install upgrade status self-upgrade help --help -h)
     else
         action="$1"
         shift
@@ -21,6 +21,7 @@ complete_wsley() {
             used[$word]=1
             case "$word" in
                 --yes | -y) has_yes=true ;;
+                --help | -h) return 0 ;;
                 *) targets+=("$word") ;;
             esac
         done
@@ -35,12 +36,18 @@ complete_wsley() {
                     candidates+=("${candidate#*-}")
                 done
                 candidates+=("${module_ids[@]}")
+                candidates+=(--help -h)
                 if [[ ("$action" == install || "$action" == upgrade) && "$has_yes" == false ]]; then
                     candidates+=(--yes -y)
                 fi
                 ;;
             self-upgrade)
-                [[ "$has_yes" == true ]] || candidates=(--yes -y)
+                candidates=(--help -h)
+                [[ "$has_yes" == true ]] || candidates+=(--yes -y)
+                ;;
+            help)
+                (($# <= 1)) || return 0
+                candidates=(list install upgrade status self-upgrade help --help -h)
                 ;;
         esac
     fi

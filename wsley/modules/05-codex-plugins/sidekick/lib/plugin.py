@@ -233,14 +233,47 @@ def status(module):
     check_runtimes(Path(current["source"]["path"]), quick=True)
 
 
+class HelpFormatter(argparse.RawDescriptionHelpFormatter):
+    def add_usage(self, usage, actions, groups, prefix=None):
+        super().add_usage(usage, actions, groups, prefix or "Usage: ")
+
+
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
+    parser = argparse.ArgumentParser(
+        prog="plugin.py",
+        usage="%(prog)s [options] <action> <module> [<destination>]",
+        description="Manage Sidekick plugin sources, installation and status.",
+        formatter_class=HelpFormatter,
+        add_help=False,
+        epilog=(
+            "Actions:\n"
+            "  validate   Validate bundled sources without installing dependencies.\n"
+            "  build      Assemble the plugin and resolve upstream tool resources.\n"
+            "  installed  Exit successfully if Sidekick is registered.\n"
+            "  install    Install and enable Sidekick.\n"
+            "  upgrade    Update an existing Sidekick installation.\n"
+            "  status     Report plugin registration and runtime status."
+        ),
+    )
+    positional = parser.add_argument_group("Arguments")
+    positional.add_argument(
         "action",
         choices=("validate", "build", "installed", "install", "upgrade", "status"),
+        metavar="<action>",
+        help="Action to run; see Actions below.",
     )
-    parser.add_argument("module", type=Path)
-    parser.add_argument("destination", type=Path, nargs="?")
+    positional.add_argument(
+        "module", type=Path, metavar="<module>", help="Sidekick module directory."
+    )
+    positional.add_argument(
+        "destination",
+        type=Path,
+        nargs="?",
+        metavar="<destination>",
+        help="Output directory required by build.",
+    )
+    options = parser.add_argument_group("Options")
+    options.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
     arguments = parser.parse_args()
     module = arguments.module.resolve()
     if arguments.action == "validate":

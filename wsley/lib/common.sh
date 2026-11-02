@@ -8,6 +8,9 @@ WSLEY_COMMON_LOADED=true
 # shellcheck source=wsley/lib/output.sh
 source "$(dirname -- "${BASH_SOURCE[0]}")/output.sh"
 
+# shellcheck source=wsley/lib/help.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/help.sh"
+
 set -Eeuo pipefail
 
 # shellcheck disable=SC2154
@@ -26,22 +29,32 @@ fail() {
 }
 
 parse_options() {
-    if (($# == 0)); then
-        return
-    fi
-
-    if (($# == 1)) && [[ "$1" == --yes || "$1" == -y ]]; then
-        assume_yes=true
-        apt_options=(-y)
-    else
-        print_message error 'Only --yes (or -y) is supported.\n' >&2
-        exit 2
-    fi
+    local argument
+    for argument in "$@"; do
+        case "$argument" in
+            -h | --help)
+                show_module_help "${BASH_SOURCE[1]}"
+                exit 0
+                ;;
+            --yes | -y)
+                assume_yes=true
+                apt_options=(-y)
+                ;;
+            *)
+                print_message error 'Unknown argument: %s. Run bash %s --help.\n' "$argument" "${BASH_SOURCE[1]}" >&2
+                exit 2
+                ;;
+        esac
+    done
 }
 
 status_options() {
+    if (($# == 1)) && [[ "$1" == -h || "$1" == --help ]]; then
+        show_module_help "${BASH_SOURCE[1]}"
+        exit 0
+    fi
     if (($#)); then
-        print_message error 'Status does not accept options.\n' >&2
+        print_message error 'Status does not accept arguments. Run bash %s --help.\n' "${BASH_SOURCE[1]}" >&2
         exit 2
     fi
 }

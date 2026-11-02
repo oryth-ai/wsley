@@ -8,43 +8,27 @@ root="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 # shellcheck source=wsley/lib/modules.sh
 source "$root/lib/modules.sh"
 
-usage() {
-    print_message heading '%s\n' 'Wsley - Ubuntu Development Environment Manager'
-    cat << 'HELP'
-
-Usage:
-  wsley list [module|group]...
-  wsley install <module|group>... [--yes]
-  wsley upgrade <module|group>... [--yes]
-  wsley status <module|group>...
-  wsley self-upgrade [--yes]
-  wsley help
-
-Module and group names can be mixed and are case-sensitive.
-Install, upgrade and status process each module once, in argument order.
-Install adds missing components; upgrade updates installed components.
-Run wsley list to see modules and groups, or wsley list <module> for details.
---yes (or -y) skips action confirmation, not APT mirror or Docker proxy questions.
-Self-upgrade refreshes the Wsley PATH environment after updating the checkout.
-Self-upgrade asks separately before overwriting local changes or diverged history.
-Force overwrite defaults to no and is never implied by --yes.
-HELP
-}
+# shellcheck source=wsley/lib/help.sh
+source "$root/lib/help.sh"
 
 action="${1:-help}"
 case "$action" in
-    help | -h | --help)
-        if (($# > 1)); then
-            print_message error 'Help does not accept arguments.\n' >&2
+    help)
+        if (($# > 2)); then
+            print_message error 'Usage: wsley help [<command>]\n' >&2
             exit 2
         fi
-        usage
+        target="${2:-}"
+        [[ "$target" != -h && "$target" != --help ]] || target=help
+        show_wsley_help "$target"
         exit 0
         ;;
-    self-upgrade)
-        # shellcheck source=wsley/lib/self-upgrade.sh
-        source "$root/lib/self-upgrade.sh"
-        self_upgrade_wsley "$(dirname -- "$root")" "${@:2}"
+    -h | --help)
+        if (($# != 1)); then
+            print_message error 'Help does not accept arguments. Run wsley help <command>.\n' >&2
+            exit 2
+        fi
+        show_wsley_help
         exit 0
         ;;
     __complete)
@@ -53,7 +37,7 @@ case "$action" in
         complete_wsley "$root/modules" "${@:2}"
         exit 0
         ;;
-    list | install | upgrade | status) ;;
+    list | install | upgrade | status | self-upgrade) ;;
     *)
         print_message error 'Unknown command: %s. Run wsley help.\n' "$action" >&2
         exit 2
@@ -65,8 +49,12 @@ targets=()
 options=()
 for argument in "$@"; do
     case "$argument" in
+        -h | --help)
+            show_wsley_help "$action"
+            exit 0
+            ;;
         --yes | -y)
-            if [[ "$action" != install && "$action" != upgrade ]]; then
+            if [[ "$action" != install && "$action" != upgrade && "$action" != self-upgrade ]]; then
                 print_message error '%s does not accept %s.\n' "$action" "$argument" >&2
                 exit 2
             fi
@@ -79,6 +67,17 @@ for argument in "$@"; do
         *) targets+=("$argument") ;;
     esac
 done
+
+if [[ "$action" == self-upgrade ]]; then
+    if ((${#targets[@]})); then
+        print_message error 'Self-upgrade does not accept arguments. Run wsley self-upgrade --help.\n' >&2
+        exit 2
+    fi
+    # shellcheck source=wsley/lib/self-upgrade.sh
+    source "$root/lib/self-upgrade.sh"
+    self_upgrade_wsley "$(dirname -- "$root")" "${options[@]}"
+    exit 0
+fi
 
 load_modules "$root/modules"
 if [[ "$action" == list && ${#targets[@]} == 0 ]]; then

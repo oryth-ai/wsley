@@ -1,13 +1,29 @@
 git-archive() {
     if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-        print "Usage: git-archive [commit]"
-        print "Description: Archive a commit as project-vdate-hash.tgz; default: HEAD."
+        if (($# != 1)); then
+            print -u2 "git-archive: Help does not accept arguments."
+            return 2
+        fi
+        cat << 'HELP'
+Usage: git-archive [options] [<commit>]
+
+Archive a commit as project-vdate-hash.tgz in the current directory.
+
+Arguments:
+  <commit>      Commit or reference to archive (default: HEAD).
+
+Options:
+  -h, --help    Show this help message and exit.
+
+Examples:
+  git-archive HEAD
+HELP
         return 0
     fi
 
     if [[ $# -gt 1 ]]; then
-        print -u2 "Usage: git-archive [commit]"
-        return 1
+        print -u2 "git-archive: Expected at most one commit. Run git-archive --help."
+        return 2
     fi
 
     local commit="${1:-HEAD}"
@@ -37,11 +53,59 @@ git-archive() {
 }
 
 git-wip() {
+    if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+        if (($# != 1)); then
+            print -u2 "git-wip: Help does not accept arguments."
+            return 2
+        fi
+        cat << 'HELP'
+Usage: git-wip [options] [<message>]
+
+Stage the current directory and create a chore: WIP commit.
+
+Arguments:
+  <message>     Commit message suffix (default: current date and time).
+
+Options:
+  -h, --help    Show this help message and exit.
+
+Examples:
+  git-wip "Checkpoint before refactoring"
+HELP
+        return 0
+    fi
+    if (($# > 1)); then
+        print -u2 "git-wip: Expected at most one message. Run git-wip --help."
+        return 2
+    fi
     local msg="${1:-@ $(date +"%Y-%m-%d %H:%M:%S")}"
     git add . && git commit -m "chore: WIP $msg"
 }
 
 git-unwip() {
+    if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+        if (($# != 1)); then
+            print -u2 "git-unwip: Help does not accept arguments."
+            return 2
+        fi
+        cat << 'HELP'
+Usage: git-unwip [options]
+
+Remove consecutive chore: WIP commits from the tip of the current branch.
+
+Options:
+  -h, --help    Show this help message and exit.
+
+Notes:
+  Resets to the latest non-WIP first-parent commit using git reset --soft.
+  File contents and the staging area are preserved.
+HELP
+        return 0
+    fi
+    if (($#)); then
+        print -u2 "git-unwip: Arguments are not supported. Run git-unwip --help."
+        return 2
+    fi
     local head_subject target
 
     head_subject="$(git log -1 --format=%s)" || return 1

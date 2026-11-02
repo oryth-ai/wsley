@@ -6,18 +6,35 @@ show-size() {
     while (($# > 0)); do
         case "$1" in
             -h | --help)
-                print "Usage: show-size [-L depth] [-I pattern] [-s size|--min-size size] [path ...]"
-                print "Description: Display path sizes as a tree; default to entries in the current directory."
-                print "Options: -L depth Expand the tree to this depth; default: 1."
-                print "     -I pattern Show matching directories without expanding them."
-                print "     -s, --min-size size Show only files and directories whose disk usage exceeds size."
-                print "        Use bytes or binary units K, M, G, T, P, E (optional B); e.g. 100M or 1.5G."
+                cat << 'HELP'
+Usage: show-size [options] [--] [<path>...]
+
+Display disk usage as a tree.
+
+Arguments:
+  <path>                  Paths to inspect; default: current directory entries.
+
+Options:
+  -h, --help              Show this help message and exit.
+  -L <depth>              Number of tree levels to display (default: 1).
+  -I <pattern>            Show matching directories without expanding them.
+  -s, --min-size <size>   Show entries whose disk usage exceeds this size.
+  --                      Treat remaining arguments as paths.
+
+Sizes:
+  Use non-negative bytes or binary units K, M, G, T, P, E, with optional B.
+  Fractional sizes are accepted; the maximum is 9223372036854775807 bytes.
+
+Examples:
+  show-size -L 2 .
+  show-size --min-size 100M -I node_modules .
+HELP
                 return 0
                 ;;
             -L)
                 if (($# < 2)); then
                     print -u2 "show-size: -L requires a depth"
-                    return 1
+                    return 2
                 fi
                 depth="$2"
                 tree_mode=true
@@ -31,7 +48,7 @@ show-size() {
             -I)
                 if (($# < 2)); then
                     print -u2 "show-size: -I requires a glob pattern"
-                    return 1
+                    return 2
                 fi
                 ignore_pattern="$2"
                 shift 2
@@ -43,7 +60,7 @@ show-size() {
             -s | --min-size)
                 if (($# < 2)); then
                     print -u2 "show-size: $1 requires a size"
-                    return 1
+                    return 2
                 fi
                 min_size="$2"
                 min_size_set=true
@@ -62,7 +79,7 @@ show-size() {
                 ;;
             -*)
                 print -u2 "show-size: Unknown option: $1"
-                return 1
+                return 2
                 ;;
             *)
                 paths+=("$1")
@@ -105,7 +122,7 @@ show-size() {
             ((${#parsed_size} > 19)) ||
             [[ ${#parsed_size} == 19 && "$parsed_size" > 9223372036854775807 ]]; then
             print -u2 "show-size: size must be non-negative bytes or a binary size such as 100M or 1.5G (maximum: 9223372036854775807 bytes)"
-            return 1
+            return 2
         fi
         min_bytes="$parsed_size"
     fi
@@ -113,7 +130,7 @@ show-size() {
     if [[ "$tree_mode" == true && -n "$depth" ]]; then
         if [[ "$depth" != <-> ]] || (($depth < 1)); then
             print -u2 "show-size: -L depth must be a positive integer"
-            return 1
+            return 2
         fi
         tree_depth="$((depth - 1))"
     fi
@@ -204,10 +221,28 @@ cleanup-dirs() {
     while (($# > 0)); do
         case "$1" in
             -h | --help)
-                print "Usage: cleanup-dirs [directory] [-g|--include-generated] [-v|--verbose]"
-                print "Description: Remove common caches and empty directories; default: current directory."
-                print "Options: -g, --include-generated Also remove .venv, node_modules, and dist directories."
-                print "     -v, --verbose Print removed files and directories."
+                cat << 'HELP'
+Usage: cleanup-dirs [options] [--] [<directory>]
+
+Permanently remove known caches, report files and empty directories.
+
+Arguments:
+  <directory>              Directory to clean recursively (default: .).
+
+Options:
+  -h, --help               Show this help message and exit.
+  -g, --include-generated  Also remove .venv, node_modules and dist directories.
+  -v, --verbose            Print removed cache and generated paths.
+  --                       Treat the next argument as the directory.
+
+Notes:
+  Deletion bypasses the trash and does not ask for confirmation.
+  .git directories and their contents are preserved.
+
+Examples:
+  cleanup-dirs .
+  cleanup-dirs --include-generated --verbose ./project
+HELP
                 return 0
                 ;;
             -g | --include-generated)
@@ -219,8 +254,8 @@ cleanup-dirs() {
             --)
                 shift
                 if (($# > 1)); then
-                    print -u2 "Usage: cleanup-dirs [directory] [-g|--include-generated] [-v|--verbose]"
-                    return 1
+                    print -u2 "cleanup-dirs: Only one directory is allowed. Run cleanup-dirs --help."
+                    return 2
                 fi
                 if (($# == 1)); then
                     root="$1"
@@ -230,12 +265,12 @@ cleanup-dirs() {
                 ;;
             -*)
                 print -u2 "cleanup-dirs: Unknown option: $1"
-                return 1
+                return 2
                 ;;
             *)
                 if [[ "$root_set" == true ]]; then
                     print -u2 "cleanup-dirs: Only one directory is allowed."
-                    return 1
+                    return 2
                 fi
                 root="$1"
                 root_set=true
