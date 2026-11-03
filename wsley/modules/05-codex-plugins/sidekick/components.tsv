@@ -6,7 +6,7 @@ Plugin	asset	skills/*/LICENSE	Skill licenses and upstream source references
 Skills	bundled	accessibility	Web accessibility audits
 Skills	bundled	agent-browser	Browser automation
 Skills	bundled	archify	Architecture diagrams
-Skills	bundled	backend-audit	Backend architecture and commercial readiness audits
+Skills	bundled	backend-audit	Backend contracts, architecture and production readiness audits
 Skills	bundled	beautify-github-readme	GitHub README design
 Skills	bundled	codebase-design	Module and interface design
 Skills	bundled	disciplined-dev	Engineering conventions and implementation consistency

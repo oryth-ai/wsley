@@ -29,6 +29,8 @@ Configuration:
 
   Entry skill: sidekick:mira; describe project work naturally, with task coordination and specialist routing maintained in its skill files.
   Bundled skills are maintained in assets/sidekick/skills and use the host's default automatic selection; upgrades preserve these local methods rather than replacing them with upstream instructions.
+  Skills select methods from the target project's actual contracts and versions; examples do not impose a domain model, repository layout or new capabilities.
+  Local tool adapters retain required formats and validation while applying the current task scope and confirmed decisions to upstream workflow guidance.
   Each skill uses name and description frontmatter, agents/openai.yaml interface metadata and a LICENSE containing applicable terms and upstream references with full commit hashes.
   assets/upstream.json declares complete version-coupled tool resources under vendor/<name>, preserving their original instructions, scripts, templates and licenses.
   Assembly uses project-scoped pnpx skills@latest with --copy; each repository HEAD is resolved once unless an explicit revision and pin_reason document a compatibility constraint.

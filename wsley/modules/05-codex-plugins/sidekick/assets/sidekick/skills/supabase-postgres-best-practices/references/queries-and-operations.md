@@ -16,6 +16,10 @@ B-tree、GIN、GiST 等索引类型匹配真实操作符与数据类型，不能
 
 ## 计划与维护
 
+先按需要取得不带 `ANALYZE` 的估算计划；需要实际行数、耗时和缓冲证据时，再在合适环境与预算内使用 `EXPLAIN (ANALYZE, BUFFERS)`。`ANALYZE` 会执行语句，`SELECT` 也可能调用有副作用的函数，不能按 SQL 首词判断只读。[PostgreSQL EXPLAIN](https://www.postgresql.org/docs/current/sql-explain.html)
+
+事务回滚只能撤销其覆盖的数据库变更，不能消除运行期间的锁、负载或外部调用，序列取号也不会因回滚恢复。写查询优先在隔离数据上测量，不把 `BEGIN` / `ROLLBACK` 当作在生产执行任意语句的许可。[序列事务语义](https://www.postgresql.org/docs/current/functions-sequence.html)
+
 比较估算与实际行数、扫描、连接方式、排序、缓存命中和 I/O，结合真实参数判断计划。示例中的固定耗时和加速比例不作为验收目标。
 
 使用项目已有统计视图和 `pg_stat_statements` 等可用扩展定位主要成本；没有安装时不为一次审查默认改动数据库。统计信息与数据分布变化可能改变计划，测量记录版本、规模和运行条件。

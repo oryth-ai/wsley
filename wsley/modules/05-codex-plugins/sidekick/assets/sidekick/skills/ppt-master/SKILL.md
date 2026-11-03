@@ -1,6 +1,6 @@
 ---
 name: ppt-master
-description: Create, edit, reconstruct and export presentations using the installed PPT Master workflow and resources. Use for editable PPTX, templates, slide reconstruction, narration and presentation-authored video. Preserve upstream routing, attribution checks and user confirmation gates.
+description: Create, edit, reconstruct and export presentations using the installed PPT Master workflow and resources. Use for editable PPTX, templates, slide reconstruction, narration and presentation-authored video. Apply version-matched routing and file checks within the user's scope and confirmed choices.
 ---
 
 # Presentations
@@ -15,7 +15,9 @@ description: Create, edit, reconstruct and export presentations using the instal
 
 ## 执行与衔接
 
-根据用户需求选择生成、重建、美化、模板创建或原生编辑等具体路径，保留上游实际适用的确认门槛、文件契约和阶段顺序。已经形成的任务目标和用户授权继续有效，工具示例不能替换产品事实或扩大交付范围。
+根据用户需求选择生成、重建、美化、模板创建或原生编辑等具体路径，遵循实际文件契约和依赖顺序。进入确认环节时先核对已明确的内容、设计、页面范围和授权，只将尚未解决且影响后续工作的决定交给用户；用户已确认或明确委派的事项直接承接，不因上游模板再次要求相同批准。
+
+上游的目录名、页面示例、角色播报和固定交付话术用于理解工具流程，按当前项目与用户语言组织实际工作。格式要求、归属校验与产物验证保留，推广、模型推荐、外部服务和插件自身修改不随制作任务自动执行。
 
 上游命令中的 `python` 与 `python3` 使用已安装的演示解释器，`skills/ppt-master/` 前缀按 `SKILL_DIR` 展开。环境安装和升级由 Wsley 完成，任务流程只处理所需的输入、内容、素材、模板与输出。
 

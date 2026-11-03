@@ -8,13 +8,15 @@
 
 会话生命周期可以由请求依赖管理，事务提交责任仍需由完整用例明确决定。发生异常时回滚并正确关闭，失效事务不能继续当作可用连接。helper 使用 `flush` 获取当前事务中的写入结果时，不擅自提前提交调用者的事务。
 
-不要让依赖退出时的隐式提交成为发送成功响应之后才发生的关键业务动作。明确当前 FastAPI 版本的依赖退出、流式响应与后台执行次序，必须成功的提交在宣布完成前取得结果。
+不要让依赖退出时的隐式提交成为发送成功响应之后才发生的关键业务动作。明确当前 FastAPI 版本的依赖退出、流式响应与后台执行次序，必须成功的提交在宣布完成前取得结果。版本支持时，`scope="function"` 在响应发送前退出，`scope="request"` 覆盖响应发送；选择还需满足子依赖的存活期，不能为提前关闭会话破坏正在消费的流。[FastAPI 依赖作用域](https://fastapi.tiangolo.com/advanced/advanced-dependencies/#dependencies-with-yield-and-scope)
 
 ## 查询与序列化
 
 在明确的异步会话内加载响应所需字段和关系，避免序列化时意外 lazy load、N+1 查询或会话关闭后的访问。按实际访问模式选择显式查询或 eager loading，不全局预取所有关系。
 
-核对提交后字段过期策略，避免返回对象时触发隐式 I/O。数据库唯一约束、外键和数量约束仍是并发保护的一部分；只将可识别的约束错误映射为对应业务拒绝，不用宽泛异常捕获隐藏真实故障。
+核对提交后字段过期策略，避免返回对象时触发隐式 I/O；`expire_on_commit`、eager loading、显式 `refresh` 和可等待属性按实际 ORM 版本及访问方式选择，不将一种配置写成统一默认值。[SQLAlchemy 异步访问](https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html#preventing-implicit-io-when-using-asyncsession)
+
+数据库唯一约束、外键和数量约束仍是并发保护的一部分；只将可识别的约束错误映射为对应业务拒绝，不用宽泛异常捕获隐藏真实故障。
 
 ## 外部调用与取消
 

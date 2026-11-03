@@ -17,7 +17,7 @@ description: Design and review PostgreSQL schemas, queries, transactions, lockin
 
 取得实际查询、参数分布、数据规模、索引和计划，区分扫描、估算偏差、锁等待、连接不足、I/O 与 CPU 问题。按 [查询与运行](references/queries-and-operations.md) 选择索引、连接和访问策略，不根据列名或固定速度倍数判断收益。
 
-`EXPLAIN ANALYZE` 会执行语句，写查询或昂贵查询的验证需要合适环境与授权。对生产数据采用项目允许的只读、采样和预算，不能把收集证据扩大为执行写入或重建数据。
+采集计划时区分估算与实际执行。对生产数据采用项目允许的只读、采样和预算，不能把收集证据扩大为执行写入或重建数据。
 
 ## 安全与高级能力
 
