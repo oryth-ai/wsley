@@ -11,6 +11,7 @@ Network and diagnostics	apt	htop	htop
 Network and diagnostics	apt	lsof	lsof
 Network and diagnostics	apt	net-tools	net-tools
 Network and diagnostics	uv-tool	nvitop	nvitop
+File management	apt	restic	restic
 File management	apt	ripgrep	ripgrep
 File management	apt	rsync	rsync
 File management	apt	trash-cli	trash-cli
