@@ -1,19 +1,25 @@
 ---
 name: frontend-audit
-description: Audit an existing frontend across product tasks, information architecture, interaction, visual hierarchy, content and production quality. Use for systematic frontend or UX reviews, page-by-page audits, and audits with authorized fixes. Supports read-only findings and audit-and-fix work. Not for greenfield product design, routine edits with an already specified solution, or repository convention reviews.
+description: Audit frontend product tasks, structure, interaction, visual quality and production behavior, either across an existing interface or within a Git change. Use for frontend or UX audits, interface regression reviews and authorized fixes. Not for greenfield design or repository convention reviews.
 ---
 
 # Frontend Audit
 
-从使用者完成任务的过程审查现有前端，以实际界面、调用链和项目事实提出可执行的改进。设计建议、已确认的问题和已验证的修复分别交付。
+从使用者完成任务的过程审查现有前端或界面变更，以实际界面、调用链和项目事实提出可执行的改进。区分设计建议、已确认问题与已验证修复；审查变更时，再区分新增缺陷、回归与原有问题。
 
 ## 范围与依据
 
 先确认审计对象、使用者、主要任务和交付模式。仅要求审查、分析或方案时保持只读；明确要求优化或修复时，在授权范围内完成实施和验证。关键业务条件或设计取向无法确定时澄清对应缺口，继续其他独立工作。
 
+| 请求范围 | 审查方式 |
+| --- | --- |
+| 现有页面、流程、应用或整站 | 从任务、入口、页面和状态组织覆盖，按下文评审面核对现状 |
+| 待提交界面变更、提交区间、分支或 PR 的体验影响 | 采用 [变更审查](references/change-review.md) 确定比较对象，追踪新增、删除和受影响消费者，再选取有关评审面 |
+| 仅审查目录、内容风格和项目规范 | 使用 [git-review](../git-review/SKILL.md)，不自动扩大为产品体验审计 |
+
 读取适用项目规范和权威产品资料，保留用户已确认的技术栈、视觉方向和业务边界。实现用于核对现状，不能仅凭现有页面推翻已确认要求。不同应用分别按其任务评估，不强制统一主题、布局或组件库。
 
-审计深度随范围调整：单个区域追踪所属任务及相邻影响；跨页面问题检查共享组件和全部调用方；整站审计先盘点页面、布局、导航、入口和关键流程，标明已检查及尚未覆盖部分。代表页面可用于验证共享规则，但不能代替其余页面的信息和行为审查。
+审计深度随范围调整：单个区域追踪所属任务及相邻影响；跨页面问题检查共享组件和相关调用方；整站审计先梳理页面、布局、导航、入口和关键流程，标明已检查及尚未覆盖部分。代表页面可用于验证共享规则，但不能代替其余页面的信息和行为审查。变更审查从实际影响展开，不默认检查未受影响的整个应用。
 
 ## 任务与结构
 
@@ -38,7 +44,7 @@ description: Audit an existing frontend across product tasks, information archit
 
 按所属流程覆盖实际适用的状态：首次加载、有效空结果、部分读取失败、失权、提交中、已受理、结果未知、业务失败、完成及完成后读取失败。短时通知用于无需持续处理的反馈，待处理状态保留可发现的原地入口；提示消失不能成为业务结果或恢复身份丢失的原因。
 
-检查文字层级、密度、对齐、字体、颜色、主题、图标和交互反馈是否形成一致的应用内语法。控件选择服从任务和设备，优先复用适当组件；引入第三方依赖时核对适用范围、维护成本和现有工具链。
+检查文字层级、密度、对齐、字体、颜色、主题、图标和交互反馈是否形成一致的应用内语法。需要具体测量与实现判断时，按问题读取 frontend-design 的 [排版](../frontend-design/references/typography.md)、[色彩与主题](../frontend-design/references/color-and-theme.md) 或 [表面与动效](../frontend-design/references/motion-and-surfaces.md)。控件选择服从任务和设备，引入依赖时核对适用范围与维护成本；这些方法不构成替换已有方向的依据。
 
 ## 生产质量
 
@@ -58,7 +64,9 @@ description: Audit an existing frontend across product tasks, information archit
 
 ## 发现与修复
 
-每项发现写明受影响的角色和任务、具体页面或代码位置、触发条件、观察证据、实际影响及建议。把可复现缺陷、契约冲突、设计风险和可选改进分开，优先处理任务阻断、错误结果、失权数据及不可恢复状态，再处理效率和视觉问题。没有证据时说明待确认条件，不用审美偏好制造缺陷。
+每项发现写明受影响的角色和任务、具体页面或代码位置、触发条件、观察证据、实际影响及建议。把可复现缺陷、契约冲突、设计风险和可选改进分开；用同一根因解释的表现合并描述，并列出相关页面和不同后果，不按文件重复报问题。
+
+优先级依据真实影响、触发范围和可恢复性。先处理任务阻断、错误结果、失权数据及不可恢复状态，再处理效率和视觉问题；问题类型本身不决定固定严重级别。没有证据时说明待确认条件，不用审美偏好制造缺陷，也不以固定发现数量隐去有效问题。
 
 只读审计交付发现、优先级和建议。审计并修复时，先解决影响相关页面的共同原因，再处理局部差异；同步调用方、资源、本地化和必要验证。保持获批方向，在同一实现中完成修正，不额外维护未经请求的原型。
 
@@ -66,7 +74,7 @@ description: Audit an existing frontend across product tasks, information archit
 
 ## 验证与交付
 
-可运行时先取得相关页面和状态的实际证据，修改稳定后集中验证受影响流程。视觉变化查看目标视口及适用主题；交互变化实际操作成功、失败和恢复路径；共享组件核对相关调用场景及键盘行为。复用仍有效的证据，不随每次局部修改重跑全量验收。
+可运行时先取得相关页面和状态的实际证据，修改稳定后集中验证受影响流程。视觉变化查看目标视口及适用主题；交互变化实际操作成功、失败和恢复路径；共享组件核对相关调用场景及键盘行为。需要稳定呈现难以到达的分支或边界内容时，使用 [组件状态与压力验证](../frontend-design/references/component-states.md)，区分预览与真实业务证据。复用仍有效的证据，不随每次局部修改重跑全量验收。
 
 按风险和影响选择格式、类型、静态、组件及浏览器检查。涉及业务写入的验证采用已授权身份和隔离数据；浏览器、研究或外部工具的可用性不扩大操作权限。
 

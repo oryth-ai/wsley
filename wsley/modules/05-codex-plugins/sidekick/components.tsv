@@ -13,7 +13,7 @@ Skills	bundled	disciplined-dev	Engineering conventions and implementation consis
 Skills	bundled	domain-modeling	Domain terminology, ownership and business invariants
 Skills	bundled	fastapi-expert	FastAPI contracts, lifecycles, request performance and streaming
 Skills	bundled	find-skills	Skill discovery
-Skills	bundled	frontend-audit	Frontend product and experience audits
+Skills	bundled	frontend-audit	Frontend product, experience and change regression audits
 Skills	bundled	frontend-design	Web interface design, component integration and rendered verification
 Skills	bundled	git-commit	Atomic Git commits
 Skills	bundled	git-push	Reviewed Git pushes
@@ -23,6 +23,7 @@ Skills	bundled	golang-concurrency	Go concurrency ownership, cancellation and lea
 Skills	bundled	golang-performance	Evidence-based Go CPU, allocation, runtime and I/O optimization
 Skills	bundled	golang-testing	Behavior-focused Go tests and concurrency verification
 Skills	bundled	i18n-expert	Interface internationalization
+Skills	bundled	interface-analysis	Evidence-based explanation of websites, visual effects and animations
 Skills	bundled	mira	Natural-language task routing and continuity
 Skills	bundled	next-ai-drawio	Editable draw.io diagrams
 Skills	bundled	observability-and-instrumentation	Production logs, metrics and distributed tracing

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Interface Analysis"
+  short_description: "Explain interface construction from concrete evidence"
+  default_prompt: "Use $sidekick:interface-analysis to explain how this page or effect is built, separating measured evidence, inference and reconstruction."
