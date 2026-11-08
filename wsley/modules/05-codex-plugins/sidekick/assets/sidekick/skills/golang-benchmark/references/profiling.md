@@ -14,12 +14,12 @@
 
 ## 从基准采集
 
-以下示例限定一个包，`task_dir` 使用任务目录的绝对路径。性能比较的计时运行不同时启用这些诊断选项。
+以下示例限定一个包，`run_dir` 是当前任务 `runs/` 下本次诊断子目录的绝对路径，按 [任务材料组织](../../disciplined-dev/references/task-artifacts.md) 在首次写入前创建。不同诊断轮次使用独立子目录，性能比较的计时运行不同时启用这些诊断选项。
 
 ```bash
-go test -run '^$' -bench '^BenchmarkParse$' -benchtime 3s -cpuprofile cpu.pprof -outputdir "$task_dir" -o "$task_dir/cpu-package.test" ./path/to/package
-go tool pprof -top "$task_dir/cpu-package.test" "$task_dir/cpu.pprof"
-go tool pprof -top -cum "$task_dir/cpu-package.test" "$task_dir/cpu.pprof"
+go test -run '^$' -bench '^BenchmarkParse$' -benchtime 3s -cpuprofile cpu.pprof -outputdir "$run_dir" -o "$run_dir/cpu-package.test" ./path/to/package
+go tool pprof -top "$run_dir/cpu-package.test" "$run_dir/cpu.pprof"
+go tool pprof -top -cum "$run_dir/cpu-package.test" "$run_dir/cpu.pprof"
 ```
 
 内存采样可用同样的包与基准，将诊断选项替换为 `-memprofile memory.pprof`，并为其指定独立的 `-o` 路径；用 `-sample_index=alloc_space`、`alloc_objects` 或 `inuse_space` 选择实际需要的指标。
@@ -30,7 +30,7 @@ CPU、memory、block、mutex 等采样选项可能保留测试二进制。显式
 
 ## 等待与时序
 
-需要分析执行时序时，可用 `go test` 的 `-trace "$task_dir/trace.out"` 采集，再执行 `go tool trace "$task_dir/trace.out"`。界面绑定在本机，窗口长度按问题及资源预算选择，不默认长时间捕获。
+需要分析执行时序时，可用 `go test` 的 `-trace "$run_dir/trace.out"` 采集，再执行 `go tool trace "$run_dir/trace.out"`。界面绑定在本机，窗口长度按问题及资源预算选择，不默认长时间捕获。
 
 区分 running、runnable、同步阻塞、网络等待与系统调用。CPU 饱和、调度延迟和外部服务慢需要不同修正；一个 goroutine 数量或平均 CPU 指标不能代替因果分析。
 
@@ -44,6 +44,6 @@ Block 和 mutex profile 在进程中需要相应的采样设置，基准可使�
 
 ## 编译器依据
 
-分配或内联结果异常时，用项目实际构建选项配合 `-gcflags='-m=2'` 查看逃逸与内联决定，输出保存到任务目录。必要时查看限定函数的 SSA 或匹配二进制的汇编；SSA、汇编和编译日志的路径也要显式指定或在任务目录中生成。
+分配或内联结果异常时，用项目实际构建选项配合 `-gcflags='-m=2'` 查看逃逸与内联决定，输出保存到所属诊断运行目录。必要时查看限定函数的 SSA 或匹配二进制的汇编；SSA、汇编和编译日志的路径也要显式指定或在该运行目录中生成。
 
 编译器诊断解释某个版本和构建条件下的决定，不能仅凭“逃逸到堆”认定缺陷，也不能凭源码语法断言 SIMD、内联或零分配已经发生。优化收益仍由相同条件下的基准和实际用例证明。

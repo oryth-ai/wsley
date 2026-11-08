@@ -2,7 +2,7 @@
 
 Wsley 的安装和升级命令准备并验证浏览器、演示文稿和 MCP 运行环境。技能执行以环境已完备为前提，直接使用下列路径，不在任务开始、切换技能或恢复上下文时重复检查和安装依赖。实际命令出现环境错误时，说明具体失败，由 `wsley install sidekick` 补齐依赖，或按用户要求执行 `wsley upgrade sidekick` 同步技能与依赖。
 
-插件内保存指令、脚本、模板、许可证及静态资源。运行目录为 `${XDG_DATA_HOME:-$HOME/.local/share}/sidekick/runtimes`，以下以 `<runtime>` 表示其实际绝对路径。浏览器下载与 Python 基础解释器缓存遵循 agent-browser 和 uv 的配置，同样位于插件目录之外。任务产物遵循所属项目规则。
+插件内保存指令、脚本、模板、许可证及静态资源。运行目录为 `${XDG_DATA_HOME:-$HOME/.local/share}/sidekick/runtimes`，以下以 `<runtime>` 表示其实际绝对路径。浏览器下载与 Python 基础解释器缓存遵循 agent-browser 和 uv 的配置，同样位于插件目录之外。任务材料采用 [任务材料组织](../../disciplined-dev/references/task-artifacts.md)，复用当前任务根；运行环境与工具缓存保留自身位置，不归入任务目录。
 
 ## 浏览器
 

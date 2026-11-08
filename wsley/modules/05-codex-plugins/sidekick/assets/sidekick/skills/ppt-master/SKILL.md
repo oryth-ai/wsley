@@ -21,7 +21,7 @@ description: Create, edit, reconstruct and export presentations using the instal
 
 上游命令中的 `python` 与 `python3` 使用已安装的演示解释器，`skills/ppt-master/` 前缀按 `SKILL_DIR` 展开。环境安装和升级由 Wsley 完成，任务流程只处理所需的输入、内容、素材、模板与输出。
 
-API、图像、音频和其他远程服务按用户实际配置与授权使用；已有依赖不等于拥有服务权限。设计材料、预览和正式产物放在任务约定位置，不写入插件、工具包或环境目录。
+API、图像、音频和其他远程服务按用户实际配置与授权使用；已有依赖不等于拥有服务权限。设计材料、候选项目与预览采用 [任务材料组织](../disciplined-dev/references/task-artifacts.md)，在对应运行子目录内保留上游要求的项目结构。正式产物按用户指定位置或任务 `results/` 交付，不写入插件、工具包或环境目录。
 
 ## 验证与交付
 

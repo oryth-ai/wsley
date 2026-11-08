@@ -1,5 +1,6 @@
-# 依赖与缓存
+# 任务材料与缓存
 .cache/
+.sidekick/
 
 # Python 环境与缓存
 .venv/

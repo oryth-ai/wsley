@@ -12,11 +12,11 @@
 
 `time.perf_counter()` 测量经过时间，包含等待；`time.process_time()` 测量当前进程的 CPU 时间，不代表子进程成本或请求完整延迟。异步、线程与多进程的归因先确认工具覆盖的进程、线程和任务范围。
 
-以下命令使用目标项目的 `python` 入口。`workload.py` 替换为可重复运行的实际工作负载，参数与运行次数按问题选择；`task_dir` 是项目允许的独立任务目录的绝对路径。
+以下命令使用目标项目的 `python` 入口。`workload.py` 替换为可重复运行的实际工作负载，参数与运行次数按问题选择。按 [任务材料组织](../../disciplined-dev/references/task-artifacts.md) 复用当前任务根；`run_dir` 是其 `runs/` 下本次诊断子目录的绝对路径，在首次写入前创建。基线、候选和诊断轮次分别保存，确需保存的汇总结论归入任务 `results/`。
 
 ```bash
-python -B -m cProfile -o "$task_dir/cpu.prof" workload.py
-python -B - "$task_dir/cpu.prof" <<'PY'
+python -B -m cProfile -o "$run_dir/cpu.prof" workload.py
+python -B - "$run_dir/cpu.prof" <<'PY'
 import pstats
 import sys
 

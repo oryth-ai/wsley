@@ -17,7 +17,7 @@ Mermaid 输入用于恢复节点、关系、顺序与状态含义，再按实际
 
 ## 生成与验证
 
-本地工具目录为本文件对应的 `../../vendor/archify`。使用其 `bin/archify.mjs` 实际绝对路径，产物位置遵循项目约定；任务材料使用项目任务目录，不采用上游的固定 `.archify/` 目录。
+本地工具目录为本文件对应的 `../../vendor/archify`。使用其 `bin/archify.mjs` 实际绝对路径，按 [任务材料组织](../disciplined-dev/references/task-artifacts.md) 放置候选与验证证据，使用当前任务的独立运行子目录；最终 HTML 按用户指定位置或任务 `results/` 交付，不采用上游固定的 `.archify/` 目录。
 
 普通原生图写出完整候选后直接执行 `finalize <type> <candidate.json> <output.html> --quality <profile> --json`。代码图加 `--repo-root <root>` 并保留实际依据，候选与命令的质量级别一致；密集 ERD 等内容按可读性选择合适级别。
 

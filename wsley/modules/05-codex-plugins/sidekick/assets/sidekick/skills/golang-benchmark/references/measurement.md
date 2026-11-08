@@ -14,13 +14,13 @@
 
 ## 采集样本
 
-以下命令中的包路径、benchmark 名称、时长及样本数量按实际场景替换。`task_dir` 为项目材料规则允许的独立任务目录的绝对路径；原始输出、二进制和 profile 均放在该目录。
+以下命令中的包路径、benchmark 名称、时长及样本数量按实际场景替换。按 [任务材料组织](../../disciplined-dev/references/task-artifacts.md) 复用当前任务根；`run_dir` 为 `runs/` 下本次测量子目录的绝对路径，在首次写入前创建。基线、候选和诊断运行各有独立子目录，原始样本、日志、匹配二进制与 profile 归入所属轮次。
 
 ```bash
-go test -run '^$' -bench '^BenchmarkParse$' -benchmem -count 10 ./path/to/package > "$task_dir/before.txt"
+go test -run '^$' -bench '^BenchmarkParse$' -benchmem -count 10 ./path/to/package > "$run_dir/bench.txt"
 ```
 
-切换到候选后，用相同命令与环境保存 `after.txt`。`-bench` 的名称按正则匹配，子基准按斜杠分段；限定对象时核对实际运行名称，避免意外把其他用例混进比较。
+切换到候选后，将 `run_dir` 指向同一任务内的新运行子目录，用相同命令与环境保存样本。`-bench` 的名称按正则匹配，子基准按斜杠分段；限定对象时核对实际运行名称，避免意外把其他用例混进比较。
 
 `ns/op`、`B/op` 和 `allocs/op` 含义不同。需要吞吐时报告真实处理字节或业务操作数；分配统计不包含所有 native/cgo 分配，也不等于进程 RSS。`-cpu` 改变 `GOMAXPROCS`，不能把不同并发配置的结果当作同一基准。
 
@@ -28,8 +28,10 @@ go test -run '^$' -bench '^BenchmarkParse$' -benchmem -count 10 ./path/to/packag
 
 ## 统计判断
 
+`baseline_dir` 和 `candidate_dir` 分别指向实际比较的两轮运行目录，不新建比较任务根或复制样本：
+
 ```bash
-benchstat "$task_dir/before.txt" "$task_dir/after.txt"
+benchstat "$baseline_dir/bench.txt" "$candidate_dir/bench.txt"
 ```
 
 确认双方具有相同 benchmark 名称、参数和指标。读取中心估计、波动区间、样本数量和差异检验，分别说明统计证据和业务意义。改善一个指标时检查 CPU、内存、延迟与吞吐之间的交换，不能只保留最好看的结果。[benchstat 文档](https://pkg.go.dev/golang.org/x/perf/cmd/benchstat)
@@ -40,6 +42,6 @@ benchstat "$task_dir/before.txt" "$task_dir/after.txt"
 
 ## 证据保存
 
-保留实际比较使用的原始样本、版本和命令，Profile 与二进制绑定到对应候选，后续修改不覆盖旧证据。测量日志和临时基准按项目材料规则管理；是否保留长期回归测试由真实用途决定，不强制每个源码文件另建基准文件。
+保留实际比较使用的原始样本、版本和命令，Profile 与二进制绑定到对应候选，后续修改不覆盖旧证据。确需保存的汇总结论归入任务 `results/`，引用所属运行；测量日志和临时基准按任务材料规则管理。是否保留长期回归测试由真实用途决定，不强制每个源码文件另建基准文件。
 
 计时失败时先检查进程退出码和诊断输出。若使用 `tee`，启用 `pipefail`，不能把日志写入成功当作基准成功。测量通过只支持相应场景，微基准改善仍需按目标验证真实用例和行为正确性。
