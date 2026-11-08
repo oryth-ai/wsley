@@ -4,26 +4,36 @@ Install:
   Install missing Docker packages and NVIDIA container support when an NVIDIA GPU is present.
   On each installation, add the invoking non-root user to the Docker group; sudo uses the original user, and direct root installations skip user access.
   Configure an optional local HTTP proxy for the Docker daemon, including when Docker is already installed.
+  Enable automatic build cache GC with a maximum used space of at most 100GB, preserving stricter existing limits, including when Docker is already installed.
   On a new engine installation, enable and restart Docker.
 
 Upgrade:
   Update installed Docker and NVIDIA container packages, retaining service and daemon proxy settings.
+  When Docker Engine is installed, install missing configuration tools and apply the 100GB build cache GC configuration.
 
 Status:
-  Report installed package versions, Docker service activity, startup state and daemon proxy file presence.
+  Report installed package versions, Docker service activity, startup state, daemon proxy file presence and build cache GC file settings.
 
 Requirements:
   Ubuntu, APT, a running systemd instance and root or sudo access.
 
 Configuration:
   Daemon proxy configuration: /etc/systemd/system/docker.service.d/wsley-proxy.conf
-  Runtime configuration: /etc/docker/daemon.json
+  Daemon configuration: /etc/docker/daemon.json
+  Build cache GC applies to the default docker driver; separate BuildKit builders retain their own configuration.
+  Without custom policies, set a maximum used space of at most 100GB and preserve existing reserved-space and free-space settings; reduce reserved space only when it exceeds the resulting maximum.
+  Missing reserved-space and free-space settings use Docker-style 10% and 20% targets from the build cache filesystem under data-root, rounded to whole decimal GB; reserved space is capped at the maximum used space.
+  Existing custom policies retain their order and conditions; append an unfiltered all-cache rule with reservedSpace=100GB and maxUsedSpace=100GB when that rule is absent. Stricter existing policies still apply.
+  The total limit takes precedence over custom retention rules above 100GB; rules may still clean earlier according to their own conditions.
+  GC runs periodically and also follows Docker's cache-age rules; 100GB is a cleanup threshold, not a hard disk quota.
   The optional daemon proxy uses HTTP at 127.0.0.1; existing proxy configuration is preserved.
   Leave the port empty to use 7897, enter 0 to skip or enter a port between 1 and 65535; --yes does not answer this prompt.
   Docker daemon proxy settings apply to image pulls; proxy settings inside containers are configured separately.
   NO_PROXY defaults include localhost, the Docker host and private networks.
-  Existing runtime configuration is preserved; a missing file is created when NVIDIA container support is newly installed.
-  Restart an existing Docker engine to apply a newly created daemon proxy file or GPU runtime configuration.
+  Existing runtime configuration is preserved; a missing file receives NVIDIA runtime settings when NVIDIA container support is newly installed.
+  Changed daemon configuration is validated before replacement and existing content is backed up; unchanged configuration is not rewritten or backed up.
+  Status reads file settings and does not establish whether the running daemon has loaded them; use docker buildx inspect default after restarting to inspect active GC policies.
+  Restart an existing Docker engine to apply daemon proxy, GPU runtime or build cache GC changes; existing engines are not restarted automatically by the configuration step.
   Containers connect directly to the upstream proxy. On native Ubuntu, host.docker.internal:host-gateway maps the Docker host; the proxy must listen on a container-reachable address.
   In WSL mirrored mode, direct access to a Windows proxy requires hostAddressLoopback=true in .wslconfig and a container mapping to the current Windows IPv4. Docker host-gateway still maps the Linux bridge.
   The upstream proxy application and its listener are administrator-managed.

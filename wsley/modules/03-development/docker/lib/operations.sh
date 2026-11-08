@@ -6,7 +6,11 @@ source "$(dirname -- "${BASH_SOURCE[0]}")/../../../../lib/common.sh"
 # shellcheck source=wsley/modules/03-development/docker/lib/proxy.sh
 source "$(dirname -- "${BASH_SOURCE[0]}")/proxy.sh"
 
-docker_packages=("${module_packages[@]}")
+# shellcheck source=wsley/modules/03-development/docker/lib/daemon.sh
+source "$(dirname -- "${BASH_SOURCE[0]}")/daemon.sh"
+
+mapfile -t docker_packages < <(component_ids "$module_components" apt 'Container engine')
+mapfile -t docker_configuration_packages < <(component_ids "$module_components" apt 'Configuration tools')
 docker_source=/etc/apt/sources.list.d/docker.sources
 docker_key=/etc/apt/keyrings/docker.asc
 nvidia_source=/etc/apt/sources.list.d/nvidia-container-toolkit.list
@@ -14,7 +18,7 @@ nvidia_key=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 
 install_docker() {
     local engine_state package state docker_user user_groups
-    local missing_engine_package=false gpu_state=missing proxy_installed=false
+    local missing_engine_package=false gpu_state=missing proxy_installed=false configure_gpu=false
     local -a gpu_packages=()
 
     require_ubuntu
@@ -47,7 +51,7 @@ EOF
             system_replace_file "$work/docker.sources" "$docker_source" 0644
         fi
     fi
-    apt_install "${docker_packages[@]}"
+    apt_install "${module_packages[@]}"
 
     if command -v nvidia-smi > /dev/null && nvidia-smi -L 2> /dev/null | grep -q '^GPU '; then
         gpu_state="$(package_state nvidia-container-toolkit)"
@@ -65,13 +69,13 @@ EOF
                 system_replace_file "$work/nvidia.sources" "$nvidia_source" 0644
             fi
             apt_install "${gpu_packages[@]}"
-            if [[ ! -e /etc/docker/daemon.json && ! -L /etc/docker/daemon.json ]]; then
-                system_backup /etc/docker/daemon.json || return
-                as_root mkdir -p /etc/docker
-                as_root nvidia-ctk runtime configure --runtime=docker --set-as-default
+            if [[ ! -e "$docker_daemon" && ! -L "$docker_daemon" ]]; then
+                configure_gpu=true
             fi
         fi
     fi
+
+    configure_docker_daemon "$configure_gpu"
 
     docker_user="$(id -un)"
     if ((EUID == 0)); then
@@ -107,7 +111,11 @@ upgrade_docker() {
     local -a gpu_packages=()
 
     mapfile -t gpu_packages < <(component_ids "$module_components" apt-nvidia)
-    apt_upgrade "${docker_packages[@]}" "${gpu_packages[@]}"
+    apt_upgrade "${module_packages[@]}" "${gpu_packages[@]}"
+    if [[ "$(package_state docker-ce)" == installed ]]; then
+        apt_install "${docker_configuration_packages[@]}"
+        configure_docker_daemon
+    fi
 }
 
 preflight_module() {
@@ -124,8 +132,9 @@ show_docker_status() {
     local -a gpu_packages
 
     mapfile -t gpu_packages < <(component_ids "$module_components" apt-nvidia)
-    package_status "${docker_packages[@]}" "${gpu_packages[@]}"
+    package_status "${module_packages[@]}" "${gpu_packages[@]}"
     service_status docker Docker
+    show_docker_gc_status
 
     if [[ -f "$docker_proxy" ]]; then
         print_message info '%-28s configured: %s\n' 'Wsley Docker proxy' "$docker_proxy"

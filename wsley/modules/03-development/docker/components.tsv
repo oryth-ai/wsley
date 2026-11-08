@@ -4,7 +4,9 @@ Container engine	apt	docker-ce-cli	docker-ce-cli
 Container engine	apt	containerd.io	containerd.io
 Container engine	apt	docker-buildx-plugin	docker-buildx-plugin
 Container engine	apt	docker-compose-plugin	docker-compose-plugin
+Configuration tools	apt	jq	JSON configuration processing
 GPU support	apt-nvidia	nvidia-container-toolkit	NVIDIA Container Toolkit
 User access	config	docker-group	Docker group membership
 Service	config	docker	Docker service
 Service	config	proxy	Optional Docker daemon proxy
+Service	config	builder-gc	Docker build cache automatic GC (100GB)
