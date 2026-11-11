@@ -13,8 +13,7 @@ Skills	bundled	disciplined-dev	Engineering conventions and implementation consis
 Skills	bundled	domain-modeling	Domain terminology, ownership and business invariants
 Skills	bundled	fastapi-expert	FastAPI contracts, lifecycles, request performance and streaming
 Skills	bundled	find-skills	Skill discovery
-Skills	bundled	frontend-audit	Frontend product, experience and change regression audits
-Skills	bundled	frontend-design	Web interface design, component integration and rendered verification
+Skills	bundled	frontend-audit	Frontend visual, product, Web implementation and change reviews
 Skills	bundled	git-commit	Atomic Git commits
 Skills	bundled	git-push	Reviewed Git pushes
 Skills	bundled	git-review	Pre-commit convention and structure audits
@@ -23,11 +22,11 @@ Skills	bundled	golang-concurrency	Go concurrency ownership, cancellation and lea
 Skills	bundled	golang-performance	Evidence-based Go CPU, allocation, runtime and I/O optimization
 Skills	bundled	golang-testing	Behavior-focused Go tests and concurrency verification
 Skills	bundled	i18n-expert	Interface internationalization
+Skills	bundled	impeccable	Web art direction, design, refinement, integration and verification
 Skills	bundled	interface-analysis	Evidence-based explanation of websites, visual effects and animations
 Skills	bundled	mira	Natural-language task routing and continuity
 Skills	bundled	next-ai-drawio	Editable draw.io diagrams
 Skills	bundled	observability-and-instrumentation	Production logs, metrics and distributed tracing
-Skills	bundled	oil-ui	Interface direction exploration and visual comparisons
 Skills	bundled	ppt-master	Editable presentations
 Skills	bundled	property-based-testing	Property-based tests and domain invariants
 Skills	bundled	python-performance-optimization	Python profiling, memory analysis and evidence-based optimization
@@ -40,7 +39,6 @@ Skills	bundled	supabase-postgres-best-practices	PostgreSQL schema, concurrency a
 Skills	bundled	user-research	User research and usability studies
 Skills	bundled	ux-copy	Interface copy and terminology
 Skills	bundled	vercel-react-best-practices	React loading, rendering and interaction performance measurement
-Skills	bundled	web-design-guidelines	Web interface implementation reviews
 Tool resources	skill	archify	Complete Archify renderer, schemas and resources
 Tool resources	skill	ppt-master	Complete PPT Master workflow, scripts and resources
 Installer runtime	apt	ca-certificates	TLS certificates

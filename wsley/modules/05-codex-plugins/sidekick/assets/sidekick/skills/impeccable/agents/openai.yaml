@@ -1,0 +1,4 @@
+interface:
+  display_name: "Impeccable"
+  short_description: "Art direction, expressive Web design and UI refinement"
+  default_prompt: "Use $sidekick:impeccable to design or refine this Web interface with a clear visual direction, project components and rendered verification."

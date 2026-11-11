@@ -35,4 +35,4 @@
 
 先回答实现关系，再给支持它的观测与来源，区分实测、推导、推断和重建。无需完整 token 转储、总体评分或固定格式报告；用户只问解释时在对话中交付。
 
-用户要求实施时，将有效依据交给 [frontend-design](../../frontend-design/SKILL.md) 的 [参考与设计还原](../../frontend-design/references/design-reproduction.md)，核对目标项目的组件、状态、资源许可与技术范围。分析阶段没有取得的证据继续标明，不因进入实现而变成事实。
+用户要求实施时，将有效依据交给 [impeccable](../../impeccable/SKILL.md) 的 [参考与设计还原](../../impeccable/references/design-reproduction.md)，核对目标项目的组件、状态、资源许可与技术范围。分析阶段没有取得的证据继续标明，不因进入实现而变成事实。

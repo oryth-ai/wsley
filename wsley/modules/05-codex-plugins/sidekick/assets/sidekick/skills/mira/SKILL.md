@@ -38,7 +38,7 @@ description: Coordinate Sidekick project work from natural-language requests, se
 | 当前需要 | 读取与采用 |
 | --- | --- |
 | 开发功能、修复缺陷、重构、修改配置或项目文档 | [开发工作流](references/development.md)，从当前实际阶段继续 |
-| 设计并实现 Web 页面、应用界面或组件，或重做现有界面视觉 | [frontend-design](../frontend-design/SKILL.md) 衔接设计、项目组件、官方示例与实际验证；纯方向探索采用 [oil-ui](../oil-ui/SKILL.md) |
+| 设计、探索、实现或精修 Web 界面，包括重设计、去模板化与去 AI 味 | [impeccable](../impeccable/SKILL.md) 统一组织方向、构图、视觉材料、项目组件与实际验证；明确局部修改直接进入对应方法 |
 | 解释某个网站、视觉效果或动画如何实现 | [interface-analysis](../interface-analysis/SKILL.md)，按问题区分页面系统、局部效果与截图重建 |
 | 系统审查前端、后端、界面变更或完整业务流程 | [审计与整改](references/audits.md)，按范围组合对应审计 |
 | 领域、界面、技术栈、质量或运维专项判断 | [专项能力](references/capabilities.md)，只选择与实际问题有关的技能 |

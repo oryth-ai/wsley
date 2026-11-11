@@ -9,18 +9,16 @@
 | 业务术语、事实所有权、生命周期与不变量不清 | [domain-modeling](../../domain-modeling/SKILL.md) | 用明确的概念和规则约束数据、接口、实现及验收 |
 | 模块边界、依赖和测试接缝妨碍维护 | [codebase-design](../../codebase-design/SKILL.md) | 确定负责行为的模块、接口与必要重构范围 |
 | 缺少用户需求、使用行为或可用性证据 | [user-research](../../user-research/SKILL.md) | 将研究证据与设计假设分开，明确需要验证的用户任务 |
-| 需要探索界面方向、视觉方案和交互层级 | [oil-ui](../../oil-ui/SKILL.md) | 用确定的设计决定指导页面和组件实现 |
 | 界面文案、术语和状态反馈影响理解 | [ux-copy](../../ux-copy/SKILL.md) | 将措辞用于相应状态、错误和本地化资源 |
 
 ## 前端与体验
 
 | 实际问题 | 采用的技能 | 结果如何进入后续工作 |
 | --- | --- | --- |
-| 新建或重做 Web 页面、应用界面与组件，需要具体视觉设计与实现 | [frontend-design](../../frontend-design/SKILL.md) | 连贯处理设计决定、项目组件、官方示例、业务接入与实际验证 |
+| 探索、设计、实现或精修 Web 界面，包括重设计、去模板化与去 AI 味 | [impeccable](../../impeccable/SKILL.md) | 统一完成方向、构图、排版、色彩、素材、动效、组件接入与实际验证 |
 | 想理解现有网站、某个视觉效果或动画的实现机制 | [interface-analysis](../../interface-analysis/SKILL.md) | 用实际页面、源码或图像解释结构与绘制，区分实测、推断和重建，再按需求进入实现 |
-| 需要审查现有前端或 Git 变更引入的界面问题 | [frontend-audit](../../frontend-audit/SKILL.md) | 明确页面或版本范围，连接用户任务、根因、影响与验证证据 |
+| 需要视觉评议、产品体验或 Web 实现审查，以及界面变更评审 | [frontend-audit](../../frontend-audit/SKILL.md) | 按页面或版本范围连接设计质量、用户任务、实现问题、根因与证据 |
 | shadcn/ui 组件、区块、主题或组合需要查找、引入、定制与修正 | [shadcn](../../shadcn/SKILL.md) | 连接官网预览、匹配的 API、registry 源码与项目实际配置，保留本地定制 |
-| 界面实现需要对照 Web 规范检查 | [web-design-guidelines](../../web-design-guidelines/SKILL.md) | 记录具体实现偏差，保持项目现有设计与技术选择 |
 | 键盘、焦点、语义和辅助技术访问存在障碍 | [accessibility](../../accessibility/SKILL.md) | 连接交互状态、组件实现与实际可访问性验证 |
 | React 渲染、数据获取、资源加载或交互有性能问题 | [vercel-react-best-practices](../../vercel-react-best-practices/SKILL.md) | 结合 React 与浏览器证据定位，在项目版本与运行方式内调整并比较 |
 | 多语言资源、格式、排版或语言切换不一致 | [i18n-expert](../../i18n-expert/SKILL.md) | 同步界面、资源和语言行为，遵循项目目标语言范围 |

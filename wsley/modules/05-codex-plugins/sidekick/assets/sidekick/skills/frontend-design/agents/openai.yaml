@@ -1,4 +1,0 @@
-interface:
-  display_name: "Frontend Design"
-  short_description: "Design, integrate and verify project-specific web interfaces"
-  default_prompt: "Use $sidekick:frontend-design to implement the brief or reference with project components, intentional visual choices and verified interface states."

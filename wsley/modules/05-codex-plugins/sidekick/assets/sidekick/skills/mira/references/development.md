@@ -8,9 +8,9 @@
 
 业务概念、生命周期或责任归属不清时使用 [domain-modeling](../../domain-modeling/SKILL.md)，取得一致的术语、事实拥有者与不变量。模块边界和依赖妨碍实现或验证时使用 [codebase-design](../../codebase-design/SKILL.md)，确定负责该行为的模块、接口和测试接缝。
 
-设计并实现 Web 页面、应用界面或组件时，由 [frontend-design](../../frontend-design/SKILL.md) 衔接项目依据、视觉决定、组件与源码、业务接入及实际验证。方向尚未确定时采用 [oil-ui](../../oil-ui/SKILL.md)；组件相关工作按实际体系选择专项能力，shadcn/ui 使用 [shadcn](../../shadcn/SKILL.md) 的官网与项目集成方法。承接已有决定和有效证据，具体改法明确时直接实施，不重复启动设计流程。
+设计、实现或精修 Web 界面时，由 [impeccable](../../impeccable/SKILL.md) 连贯处理方向探索、构图、视觉材料、组件与源码、业务接入及实际验证。承接已有决定和有效证据，具体改法明确时直接实施。组件工作按实际体系选择专项能力，shadcn/ui 使用 [shadcn](../../shadcn/SKILL.md) 的官网与项目集成方法；组件局部工作不额外启动完整设计流程。
 
-参考页面的实现机制不清时采用 [interface-analysis](../../interface-analysis/SKILL.md)，将证据与重建假设带入实现；已提供充分设计依据时直接沿 frontend-design 的还原方法工作。组件状态与边界内容使用其现有预览和验证方法，不默认增加开发路由或独立演示应用。
+参考页面的实现机制不清时采用 [interface-analysis](../../interface-analysis/SKILL.md)，将证据与重建假设带入实现；已提供充分设计依据时直接沿 impeccable 的还原方法工作。组件状态与边界内容使用其现有预览和验证方法，不默认增加开发路由或独立演示应用。
 
 将设计结果用于实现顺序和验收场景。多模块变更按契约与依赖安排工作，不为每个文件独立维护一份设计或重复确认已经决定的事项。
 

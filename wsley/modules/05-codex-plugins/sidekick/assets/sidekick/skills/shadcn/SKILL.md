@@ -7,7 +7,7 @@ description: Find, inspect, integrate, compose and update shadcn/ui components a
 
 将 shadcn/ui 官网的真实示例、registry 源码与项目实际组件连起来，按当前任务查找、引入、组合、定制或修正组件。项目中的组件源码、配置和调用方共同确定实际契约，不能仅凭组件名称或模型记忆编写 API。
 
-界面整体设计与实现采用 [frontend-design](../frontend-design/SKILL.md)，本技能负责 shadcn 的项目识别、资源发现与组件集成。任务仅涉及组件或只读诊断时直接处理对应范围，不额外启动视觉探索或整站审计。
+界面整体设计与实现采用 [impeccable](../impeccable/SKILL.md)，本技能负责 shadcn 的项目识别、资源发现与组件集成。任务仅涉及组件或只读诊断时直接处理对应范围，不额外启动视觉探索或整站审计。
 
 ## 项目与范围
 
@@ -35,6 +35,6 @@ description: Find, inspect, integrate, compose and update shadcn/ui components a
 
 ## 验证与交付
 
-按组件契约和项目要求完成必要的静态及行为验证，涉及画面与交互时采用 frontend-design 的 [验证与交付](../frontend-design/references/verification.md)。已有专项结果直接承接，不因新增组件重复启动完整审计。
+按组件契约和项目要求完成必要的静态及行为验证，涉及画面与交互时采用 impeccable 的 [验证与交付](../impeccable/references/verification.md)。已有专项结果直接承接，不因新增组件重复启动完整审计。
 
 交付所请求的实现或诊断，说明采用的示例与来源、保留的项目选择、实际验证及缺口。工程修改遵循 [disciplined-dev](../disciplined-dev/SKILL.md)，浏览与素材使用遵循当前授权，保留适用许可和来源声明。

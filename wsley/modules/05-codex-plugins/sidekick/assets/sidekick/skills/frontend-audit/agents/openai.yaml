@@ -1,4 +1,4 @@
 interface:
   display_name: "Frontend Audit"
-  short_description: "Audit frontend UX, changes and interface regressions"
-  default_prompt: "Use $sidekick:frontend-audit to review this frontend or Git change, connect findings to user tasks and evidence, and verify authorized fixes."
+  short_description: "Review visual craft, UX and Web implementation quality"
+  default_prompt: "Use $sidekick:frontend-audit to review this interface or frontend change and report evidence-backed design, UX and implementation findings."

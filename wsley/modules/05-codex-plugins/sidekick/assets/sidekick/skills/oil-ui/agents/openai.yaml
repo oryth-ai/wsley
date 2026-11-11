@@ -1,4 +1,0 @@
-interface:
-  display_name: "Interface Directions"
-  short_description: "Explore and compare controlled interface directions"
-  default_prompt: "Use $sidekick:oil-ui to compare meaningful interface directions in the same product context, explain tradeoffs and develop the selected direction."

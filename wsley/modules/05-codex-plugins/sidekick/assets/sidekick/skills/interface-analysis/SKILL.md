@@ -17,7 +17,7 @@ description: Explain how an existing website, visual effect or animation is impl
 | 整个页面的结构、技术线索与设计系统 | [页面系统与图像依据](references/page-and-image.md) |
 | 只有截图，想知道可能怎样实现 | 采用同一资料中的重建方法，明确没有恢复原始源码 |
 
-解释实现机制不等于审计质量或实施修改。用户要求评价界面时使用 [frontend-audit](../frontend-audit/SKILL.md)，要求还原或开发时使用 [frontend-design](../frontend-design/SKILL.md)，传递已取得的证据，不重复分析未变化的内容。
+解释实现机制不等于审计质量或实施修改。用户要求评价界面时使用 [frontend-audit](../frontend-audit/SKILL.md)，要求还原或开发时使用 [impeccable](../impeccable/SKILL.md)，传递已取得的证据，不重复分析未变化的内容。
 
 ## 取得证据
 
