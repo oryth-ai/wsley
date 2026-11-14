@@ -36,7 +36,7 @@ description: Design, implement and refine distinctive Web interfaces. Use for fr
 
 | 设计问题 | 采用的方法 |
 | --- | --- |
-| 方向、页面目的、视觉主题与方案比较 | [方向与构思](references/art-direction.md) |
+| 方向、页面目的、视觉主题、参考来源与方案比较 | [方向与构思](references/art-direction.md) |
 | 构图、信息载体、分组、疏密与响应式 | [布局与空间](references/layout.md) |
 | 字体性格、层级、行长、换行与混排 | [排版](references/typography.md) |
 | 主色分配、语义色、主题与对比 | [色彩与主题](references/color-and-theme.md) |
