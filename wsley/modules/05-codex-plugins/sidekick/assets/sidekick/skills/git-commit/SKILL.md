@@ -1,11 +1,11 @@
 ---
 name: git-commit
-description: Create repository-aware atomic Git commits when the user requests committing current changes, including commit-and-push workflows. Not for discussing commit conventions, reviewing changes without committing, or maintaining this skill.
+description: Create Git commits grouped by complete task outcomes under repository conventions when the user requests committing changes, including commit-and-push workflows. Not for discussing commit conventions, reviewing changes without committing, or maintaining this skill.
 ---
 
 # Git Commit
 
-按当前请求检查改动、组织原子提交、暂存并创建 commit。紧密耦合且共同实现一个目的的修改放入同一 commit；能够独立理解和撤销的修改拆分提交。
+按当前请求核对改动、确定提交边界、暂存并创建 commit，使每个提交表达完整、易于审查和回退的任务结果。
 
 仅在用户要求创建提交，或明确调用本技能执行提交时运行。讨论提交规范、审查或维护技能、读取本文件，不构成提交授权。已有明确授权时直接执行，不重复请求确认。
 
@@ -17,9 +17,15 @@ description: Create repository-aware atomic Git commits when the user requests c
 
 按用户意图确定提交范围，区分本次任务、用户已有修改和其他工作。用户指定仅提交暂存内容时，以暂存版本为准，保留同一文件中的未暂存修改。范围内没有可提交内容时直接说明，不创建空提交。
 
-## 原子提交与暂存
+## 提交边界与暂存
 
-根据实际 diff 识别行为所有者，组织一个或多个原子 commit，使范围内每项改动恰好归入一个 commit。仓库规则优先于目录名、文件名、tool ID 和历史 commit；只有缺少会实质改变提交边界、type 或 scope 的依据时，才在修改暂存区前澄清。
+默认将同一任务目标的相关变更组织为一个提交。实现、调用方、配置、依赖、测试、资源、说明及必要重构共同形成完整结果，即使跨越多个目录或行为所有者，也放在同一提交。原子性要求目标与行为完整，不追求提交数量或最小改动规模。
+
+仅在包含彼此独立的目标，或存在明确的独立审查、交付或回退需要时拆分；用户或仓库明确要求的提交安排优先。拆分后的每个提交应有独立用途，能单独验证和审查，回退后不破坏其他提交的有效性。能够单独理解或技术上可以单独撤销，本身不足以构成拆分理由。
+
+暂存前通览实际 diff，按完整目标确定提交边界，再选择 type 和 scope；目录、文件类别、修改顺序及行为所有者数量不决定提交数量。例如，同一功能的前后端实现与契约、同一模块的实现与说明、同一次规范调整涉及的多个模块，通常分别按各自目标合为一个提交；互不相关的问题修复可分别提交。需要多个提交时，简要说明各自目标和拆分依据，不为每个文件或操作步骤创建提交。
+
+确保范围内每项改动恰好归入一个提交，保留任务外内容。只有缺少会实质改变提交边界、type 或 scope 的依据时，才在修改暂存区前澄清。
 
 为当前 commit 暂存对应文件或 hunk，使用 `git diff --cached` 核对实际准备提交的版本。保留用户的部分暂存安排，不通过整文件暂存、重置或覆盖文件混入其他工作。暂存区含有本次范围外内容时，采用能保留其内容和暂存状态的选择性提交方式；无法可靠分离时先澄清范围。
 

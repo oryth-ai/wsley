@@ -14,7 +14,7 @@ Skills	bundled	domain-modeling	Domain terminology, ownership and business invari
 Skills	bundled	fastapi-expert	FastAPI contracts, lifecycles, request performance and streaming
 Skills	bundled	find-skills	Skill discovery and assessment
 Skills	bundled	frontend-audit	Frontend visual, product, Web implementation and change reviews
-Skills	bundled	git-commit	Atomic Git commits
+Skills	bundled	git-commit	Git commits grouped by complete task outcomes
 Skills	bundled	git-push	Git pushes with pending-change review and commits
 Skills	bundled	git-review	Pre-commit convention and structure audits
 Skills	bundled	golang-benchmark	Go benchmarks, profiling and statistical performance comparisons
