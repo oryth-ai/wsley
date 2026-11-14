@@ -1,0 +1,30 @@
+Magpie model gateway
+
+Install:
+  Install the missing Magpie terminal build through the official installer and its release checksum verification.
+  Install and start its systemd user service with the gateway enabled and the Web interface disabled.
+  Enable user lingering so the service starts at boot and continues after logout.
+
+Upgrade:
+  Skip the operation when the managed Magpie executable is not installed.
+  Install the current terminal release and refresh the gateway service with the current shell environment.
+  Enable service startup and user lingering.
+
+Status:
+  Report the managed executable version, daemon state, gateway availability and user lingering.
+  Query local state without installing or configuring the application.
+
+Requirements:
+  Ubuntu on amd64 or arm64, APT and a regular user with sudo access.
+  A running systemd instance and an accessible systemd user manager; WSL must have systemd enabled.
+  Installation and upgrades require access to usemagpie.ai and its release download sources.
+
+Configuration:
+  Executable: ~/.local/bin/magpie
+  User service: ${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/magpie.service
+  Use magpie daemon install --no-web to generate and enable the upstream service; existing executable and service files are backed up before replacement.
+  The service inherits supported environment settings, including PATH and proxy variables, from the invoking shell.
+  Enable lingering for the current user through loginctl; this keeps the user's enabled services available without an active login.
+  The gateway uses Magpie's configuration, with 127.0.0.1:3425 as the upstream default.
+  Run magpie tui or magpie web to manage providers and models; the Web interface runs only when requested.
+  Magpie manages its own settings, accounts and updates. The module does not select providers, enter keys or change agent models.

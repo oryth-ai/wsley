@@ -1,0 +1,8 @@
+group	manager	id	description
+Application	asset	https://usemagpie.ai/install.sh	Official Magpie terminal release installer
+Application	runtime	magpie	Local model gateway, terminal interface and Web management
+Runtime	apt	ca-certificates	TLS certificates
+Runtime	apt	curl	Release downloads
+Service	runtime	systemd-user	Systemd user service manager
+Service	config	systemd/user/magpie.service	Magpie gateway service
+Service	config	loginctl:linger	User services at boot and after logout

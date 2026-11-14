@@ -34,7 +34,7 @@ wsley status node           # 确认本地状态
 | `system`       | `tools`、`fonts`、`ssh`          | 命令行工具、Windows 字体、OpenSSH 服务      |
 | `terminal`     | `zsh`、`tmux`、`vim`             | Zsh / Oh My Zsh、终端复用与编辑器配置       |
 | `development`  | `node`、`python`、`go`、`docker` | Node.js LTS / pnpm、Python / uv、Go、Docker |
-| `applications` | `chrome`、`codex`、`libreoffice` | 浏览器、Codex CLI、办公套件                 |
+| `applications` | `chrome`、`codex`、`libreoffice`、`magpie` | 浏览器、Codex CLI、办公套件、模型网关 |
 | `codex-plugins` | `sidekick`                       | Codex 插件、配套工具与配置                 |
 
 具体组件、配置位置和操作行为以 `wsley list <模块>` 为准。
