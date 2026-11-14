@@ -23,7 +23,7 @@ preflight_module() {
     [[ -r "$module_directory/assets/upstream.json" ]] || fail 'Missing Sidekick upstream catalog.'
     codex plugin add --help > /dev/null
     codex plugin marketplace add --help > /dev/null
-    codex plugin list --json > /dev/null
+    codex plugin list --marketplace wsley --help > /dev/null
 }
 
 install_plugin() {

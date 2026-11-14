@@ -14,18 +14,23 @@ from configuration import configure_codex, update_configuration, write_configura
 from package import build_plugin, validate_sources
 from runtime import check_runtimes, install_runtimes
 
+CODEX_QUERY_TIMEOUT = 15
+
 
 def run(arguments, **options):
     return subprocess.run(arguments, check=True, text=True, **options)
 
 
-def codex(*arguments):
-    return json.loads(run(["codex", "plugin", *arguments, "--json"], capture_output=True).stdout)
+def codex(*arguments, timeout=None):
+    return json.loads(
+        run(["codex", "plugin", *arguments, "--json"], capture_output=True, timeout=timeout).stdout
+    )
 
 
 def installed_plugin():
+    installed = codex("list", "--marketplace", "wsley", timeout=CODEX_QUERY_TIMEOUT)["installed"]
     return next(
-        (item for item in codex("list")["installed"] if item["pluginId"] == "sidekick@wsley"),
+        (item for item in installed if item["pluginId"] == "sidekick@wsley"),
         None,
     )
 
@@ -95,10 +100,8 @@ def apply_plugin(module, upgrading):
         raise ValueError(
             "Sidekick is registered from another source; existing registration was preserved."
         )
-    marketplace = next(
-        (item for item in codex("marketplace", "list")["marketplaces"] if item["name"] == "wsley"),
-        None,
-    )
+    marketplaces = codex("marketplace", "list", timeout=CODEX_QUERY_TIMEOUT)["marketplaces"]
+    marketplace = next((item for item in marketplaces if item["name"] == "wsley"), None)
     if marketplace is not None and Path(marketplace["root"]).resolve() != root.resolve():
         raise ValueError("The Wsley marketplace name is already registered from another source.")
     if current is not None and not upgrading and current["enabled"] and marketplace is not None:
@@ -298,7 +301,7 @@ def main():
 if __name__ == "__main__":
     try:
         sys.exit(main())
-    except (OSError, TypeError, ValueError, subprocess.CalledProcessError) as error:
+    except (OSError, TypeError, ValueError, subprocess.SubprocessError) as error:
         print(f"Sidekick: {error}", file=sys.stderr)
         if isinstance(error, subprocess.CalledProcessError):
             for output in (error.stdout, error.stderr):
