@@ -4,12 +4,12 @@ Shell	git	https://github.com/ohmyzsh/ohmyzsh.git	Oh My Zsh
 Plugins	git	https://github.com/zsh-users/zsh-autosuggestions	zsh-autosuggestions
 Plugins	git	https://github.com/zsh-users/zsh-syntax-highlighting	zsh-syntax-highlighting
 Helper commands	apt	git	Git
-Helper commands	apt	curl	curl
-Helper commands	apt	iproute2	ss
-Helper commands	apt	procps	ps
-Helper commands	apt	rsync	rsync
-Helper commands	apt	trash-cli	trash-cli
-Helper commands	apt	tree	tree
+Helper commands	apt	curl	curl URL transfer tool
+Helper commands	apt	iproute2	ss socket inspection
+Helper commands	apt	procps	ps process inspection
+Helper commands	apt	rsync	rsync file synchronization
+Helper commands	apt	trash-cli	trash-cli trash management
+Helper commands	apt	tree	tree directory listing
 Helper commands	runtime	docker	Docker CLI for image updates
 Configuration	asset	custom	Aliases and file, process, Git and Docker helpers
 Configuration	asset	wsley-passion	Wsley Passion theme

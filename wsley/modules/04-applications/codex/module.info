@@ -1,19 +1,19 @@
 Codex CLI
 
 Install:
-  Install the missing global Codex CLI; prepare Node.js and pnpm and configure PATH when installing the CLI.
+  Install missing Codex CLI globally through pnpm; prepare Node.js, pnpm and PATH when installing the CLI.
 
 Upgrade:
   Update the installed Codex CLI through pnpm; prepare Node.js and pnpm as needed.
 
 Status:
-  Report the locally available Codex CLI command location and version.
+  Report the Codex CLI command location and version.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
   PNPM_HOME: ~/.local/share/pnpm by default
-  Reuse the persisted Node.js environment.
+  Reuse the Node module's saved environment; existing Codex commands satisfy installation.
   Open a new terminal after installation to load PATH changes.
   Run codex to sign in; authentication is managed by Codex.

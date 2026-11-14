@@ -1,19 +1,19 @@
 Command-line tools
 
 Install:
-  Install missing command-line packages and isolated uv tools; prepare uv as needed.
+  Install missing APT packages and isolated Python tools; prepare uv and the user command PATH as needed.
 
 Upgrade:
   Update installed command-line packages, uv and isolated uv tools.
 
 Status:
-  Report installed package and uv tool versions by purpose; show APT candidates from the local index.
+  Report installed versions by purpose and show available APT versions from the local package index.
 
 Requirements:
   Ubuntu, APT and a regular user with sudo access.
 
 Configuration:
-  GitHub CLI uses the official APT repository; existing repository and key files are retained.
-  uv is installed in ~/.local/bin when missing; shell environment integration adds user commands to PATH.
-  uv selects or downloads Python for each tool.
-  The Python module is not required; open a new terminal after installation to load environment changes.
+  GitHub CLI uses its official APT repository when a source is needed; existing repository and key files are preserved.
+  Missing uv is installed in ~/.local/bin; uv manages each Python tool in an isolated environment.
+  The Python module is not required; uv selects or downloads the interpreters needed by its tools.
+  Open a new terminal after installation to load PATH changes.

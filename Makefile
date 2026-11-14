@@ -22,5 +22,5 @@ format: ## Format Bash and Python sources
 check: ## Check files changed in Git's index and worktree, including untracked files
 	@bash scripts/check.sh
 
-check-all: ## Check all project sources and validate the module list
+check-all: ## Check all sources, configuration, Git hooks and module definitions
 	@bash scripts/check.sh --all

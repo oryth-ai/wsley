@@ -12,12 +12,13 @@ Usage: show-size [options] [--] [<path>...]
 Display disk usage as a tree.
 
 Arguments:
-  <path>                  Paths to inspect; default: current directory entries.
+  <path>                  Paths to inspect (default: current directory entries,
+                          including hidden entries).
 
 Options:
   -h, --help              Show this help message and exit.
   -L <depth>              Number of tree levels to display (default: 1).
-  -I <pattern>            Show matching directories without expanding them.
+  -I <pattern>            Do not expand directory names matching this glob.
   -s, --min-size <size>   Show entries whose disk usage exceeds this size.
   --                      Treat remaining arguments as paths.
 
@@ -224,7 +225,7 @@ cleanup-dirs() {
                 cat << 'HELP'
 Usage: cleanup-dirs [options] [--] [<directory>]
 
-Permanently remove known caches, report files and empty directories.
+Remove tool caches, test environments, reports and empty directories.
 
 Arguments:
   <directory>              Directory to clean recursively (default: .).
@@ -232,11 +233,12 @@ Arguments:
 Options:
   -h, --help               Show this help message and exit.
   -g, --include-generated  Also remove .venv, node_modules and dist directories.
-  -v, --verbose            Print removed cache and generated paths.
+  -v, --verbose            Print removed cache, report and generated paths.
   --                       Treat the next argument as the directory.
 
 Notes:
   Deletion bypasses the trash and does not ask for confirmation.
+  Includes tool-managed test environments such as .tox and .nox by default.
   .git directories and their contents are preserved.
 
 Examples:

@@ -1,10 +1,10 @@
 Vim text editor
 
 Install:
-  Install missing Vim and create ~/.vimrc with line numbers if absent; preserve existing configuration.
+  Install missing Vim and create a configuration with line numbers when ~/.vimrc is absent.
 
 Upgrade:
-  Update installed Vim; back up and append the line-number setting to existing configuration if the setting is absent.
+  Update installed Vim and append the line-number setting to an existing configuration when the setting is absent.
 
 Status:
   Report the installed package version and whether ~/.vimrc contains the line-number setting.
@@ -14,5 +14,5 @@ Requirements:
 
 Configuration:
   Configuration file: ~/.vimrc
-  Upgrade preserves existing lines and does not create an absent configuration file.
-  Changed configuration paths are replaced atomically; symbolic links are backed up and replaced without modifying their targets.
+  Managed setting: set number
+  Install preserves existing configuration; upgrade preserves existing lines and does not create an absent configuration file.

@@ -1,10 +1,10 @@
 Go toolchain
 
 Install:
-  Install the latest stable Go release when the managed toolchain is absent; verify downloaded archives and repair missing command links and GOBIN configuration.
+  Install the latest stable Go release when the managed toolchain is absent; repair missing command links and GOBIN configuration.
 
 Upgrade:
-  Update the installed managed toolchain to the latest stable release; verify downloaded archives and repair missing command links and GOBIN configuration.
+  Update the installed managed toolchain to the latest stable Go release; repair missing command links and GOBIN configuration.
 
 Status:
   Report the managed Go command location and version, or the Go command on PATH when the managed command is unavailable.
@@ -15,10 +15,9 @@ Requirements:
 
 Configuration:
   Destination: ~/.local/share/go
+  Download releases from go.dev and verify their SHA-256 checksums.
   The current symlink selects the managed release; previous release directories are retained.
-  Back up the current link only when selecting a different release, then publish the new link atomically.
   Missing command links are created in ~/.local/bin; existing user entry points are preserved.
   GOBIN defaults to ~/.local/bin only when unset; existing values are preserved.
   GOENV must allow persistent Go configuration.
-  Changed GOENV files are staged and renamed into place; symbolic links are backed up and replaced without modifying their targets.
   Open a new terminal after installation to load environment changes.

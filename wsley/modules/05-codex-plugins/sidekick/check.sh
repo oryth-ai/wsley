@@ -11,7 +11,8 @@ Validate Sidekick module sources, metadata and resource references.
 Options:
   -h, --help    Show this help message and exit.
 
-Validation does not install dependencies, modify user configuration or use the network.
+Notes:
+  Checks local sources without installing dependencies, changing user configuration or using the network.
 HELP
     exit 0
 fi

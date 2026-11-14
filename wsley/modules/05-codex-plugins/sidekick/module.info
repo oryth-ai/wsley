@@ -1,25 +1,22 @@
 Sidekick Codex plugin
 
 Install:
-  For a new installation, validate bundled skills and assemble the plugin with current Archify and PPT Master resources.
-  For an existing installation, preserve plugin files; use wsley upgrade sidekick to synchronize skill and tool resources.
-  Prepare and verify managed environments, register the Wsley local marketplace, enable Sidekick and apply managed Codex settings.
+  Assemble a new plugin from bundled skills and current Archify and PPT Master resources; preserve the plugin files of an existing installation.
+  Prepare and verify tool environments, register the Wsley marketplace, enable Sidekick and apply managed Codex settings.
 
 Upgrade:
-  Skip the operation when Sidekick is not installed.
-  Assemble bundled skills and current upstream tool resources, synchronize dependencies and verify environments before replacing changed plugin files and caches.
-  Repair marketplace registration, enable Sidekick and apply managed Codex settings.
+  Synchronize bundled skills, upstream tool resources and dependencies; verify environments before replacing changed plugin files and caches. Skip when Sidekick is not installed.
+  Refresh marketplace registration, enable Sidekick and apply managed Codex settings.
 
 Status:
-  Report plugin registration, tool source records, Codex settings, runtime package versions, Chromium binding, presentation dependencies and system packages.
-  Use bounded local diagnostics without modifying configuration, installing dependencies or querying external services; omit the live browser launch test.
+  Report plugin registration, source records, Codex settings and tool environment status through bounded local queries.
+  Check runtime packages, Chromium binding, presentation dependencies and system packages without launching a browser or contacting external services.
 
 Requirements:
   Ubuntu, APT, AWK and a regular user with sudo access.
   An installed Codex CLI with plugin marketplace commands and marketplace-filtered listings through --marketplace.
-  Preflight validates the local platform, commands, paths and CLI capabilities.
   Installation and upgrades require access to the relevant GitHub, npm, Python, Chromium and APT sources.
-  The uv installation command must support JSON dry-run plans through --dry-run --output-format json.
+  uv must support dependency plans through uv pip install --dry-run --output-format json; missing Node.js, pnpm and uv are prepared by the module.
 
 Configuration:
   Marketplace root: ${XDG_DATA_HOME:-$HOME/.local/share}/sidekick
@@ -28,33 +25,21 @@ Configuration:
   Codex configuration: ${CODEX_HOME:-$HOME/.codex}/config.toml
   Managed environments: ${XDG_DATA_HOME:-$HOME/.local/share}/sidekick/runtimes
 
-  Plugin listings select the wsley marketplace; plugin and marketplace list queries have a 15-second timeout.
-  Manage one <wsley-sidekick>...</wsley-sidekick> block in developer_instructions, preserving user text outside it and directing Mira to resume unfinished work after compaction or handoffs.
-  Set agents.max_concurrent_threads_per_session to 20 spawned-agent threads, excluding the primary thread; preserve other settings, custom roles and TOML comments.
-  Validate Codex configuration before preparing runtime environments and skip configuration writes when managed values already match.
+  Entry skill: sidekick:mira; describe project work naturally for task coordination and specialist selection.
+  Install repairs environments and managed settings without refreshing existing skills; use wsley upgrade sidekick to synchronize skills and tool resources.
+  Manage one <wsley-sidekick> block in developer_instructions, directing Mira to resume unfinished work after compaction or handoffs; preserve text outside the block.
+  Set agents.max_concurrent_threads_per_session to 20 on install and upgrade; preserve other settings, custom roles and TOML comments.
 
-  Entry skill: sidekick:mira; describe project work naturally, with task coordination and specialist routing maintained in the bundled skills.
-  Local skills are maintained in assets/sidekick/skills and use the host's default automatic selection; assembly preserves these methods instead of replacing them with upstream instructions.
-  Skills use the target project's contracts and supported versions; examples do not prescribe its domain model, layout or capabilities.
-  Task materials with a concrete downstream consumer or requested delivery use <project>/.sidekick/<timestamp>-<task>/, organized by purpose and execution; reuse the task root across stages and recovery and remove materials when their consumers finish.
-  Build products, command output, tool caches, environments, temporary files and registered runtime state retain their project or native ownership.
-  Each skill has name and description frontmatter, agents/openai.yaml interface metadata and a LICENSE containing applicable terms and upstream references with full commit hashes.
-  assets/upstream.json declares complete version-coupled resources under vendor/<name>, including original instructions, scripts, templates and licenses; local adapters preserve technical contracts while applying task scope and confirmed decisions.
-  Acquire tool resources through project-scoped pnpx skills@latest with --copy, resolving each repository HEAD once unless revision and pin_reason declare a compatibility constraint.
-  Record acquired commits and content hashes in skills-lock.json; upgrades resolve current sources rather than treating this record as a version pin.
+  Bundled skills provide methods and automatic specialist selection under the target project's contracts; each skill carries its license and upstream references.
+  Archify and PPT Master resources are acquired from the sources in assets/upstream.json and bundled under vendor/; skills-lock.json records acquired revisions rather than pinning future upgrades.
+  runtime-packages.json records browser and MCP package versions; mcp.json points to managed executable paths.
 
-  Resolve published browser and draw.io MCP package versions into runtime-packages.json and generate mcp.json with managed executable paths.
-  Reuse runtime packages when recorded versions and executable entries match; back up existing package directories before installing a replacement.
-  The browser CLI supplies version-matched instructions and installs Chromium with Linux dependencies; activation verifies the browser with an offline launch test.
-  Bind Archify to runtimes/chromium with ARCHIFY_CHROME and ARCHIFY_UPDATE_CHECK_DISABLED=1, preserving an unchanged binding.
-  Presentations use Python 3.12, vendor/ppt-master/requirements.txt and the system tools in components.tsv.
-  Reuse a valid presentation environment; rebuild one that is missing, damaged or uses another Python version. Reject symlinked runtime directories and replace environment symlinks without following their targets.
-  Resolve presentation dependency changes with a read-only uv plan; back up and update the environment only when changes are planned, resolving newer dependencies during upgrades.
-  Wsley prepares these environments for direct skill use; project toolchains, dependencies, accounts, keys and remote services retain their project or task configuration.
+  The module prepares the browser CLI, Chromium and draw.io MCP server; environment verification includes an offline browser launch.
+  Archify uses runtimes/chromium through ARCHIFY_CHROME; ARCHIFY_UPDATE_CHECK_DISABLED=1 disables its independent update check.
+  Presentations use Python 3.12, vendor/ppt-master/requirements.txt and the system tools in components.tsv; valid environments and matching runtime packages are reused.
+  Project dependencies, accounts, credentials and remote services remain project or task configuration; browser and Python caches use their tools' storage settings.
 
-  Back up existing targets before changes, preserving symlinks as links; publish Codex configuration and Chromium bindings by atomic replacement without modifying link targets.
-  Preserve identical plugin sources and caches and reuse existing marketplace registration.
-  Reuse a configuration snapshot while its contents, permissions and link state remain unchanged within an activation; save a separate snapshot for each subsequent changed state.
-  Restore affected plugin files and configuration if activation fails. Assembly or environment validation failure leaves them untouched; completed dependency changes remain, and failures do not select older upstream resources.
-  Browser downloads and Python interpreter caches follow their tools' storage settings; global skill directories are not modified.
+  Skills organize necessary task materials under the project's .sidekick/ directory; build output, tool caches and ordinary command output retain their own ownership.
+  Assembly or environment validation failure preserves active plugin files and Codex configuration. Activation failure restores affected plugin files and configuration; completed dependency changes remain.
+  Global skill directories are not modified.
   Open a new Codex conversation after installation or upgrade to load the plugin and entry instruction.

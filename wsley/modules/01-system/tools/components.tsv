@@ -1,26 +1,26 @@
 group	manager	id	description
-Build and lint	apt	build-essential	build-essential
-Build and lint	apt	shellcheck	shellcheck
-Build and lint	apt	shfmt	shfmt
-Build and lint	uv-tool	ruff	ruff
-Build and lint	uv-tool	pre-commit	pre-commit
-Build and lint	uv-tool	mbake	mbake
-Network and diagnostics	apt	ca-certificates	ca-certificates
-Network and diagnostics	apt	curl	curl
-Network and diagnostics	apt	htop	htop
-Network and diagnostics	apt	lsof	lsof
-Network and diagnostics	apt	net-tools	net-tools
-Network and diagnostics	uv-tool	nvitop	nvitop
-File management	apt	restic	restic
-File management	apt	ripgrep	ripgrep
-File management	apt	rsync	rsync
-File management	apt	trash-cli	trash-cli
-File management	apt	tree	tree
-File management	apt	unzip	unzip
-File management	apt	zip	zip
-Data processing	apt	jq	jq
-Data processing	apt	libxml2-utils	libxml2-utils
-Data processing	apt	sqlite3	sqlite3
+Build and lint	apt	build-essential	C/C++ build tools
+Build and lint	apt	shellcheck	ShellCheck shell linter
+Build and lint	apt	shfmt	shfmt shell formatter
+Build and lint	uv-tool	ruff	Ruff Python linter and formatter
+Build and lint	uv-tool	pre-commit	pre-commit Git hook manager
+Build and lint	uv-tool	mbake	mbake Makefile formatter
+Network and diagnostics	apt	ca-certificates	TLS certificates
+Network and diagnostics	apt	curl	curl URL transfer tool
+Network and diagnostics	apt	htop	htop process monitor
+Network and diagnostics	apt	lsof	lsof open-file inspection
+Network and diagnostics	apt	net-tools	Network interface tools
+Network and diagnostics	uv-tool	nvitop	nvitop NVIDIA GPU monitor
+File management	apt	restic	restic backup tool
+File management	apt	ripgrep	ripgrep text search
+File management	apt	rsync	rsync file synchronization
+File management	apt	trash-cli	trash-cli trash management
+File management	apt	tree	tree directory listing
+File management	apt	unzip	ZIP archive extraction
+File management	apt	zip	ZIP archive creation
+Data processing	apt	jq	jq JSON processor
+Data processing	apt	libxml2-utils	XML processing tools
+Data processing	apt	sqlite3	SQLite command-line interface
 Version control	apt	git	Git
-Version control	apt	git-lfs	git-lfs
-Version control	apt	gh	gh
+Version control	apt	git-lfs	Git Large File Storage
+Version control	apt	gh	GitHub CLI

@@ -30,7 +30,7 @@ ENV
     # shellcheck disable=SC2016
     line='[ ! -r "$HOME/.config/wsley/environment/init.sh" ] || . "$HOME/.config/wsley/environment/init.sh"'
     for file in "$(bash_login_file)" "$HOME/.bashrc" "$zsh_directory/.zshenv"; do
-        append_configuration_line "$file" "$line" "Wsley environment"
+        append_configuration_line "$file" "$line" "Wsley 环境"
     done
     register_shell_integration
 )
@@ -58,12 +58,12 @@ register_shell_integration() {
         # shellcheck disable=SC2016
         line='[ ! -r "$HOME/.config/wsley/shell/bash.sh" ] || . "$HOME/.config/wsley/shell/bash.sh"'
         for file in "$(bash_login_file)" "$HOME/.bashrc"; do
-            append_configuration_line "$file" "$line" "Wsley Bash integration"
+            append_configuration_line "$file" "$line" "Wsley Bash 集成"
         done
     fi
     if [[ -r "$HOME/.config/wsley/shell/zsh.zsh" ]]; then
         # shellcheck disable=SC2016
         line='[ ! -r "$HOME/.config/wsley/shell/zsh.zsh" ] || . "$HOME/.config/wsley/shell/zsh.zsh"'
-        append_configuration_line "${ZDOTDIR:-$HOME}/.zshrc" "$line" "Wsley Zsh integration"
+        append_configuration_line "${ZDOTDIR:-$HOME}/.zshrc" "$line" "Wsley Zsh 集成"
     fi
 }

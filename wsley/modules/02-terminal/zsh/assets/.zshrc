@@ -16,5 +16,5 @@ source "$ZSH/oh-my-zsh.sh"
 
 setopt no_nomatch
 
-# Wsley Zsh integration
+# Wsley Zsh 集成
 [ ! -r "$HOME/.config/wsley/shell/zsh.zsh" ] || . "$HOME/.config/wsley/shell/zsh.zsh"

@@ -3,19 +3,19 @@ Plugin	plugin	sidekick	Sidekick project workflow plugin
 Plugin	asset	skills-lock.json	Upstream tool source commits and content hashes
 Plugin	asset	runtime-packages.json	Published browser and MCP package versions
 Plugin	asset	skills/*/LICENSE	Skill licenses and upstream source references
-Skills	bundled	accessibility	Web accessibility audits
+Skills	bundled	accessibility	Web accessibility reviews and fixes
 Skills	bundled	agent-browser	Browser automation
-Skills	bundled	archify	Architecture diagrams
+Skills	bundled	archify	HTML diagrams and explainers
 Skills	bundled	backend-audit	Backend contracts, architecture and production readiness audits
 Skills	bundled	beautify-github-readme	GitHub README design
 Skills	bundled	codebase-design	Module and interface design
 Skills	bundled	disciplined-dev	Engineering conventions and implementation consistency
 Skills	bundled	domain-modeling	Domain terminology, ownership and business invariants
 Skills	bundled	fastapi-expert	FastAPI contracts, lifecycles, request performance and streaming
-Skills	bundled	find-skills	Skill discovery
+Skills	bundled	find-skills	Skill discovery and assessment
 Skills	bundled	frontend-audit	Frontend visual, product, Web implementation and change reviews
 Skills	bundled	git-commit	Atomic Git commits
-Skills	bundled	git-push	Reviewed Git pushes
+Skills	bundled	git-push	Git pushes with pending-change review and commits
 Skills	bundled	git-review	Pre-commit convention and structure audits
 Skills	bundled	golang-benchmark	Go benchmarks, profiling and statistical performance comparisons
 Skills	bundled	golang-concurrency	Go concurrency ownership, cancellation and leak prevention
@@ -30,7 +30,7 @@ Skills	bundled	observability-and-instrumentation	Production logs, metrics and di
 Skills	bundled	ppt-master	Editable presentations
 Skills	bundled	property-based-testing	Property-based tests and domain invariants
 Skills	bundled	python-performance-optimization	Python profiling, memory analysis and evidence-based optimization
-Skills	bundled	research	Evidence-based technical research
+Skills	bundled	research	Evidence-based technical research reports
 Skills	bundled	security-and-hardening	Security threat modeling and application hardening
 Skills	bundled	seo-audit	Public website SEO audits
 Skills	bundled	shadcn	Official shadcn/ui examples, registry source and project-aware integration

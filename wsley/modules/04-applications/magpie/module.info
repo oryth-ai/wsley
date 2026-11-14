@@ -1,18 +1,14 @@
 Magpie model gateway
 
 Install:
-  Install the missing Magpie terminal build through the official installer and its release checksum verification.
-  Install and start its systemd user service with the gateway enabled and the Web interface disabled.
-  Enable user lingering so the service starts at boot and continues after logout.
+  Install missing Magpie through the official terminal release installer.
+  Configure and start its gateway as a systemd user service with the Web interface disabled; enable startup at boot and continued operation after logout.
 
 Upgrade:
-  Skip the operation when the managed Magpie executable is not installed.
-  Install the current terminal release and refresh the gateway service with the current shell environment.
-  Enable service startup and user lingering.
+  Update the managed Magpie executable to the current terminal release and refresh the gateway service with the invoking shell's environment; skip when the executable is absent.
 
 Status:
-  Report the managed executable version, daemon state, gateway availability and user lingering.
-  Query local state without installing or configuring the application.
+  Report the managed executable version, daemon state, gateway availability and user lingering through bounded local queries.
 
 Requirements:
   Ubuntu on amd64 or arm64, APT and a regular user with sudo access.
@@ -22,9 +18,10 @@ Requirements:
 Configuration:
   Executable: ~/.local/bin/magpie
   User service: ${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user/magpie.service
-  Use magpie daemon install --no-web to generate and enable the upstream service; existing executable and service files are backed up before replacement.
-  The service inherits supported environment settings, including PATH and proxy variables, from the invoking shell.
-  Enable lingering for the current user through loginctl; this keeps the user's enabled services available without an active login.
+  The official installer verifies release checksums; the module manages the executable and gateway service.
+  Both install and upgrade run magpie daemon install --no-web, refreshing the service even when the executable is already installed.
+  The service inherits supported settings, including PATH and proxy variables, from the invoking shell.
+  User lingering keeps the user's enabled services available at boot and after logout.
   The gateway uses Magpie's configuration, with 127.0.0.1:3425 as the upstream default.
   Run magpie tui or magpie web to manage providers and models; the Web interface runs only when requested.
-  Magpie manages its own settings, accounts and updates. The module does not select providers, enter keys or change agent models.
+  Providers, credentials and agent model selection are configured through Magpie by the user.

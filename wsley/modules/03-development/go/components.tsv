@@ -1,6 +1,6 @@
 group	manager	id	description
-Download support	apt	ca-certificates	ca-certificates
-Download support	apt	curl	curl
-Download support	apt	jq	jq
+Download support	apt	ca-certificates	TLS certificates
+Download support	apt	curl	curl URL transfer tool
+Download support	apt	jq	jq JSON processor
 Toolchain	runtime	go	Latest stable Go and gofmt
 Environment	config	GOBIN	GOBIN configuration and managed Go command links

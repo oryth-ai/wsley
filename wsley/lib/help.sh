@@ -12,8 +12,8 @@ Manage an Ubuntu development environment.
 
 Commands:
   list          List modules and groups, or show module details.
-  install       Install missing module components.
-  upgrade       Update installed module components.
+  install       Install missing components and apply module configuration.
+  upgrade       Update installed components and refresh module configuration.
   status        Show module status.
   self-upgrade  Update the Wsley checkout and shell environment.
   help          Show help for Wsley or a command.
@@ -37,11 +37,11 @@ HELP
             ;;
         install)
             synopsis='[options] <module|group>...'
-            description='Install missing components for the selected modules.'
+            description='Install missing components and apply configuration for the selected modules.'
             ;;
         upgrade)
             synopsis='[options] <module|group>...'
-            description='Update installed components for the selected modules.'
+            description='Update installed components and refresh configuration for the selected modules.'
             ;;
         status)
             synopsis='[options] <module|group>...'
@@ -98,7 +98,8 @@ HELP
             printf '  Each selected module is processed once, in argument order.\n'
         fi
         if [[ "$action" == install || "$action" == upgrade ]]; then
-            printf '  --yes does not skip APT mirror or Docker proxy questions.\n'
+            printf '  Module rules determine configuration changes; inspect them with wsley list <module>.\n'
+            printf '  --yes does not answer APT mirror or Docker proxy questions.\n'
         fi
     fi
 }
@@ -119,7 +120,8 @@ show_module_help() {
     printf '\nOptions:\n  -h, --help    Show this help message and exit.\n'
     if [[ "$action" != status ]]; then
         printf '  -y, --yes     Skip action confirmation.\n'
-        printf '\nNotes:\n  --yes does not skip APT mirror or Docker proxy questions.\n'
+        printf '\nNotes:\n  --yes skips the action confirmation; configuration questions still require input.\n'
     fi
+    printf '\nModule details:\n  wsley list %s\n' "$module"
     printf '\nEquivalent command:\n  wsley %s %s\n' "$action" "$module"
 }

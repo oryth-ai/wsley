@@ -1,10 +1,10 @@
 tmux terminal multiplexer
 
 Install:
-  Install missing tmux and create ~/.tmux.conf with mouse support if absent; preserve existing configuration.
+  Install missing tmux and create a configuration with mouse support when ~/.tmux.conf is absent.
 
 Upgrade:
-  Update installed tmux; back up and append the mouse-support setting to existing configuration if the setting is absent.
+  Update installed tmux and append the mouse-support setting to an existing configuration when the setting is absent.
 
 Status:
   Report the installed package version and whether ~/.tmux.conf contains the mouse-support setting.
@@ -14,5 +14,5 @@ Requirements:
 
 Configuration:
   Configuration file: ~/.tmux.conf
-  Upgrade preserves existing lines and does not create an absent configuration file.
-  Changed configuration paths are replaced atomically; symbolic links are backed up and replaced without modifying their targets.
+  Managed setting: set -g mouse on
+  Install preserves existing configuration; upgrade preserves existing lines and does not create an absent configuration file.

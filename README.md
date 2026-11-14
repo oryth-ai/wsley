@@ -2,9 +2,9 @@
 
 **用一套命令，搭建与维护 Ubuntu 开发环境。**
 
-Wsley 将系统工具、终端配置、语言运行时、开发应用和 Codex 插件按模块组织。可以单独安装一个模块，也可以按分组批量管理；安装补齐缺失组件，升级更新已有组件并刷新模块管理的配置，状态查询帮助了解本机环境。
+Wsley 将系统工具、终端配置、语言运行时、开发应用和 Codex 插件按模块组织。可以单独安装一个模块，也可以按分组批量管理；安装与升级按模块规则管理组件及配置，状态查询帮助了解本机环境。
 
-[快速开始](#快速开始) · [模块概览](#模块概览) · [命令参考](#命令参考) · [环境要求](#环境要求)
+[快速开始](#快速开始) · [模块概览](#模块概览) · [命令参考](#命令参考) · [配置备份](#配置备份) · [环境要求](#环境要求)
 
 ## 快速开始
 
@@ -29,26 +29,26 @@ wsley status node           # 确认本地状态
 
 分组名可直接用于命令，例如 `wsley install terminal`。
 
-| 分组           | 模块                             | 管理范围                                    |
-| -------------- | -------------------------------- | ------------------------------------------- |
-| `system`       | `tools`、`fonts`、`ssh`          | 命令行工具、Windows 字体、OpenSSH 服务      |
-| `terminal`     | `zsh`、`tmux`、`vim`             | Zsh / Oh My Zsh、终端复用与编辑器配置       |
-| `development`  | `node`、`python`、`go`、`docker` | Node.js LTS / pnpm、Python / uv、Go、Docker |
+| 分组 | 模块 | 管理范围 |
+| --- | --- | --- |
+| `system` | `tools`、`fonts`、`ssh` | 命令行工具、Windows 字体、OpenSSH 服务 |
+| `terminal` | `zsh`、`tmux`、`vim` | Zsh / Oh My Zsh、终端复用与编辑器配置 |
+| `development` | `node`、`python`、`go`、`docker` | Node.js LTS / pnpm、Python / uv、Go、Docker |
 | `applications` | `chrome`、`codex`、`libreoffice`、`magpie` | 浏览器、Codex CLI、办公套件、模型网关 |
-| `codex-plugins` | `sidekick`                       | Codex 插件、配套工具与配置                 |
+| `codex-plugins` | `sidekick` | Codex 插件、配套工具与配置 |
 
 具体组件、配置位置和操作行为以 `wsley list <模块>` 为准。
 
 ## 命令参考
 
-| 命令                            | 作用                            |
-| ------------------------------- | ------------------------------- |
-| `wsley list [模块或分组]...`    | 列出模块与分组，或查看模块详情  |
-| `wsley install <模块或分组>...` | 补装缺失组件                    |
-| `wsley upgrade <模块或分组>...` | 更新已安装组件                  |
-| `wsley status <模块或分组>...`  | 查询本地状态                    |
-| `wsley self-upgrade`            | 更新 Wsley 仓库代码与 PATH 环境 |
-| `wsley help`                    | 查看帮助                        |
+| 命令 | 作用 |
+| --- | --- |
+| `wsley list [模块或分组]...` | 列出模块与分组，或查看模块详情 |
+| `wsley install <模块或分组>...` | 安装缺失组件并应用模块配置 |
+| `wsley upgrade <模块或分组>...` | 更新已有组件并同步模块配置 |
+| `wsley status <模块或分组>...` | 查询本地状态 |
+| `wsley self-upgrade` | 更新 Wsley 仓库代码与 PATH 环境 |
+| `wsley help` | 查看帮助 |
 
 模块名和分组名区分大小写，可混合传入。安装、升级和状态查询按参数顺序展开，每个模块只执行一次：
 
@@ -62,17 +62,21 @@ wsley upgrade node python --yes
 
 各模块分别决定配置的创建、追加和替换规则，安装操作也可能替换已有配置。执行前通过 `wsley list <模块>` 查看具体行为。共享 PATH 配置保存在 `~/.config/wsley/environment/`，加载入口会注册到 Bash/Zsh 启动文件。
 
-模块直接写入已有配置、替换目录或更新已复制资源前，保存变更前内容的独立备份；后续变更继续新增备份，首次创建和跳过的操作不产生备份，备份失败则停止对应变更。用户备份位于 `~/.local/state/wsley/backups/`，系统备份位于 `/var/lib/wsley/backups/`。
+`install`、`upgrade` 和 `self-upgrade` 支持 `--yes`（或 `-y`），用于跳过操作确认。APT 镜像选择、Docker 代理设置及 `self-upgrade` 的强制覆盖仍需单独确认或输入；执行前通过 `wsley help <命令>` 查看说明。
 
-备份采用 `<来源路径>--YYYYMMDD-HHMMSS±HHMM` 命名，时间包含时区偏移，同秒重名时追加序号。已有文件或目录通过 `cp -a` 直接复制到该路径，保留权限和符号链接；软链接只复制链接本身，不跟随目标。不另存路径、时间或空状态文件；历史备份不自动删除。
+## 配置备份
 
-`install`、`upgrade` 和 `self-upgrade` 支持 `--yes`（或 `-y`），用于跳过操作确认；APT 镜像和 Docker 代理问题仍需交互选择。
+模块改写已有配置、替换目录或更新已复制资源前，保存变更前内容的独立备份；同一路径再次变更时保存新的备份。首次创建和跳过的操作不产生备份，备份失败则停止对应变更。
+
+用户备份位于 `~/.local/state/wsley/backups/`，以 root 身份执行的备份位于 `/var/lib/wsley/backups/`。名称采用 `<路径标识>--YYYYMMDD-HHMMSS±HHMM`，路径标识由来源绝对路径生成，时间包含时区偏移，同秒重名时追加序号。
+
+备份保留文件和目录的内容、权限及符号链接；软链接只保存链接本身，不复制目标内容。历史备份不自动删除。
 
 ## 环境要求
 
 - **平台与权限**：面向 Ubuntu，多数模块需要 APT 和具有 `sudo` 权限的普通用户；具体要求可通过 `wsley list <模块>` 查看。
-- **服务管理**：`docker` 和 `ssh` 需要正在运行的 systemd。
-- **架构限制**：`chrome` 仅支持 amd64；`go` 支持 amd64 和 arm64。
+- **服务管理**：`docker`、`ssh` 和 `magpie` 需要正在运行的 systemd；`magpie` 还需要可访问的 systemd 用户服务管理器。
+- **架构限制**：`chrome` 仅支持 amd64；`go` 和 `magpie` 支持 amd64 和 arm64。
 - **字体来源**：`fonts` 在 `/mnt/c/Windows/Fonts` 可用时复制 Windows 字体，路径缺失时跳过复制。
 - **环境生效**：涉及 PATH 或 Shell 配置的安装完成后，请打开新终端。
 

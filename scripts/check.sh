@@ -10,14 +10,15 @@ for argument in "$@"; do
             cat << 'HELP'
 Usage: bash scripts/check.sh [options]
 
-Check project formatting, syntax, module sources and configuration.
+Check source formatting, syntax, configuration and module definitions.
 
 Options:
   -h, --help    Show this help message and exit.
   --all         Check all project files instead of Git changes.
 
-Without --all, check staged, unstaged and untracked changes, including deletions.
-Changes to shared validation rules also trigger a full check.
+Notes:
+  Without --all, check staged, unstaged and untracked changes, including deletions.
+  Changes to shared validation rules also trigger a full check.
 HELP
             exit 0
             ;;

@@ -1,6 +1,6 @@
 ---
 name: next-ai-drawio
-description: Create, edit, and export editable draw.io diagrams with a live browser canvas through the drawio MCP server. Use for draw.io, diagrams.net, Next AI Draw.io, .drawio or .drawio.svg files, or diagrams the user wants to edit by hand in draw.io, including architecture diagrams, flowcharts, sequence diagrams and ER diagrams. Not for standalone HTML/SVG visualizations without a draw.io requirement.
+description: Create, edit and export editable draw.io diagrams through the drawio MCP server and live browser canvas. Use for draw.io, diagrams.net, Next AI Draw.io, .drawio and .drawio.svg tasks, including architecture diagrams, flowcharts, sequences and ER diagrams intended for later editing. Not for standalone HTML/SVG visualizations without a draw.io requirement.
 ---
 
 # Next AI Draw.io

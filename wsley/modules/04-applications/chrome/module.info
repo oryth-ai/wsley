@@ -1,7 +1,7 @@
 Google Chrome browser
 
 Install:
-  Install Chrome from the official stable amd64 DEB if needed.
+  Install missing Chrome from the official stable amd64 DEB.
 
 Upgrade:
   Update installed Chrome using the official stable DEB.

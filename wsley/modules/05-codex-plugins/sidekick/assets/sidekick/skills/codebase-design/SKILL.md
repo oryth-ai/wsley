@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: Use when designing or reviewing module interfaces, finding deepening opportunities in coupled code, choosing dependency seams, or improving testability and codebase navigability through module design. Not for cosmetic cleanup or routine bug fixes that leave module boundaries unchanged.
+description: Design and review module interfaces, dependency boundaries and testability. Use for new module design, interface reviews and reducing complexity in coupled code. Not for cosmetic cleanup or routine bug fixes that leave module boundaries unchanged.
 ---
 
 # Codebase Design
