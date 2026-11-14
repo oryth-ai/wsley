@@ -10,6 +10,7 @@ Helper commands	apt	procps	ps
 Helper commands	apt	rsync	rsync
 Helper commands	apt	trash-cli	trash-cli
 Helper commands	apt	tree	tree
-Configuration	asset	custom	Aliases and file, process and Git helpers
+Helper commands	runtime	docker	Docker CLI for image updates
+Configuration	asset	custom	Aliases and file, process, Git and Docker helpers
 Configuration	asset	wsley-passion	Wsley Passion theme
 Configuration	asset	.zshrc	Bundled Zsh startup configuration
