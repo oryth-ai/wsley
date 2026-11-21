@@ -97,7 +97,7 @@ install_node() {
 
     validate_node_environment
     require_user
-    if ! command -v pnpm > /dev/null; then
+    if ! (cd / && pnpm --version) > /dev/null 2>&1; then
         apt_install ca-certificates curl
         (
             temporary="$(mktemp)"
@@ -110,7 +110,7 @@ install_node() {
     fi
     require_command pnpm
     pnpm_command="$(managed_pnpm_path || command -v pnpm)"
-    if ! command -v node > /dev/null; then
+    if ! (cd / && node --version) > /dev/null 2>&1; then
         set_node_runtime "$pnpm_command"
     fi
     configure_node_commands
@@ -149,15 +149,4 @@ upgrade_node() {
 validate_node_environment() {
     [[ "$PNPM_HOME" == /* && "$PNPM_HOME" != *$'\n'* && "$PNPM_HOME" != *$'\r'* && "$PNPM_HOME" != *:* ]] ||
         fail 'PNPM_HOME must be an absolute, single-line path without colons.'
-}
-
-prepare_node() {
-    validate_node_environment
-    if ! command -v node > /dev/null || ! command -v pnpm > /dev/null || ! command -v pnpx > /dev/null; then
-        install_node
-    else
-        configure_node_commands
-        configure_node_environment
-    fi
-    require_command node pnpm pnpx
 }

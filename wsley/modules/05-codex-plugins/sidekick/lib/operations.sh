@@ -28,7 +28,7 @@ preflight_module() {
 
 install_plugin() {
     apt_install "${module_packages[@]}"
-    prepare_node
+    install_node
     install_uv
     /usr/bin/python3 -B "$plugin_script" install "$module_directory"
 }
@@ -38,7 +38,7 @@ upgrade_plugin() {
 
     if /usr/bin/python3 -B "$plugin_script" installed "$module_directory"; then
         run_apt_install "${module_packages[@]}"
-        prepare_node
+        install_node
         install_uv
         /usr/bin/python3 -B "$plugin_script" upgrade "$module_directory"
     else

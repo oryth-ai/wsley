@@ -27,7 +27,7 @@ apply_codex_package() {
 
     require_user
 
-    prepare_node
+    install_node
 
     mapfile -t cli_packages < <(component_ids "$module_components" pnpm)
     (cd / && pnpm add --global "${cli_packages[@]}")

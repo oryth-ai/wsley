@@ -1,5 +1,5 @@
 group	manager	id	description
-Package manager	runtime	pnpm	pnpm and pnpx
+Package manager	runtime	pnpm	pnpm and pnpx with standalone pnpm bootstrap
 Runtime	node-runtime	lts	Node.js LTS
 Environment	config	npm	Fallback npm and npx links to pnpm and pnpx
 Environment	config	PNPM_HOME	Persistent Bash/Zsh PATH configuration
