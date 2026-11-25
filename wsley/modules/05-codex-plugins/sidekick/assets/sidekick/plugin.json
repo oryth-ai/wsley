@@ -2,16 +2,16 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "sidekick",
   "version": "0.1.0",
-  "description": "Project work coordinated by Mira with internal engineering, design, research and delivery skills.",
+  "description": "Project work coordinated by Mira through requirement grouping, agent teams and specialist skills.",
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Sidekick",
-        "shortDescription": "Mira coordinates project work and selects internal skills",
+        "shortDescription": "Mira groups requirements and coordinates agent teams",
         "developerName": "Oryth AI",
         "category": "Developer Tools",
         "defaultPrompt": [
-          "Help me implement this feature under the project rules.",
+          "Complete these requirements under the project rules.",
           "Review this project and fix the issues within the requested scope."
         ]
       }

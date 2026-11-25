@@ -1,4 +1,4 @@
 interface:
   display_name: "Mira"
-  short_description: "Route project work and preserve task continuity"
-  default_prompt: "Use $sidekick:mira to complete this project task, selecting the relevant internal skills, following project rules and verifying the result."
+  short_description: "Group requirements, coordinate teams and preserve continuity"
+  default_prompt: "Use $sidekick:mira to organize these requirements, coordinate suitable agents and complete the work under project rules."

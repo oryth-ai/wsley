@@ -1,6 +1,6 @@
 # 开发工作流
 
-适用于功能开发、缺陷修复、重构、配置调整和项目文档维护。任务状态与恢复采用 [Mira](../SKILL.md)，工程规范采用 [disciplined-dev](../../disciplined-dev/SKILL.md)；本流程负责按实际问题衔接专项能力，不重启已完成阶段。
+适用于功能开发、缺陷修复、重构、配置调整和项目文档维护。任务状态与恢复采用 [Mira](../SKILL.md)，多需求、团队分工及执行中反馈采用 [需求与团队协调](coordination.md)，工程规范采用 [disciplined-dev](../../disciplined-dev/SKILL.md)；本流程负责按实际问题衔接专项能力，不重启已完成阶段。
 
 ## 要求与设计
 
