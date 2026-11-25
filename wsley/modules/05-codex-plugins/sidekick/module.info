@@ -25,7 +25,7 @@ Configuration:
   Codex configuration: ${CODEX_HOME:-$HOME/.codex}/config.toml
   Managed environments: ${XDG_DATA_HOME:-$HOME/.local/share}/sidekick/runtimes
 
-  Entry skill: sidekick:mira; describe requirements naturally. Mira groups work, coordinates agents for independent tasks and incorporates feedback during execution.
+  Entry skill: sidekick:mira. Mira groups requirements, reassesses pending work when requests change, and delegates independent work when the host allows it.
   Install repairs environments and managed settings without refreshing existing skills; use wsley upgrade sidekick to synchronize skills and tool resources.
   Manage one <wsley-sidekick> block in developer_instructions, directing Mira to resume unfinished work after compaction or handoffs; preserve text outside the block.
   Set agents.max_concurrent_threads_per_session to 20 on install and upgrade; preserve other settings, custom roles and TOML comments.
